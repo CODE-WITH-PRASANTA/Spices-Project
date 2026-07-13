@@ -1,0 +1,171 @@
+@import url('https://fonts.googleapis.com/css2?family=Arima:wght@400;700&family=Open+Sans:wght@400;600&display=swap');
+
+/* Scope variables specifically to this component grid layout */
+.blended-taste {
+  --bt-font-title: 'Arima', cursive, serif;
+  --bt-font-body: 'Open Sans', sans-serif;
+  --bt-color-primary: #a34e15; /* Elegant spice brown tone */
+  --bt-color-text-dark: #1e293b;
+  --bt-color-text-light: #64748b;
+  
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 70px 20px;
+  box-sizing: border-box;
+}
+
+/* Header Styles */
+.bt-header {
+  text-align: center;
+  margin-bottom: 35px;
+}
+
+.bt-main-title {
+  font-family: var(--bt-font-title);
+  font-size: 2.5rem;
+  color: var(--bt-color-primary);
+  margin: 0 0 10px 0;
+  font-weight: 700;
+}
+
+.bt-subtitle {
+  font-family: var(--bt-font-body);
+  font-size: 1rem;
+  color: var(--bt-color-text-light);
+  margin: 0 0 15px 0;
+}
+
+.bt-stars {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  font-size: 1.2rem;
+}
+
+.bt-star.filled {
+  color: #fbbf24; /* Amber star colors */
+}
+
+.bt-star.filled.black {
+  color: #1e293b; /* Distinct center star accent matches reference */
+}
+
+/* Content Blocks Grid Layout */
+.bt-content-container {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
+.bt-block {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+/* Handles layout row flipping logic */
+.bt-block.bt-reverse {
+  flex-direction: row;
+}
+
+.bt-text-wrapper,
+.bt-image-wrapper {
+  flex: 1;
+  min-width: 0;
+}
+
+/* Text Formatting */
+.bt-block-title {
+  font-family: var(--bt-font-title);
+  font-size: 2rem;
+  color: var(--bt-color-primary);
+  margin: 0 0 20px 0;
+  font-weight: 700;
+}
+
+.bt-description {
+  font-family: var(--bt-font-body);
+  font-size: 0.95rem;
+  line-height: 1.7;
+  color: var(--bt-color-text-dark);
+  text-align: justify;
+  margin: 0;
+}
+
+/* Frame Effect Layering (Pure CSS Solution replicating your UI) */
+.bt-image-wrapper {
+  position: relative;
+  padding: 25px; /* Offset spacing value creating frame alignment */
+}
+
+/* Background colored offset block mimicking the custom UI reference framework */
+.bt-image-wrapper::before {
+  content: '';
+  position: absolute;
+  width: 85%;
+  height: 85%;
+  background-color: var(--bt-color-primary);
+  border-radius: 4px;
+  z-index: 1;
+}
+
+/* Layout Block 1: Shift colored frame background to Top-Left */
+.bt-bg-left::before {
+  top: 0;
+  left: 0;
+}
+
+/* Layout Block 2: Shift colored frame background to Bottom-Right */
+.bt-bg-right::before {
+  bottom: 0;
+  right: 0;
+}
+
+.bt-image {
+  position: relative;
+  width: 100%;
+  height: auto;
+  max-height: 280px;
+  object-fit: cover;
+  border-radius: 4px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  z-index: 2; /* Ensures content image is rendered cleanly above the offset frame */
+}
+
+/* Seamless Breakpoint Optimization */
+@media (max-width: 900px) {
+  .blended-taste {
+    padding: 40px 20px;
+  }
+
+  .bt-main-title {
+    font-size: 2rem;
+  }
+
+  .bt-block, 
+  .bt-block.bt-reverse {
+    flex-direction: column;
+    gap: 35px;
+  }
+
+  .bt-text-wrapper,
+  .bt-image-wrapper {
+    width: 100%;
+  }
+
+  .bt-image-wrapper {
+    padding: 15px;
+    max-width: 500px;
+    margin: 0 auto;
+  }
+
+  .bt-block-title {
+    font-size: 1.6rem;
+    text-align: center;
+  }
+  
+  .bt-description {
+    text-align: left;
+  }
+}
