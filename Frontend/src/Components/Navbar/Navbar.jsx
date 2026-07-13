@@ -2,11 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { ShoppingCart, User, Menu, X, Search, ChevronDown } from 'lucide-react';
 import './Navbar.css';
 
+// 1. IMPORT YOUR LOGO HERE:
+import logo from '../../assets/PALASH ESSENCE LOGO.png'; // Adjust the filename/extension (.svg, .png, etc.) as needed
+
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
-  // Monitor scrolling to transition layout behavior
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > 50) {
@@ -15,7 +17,6 @@ const Navbar = () => {
         setIsScrolled(false);
       }
     };
-
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
@@ -35,12 +36,12 @@ const Navbar = () => {
           
           {/* LEFT: Logo Section */}
           <div className="navbar-logo">
+            {/* 2. LOGO RENDERED HERE: */}
             <img 
-              src="/path-to-your-logo/waffy-logo.png" 
+              src={logo} 
               alt="Waffy Logo" 
-              onError={(e) => { e.target.style.display = 'none'; }}
             />
-            <span className="logo-text">Waffy</span>
+           
           </div>
 
           {/* CENTER/RIGHT: Desktop Nav Titles */}
@@ -62,10 +63,7 @@ const Navbar = () => {
               <Search size={19} />
             </button>
             
-            <div className="currency-selector">
-              <span>USD</span>
-              <ChevronDown size={14} />
-            </div>
+            
 
             <a href="/cart" className="cart-btn">
               <ShoppingCart size={20} />
@@ -101,7 +99,6 @@ const Navbar = () => {
               </a>
             ))}
             
-            {/* Mobile Actions Utilities */}
             <div className="mobile-actions-panel">
               <button className="mobile-action-item">
                 <Search size={18} /> <span>Search</span>
