@@ -1,0 +1,225 @@
+/* Importing custom heavy fonts for identical style representation */
+@import url('https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Roboto:wght@400;500;700&display=swap');
+
+/* Main Wrapper Scope */
+.cl-section-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 50px 20px;
+  font-family: 'Roboto', sans-serif;
+  color: #333333;
+  box-sizing: border-box;
+}
+
+/* Header Area styling */
+.cl-header {
+  text-align: center;
+  margin-bottom: 50px;
+}
+
+.cl-main-title {
+  font-family: 'Alfa Slab One', cursive;
+  color: #8B4513; /* Earthy brown matching your image */
+  font-size: 2.8rem;
+  margin: 0 0 10px 0;
+  font-weight: 400;
+}
+
+.cl-subtitle {
+  font-size: 1.15rem;
+  color: #555555;
+  margin: 0 0 15px 0;
+}
+
+.cl-stars {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  font-size: 1.2rem;
+}
+
+.cl-star.cl-gold { color: #F4B41A; }
+.cl-star.cl-black { color: #1A1A1A; }
+
+/* Contact Cards Grid */
+.cl-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  margin-bottom: 60px;
+}
+
+/* Base Card & Hover Transformation */
+.cl-card {
+  border: 1.5px solid #8B4513;
+  border-radius: 24px;
+  padding: 35px 30px;
+  background-color: #FFFFFF;
+  transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Yellow Animated Glow Hover Effect */
+.cl-card:hover {
+  transform: translateY(-8px);
+  border-color: #F4B41A;
+  background-color: #FFFDF0; /* Subtle light yellow highlight fill */
+  box-shadow: 0 12px 24px rgba(244, 180, 26, 0.15);
+}
+
+.cl-card:hover .cl-icon-circle {
+  background-color: #F4B41A;
+  transform: scale(1.05);
+}
+
+.cl-card:hover .cl-card-title {
+  color: #F4B41A;
+}
+
+/* Card Elements styling */
+.cl-icon-circle {
+  width: 55px;
+  height: 55px;
+  background-color: #8B4513;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #FFFFFF;
+  margin-bottom: 25px;
+  transition: all 0.3s ease;
+}
+
+.cl-card-title {
+  font-family: 'Alfa Slab One', cursive;
+  color: #8B4513;
+  font-size: 1.4rem;
+  margin: 0 0 15px 0;
+  font-weight: 400;
+  transition: color 0.3s ease;
+}
+
+.cl-card-text {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  margin: 4px 0;
+  color: #444444;
+}
+
+/* Map and Form Section */
+.cl-split-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  align-items: stretch;
+}
+
+/* Map frame configuration */
+.cl-map-wrapper {
+  border-radius: 4px;
+  overflow: hidden;
+  min-height: 450px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+
+/* Contact Inputs Layout */
+.cl-contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
+/* Modern floating label layout input structure */
+.cl-form-group {
+  position: relative;
+  width: 100%;
+}
+
+.cl-input, .cl-textarea {
+  width: 100%;
+  padding: 16px 20px;
+  border: 1px solid #E2E8F0;
+  border-radius: 20px;
+  font-size: 1rem;
+  outline: none;
+  background-color: #FFFFFF;
+  font-family: inherit;
+  box-sizing: border-box;
+  transition: border-color 0.3s ease;
+}
+
+.cl-textarea {
+  height: 180px;
+  resize: none;
+}
+
+.cl-input:focus, .cl-textarea:focus {
+  border-color: #8B4513;
+}
+
+/* Floating Label Animation */
+.cl-label {
+  position: absolute;
+  left: 20px;
+  top: 16px;
+  color: #888888;
+  pointer-events: none;
+  transition: all 0.25s ease;
+  background-color: #FFFFFF;
+  padding: 0 4px;
+}
+
+.cl-input:focus ~ .cl-label,
+.cl-input:not(:placeholder-shown) ~ .cl-label,
+.cl-textarea:focus ~ .cl-label,
+.cl-textarea:not(:placeholder-shown) ~ .cl-label {
+  top: -10px;
+  left: 15px;
+  font-size: 0.85rem;
+  color: #8B4513;
+  font-weight: 500;
+}
+
+/* Form Send Button */
+.cl-submit-btn {
+  width: 100%;
+  background: transparent;
+  border: 2px solid #8B4513;
+  color: #333333;
+  padding: 14px;
+  border-radius: 30px;
+  font-size: 1.1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: 'Roboto', sans-serif;
+  margin-top: 10px;
+}
+
+.cl-submit-btn:hover {
+  background-color: #8B4513;
+  color: #FFFFFF;
+}
+
+/* --- Responsive Adaptations --- */
+@media (max-width: 992px) {
+  .cl-cards-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .cl-split-layout {
+    grid-template-columns: 1fr;
+  }
+  .cl-map-wrapper {
+    min-height: 350px;
+  }
+}
+
+@media (max-width: 680px) {
+  .cl-cards-grid {
+    grid-template-columns: 1fr;
+  }
+  .cl-main-title {
+    font-size: 2.2rem;
+  }
+}

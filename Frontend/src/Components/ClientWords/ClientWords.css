@@ -1,0 +1,152 @@
+@import url('https://fonts.googleapis.com/css2?family=Arima:wght@700&family=Open+Sans:wght@400;600;700&display=swap');
+
+.client-words {
+  /* Scoped typography & color tokens matching previous section style rules */
+  --cw-font-heading: 'Arima', cursive, serif;
+  --cw-font-body: 'Open Sans', sans-serif;
+  --cw-color-accent: #a34e15;
+  --cw-color-dark: #1e293b;
+  --cw-color-muted: #64748b;
+  --cw-bg-color: #f8fafc; /* Subtle structural off-white background matching image */
+
+  width: 100%;
+  background-color: var(--cw-bg-color);
+  padding: 80px 24px;
+  box-sizing: border-box;
+}
+
+/* Header Container Design elements */
+.cw-header {
+  text-align: center;
+  margin-bottom: 60px;
+}
+
+.cw-main-title {
+  font-family: var(--cw-font-heading);
+  font-size: 2.6rem;
+  color: var(--cw-color-accent);
+  margin: 0 0 12px 0;
+  font-weight: 700;
+}
+
+.cw-subtitle {
+  font-family: var(--cw-font-body);
+  font-size: 1.05rem;
+  color: var(--cw-color-muted);
+  margin: 0 0 16px 0;
+}
+
+.cw-header-stars {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  font-size: 1.15rem;
+}
+
+.cw-h-star {
+  color: #fbbf24;
+}
+
+.cw-h-star.black {
+  color: var(--cw-color-dark);
+}
+
+/* Columns Matrix Grid wrapper layout */
+.cw-grid {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(3, 11fr);
+  gap: 40px;
+}
+
+/* Structural Layout for Individual Card Modules */
+.cw-card {
+  display: flex;
+  flex-direction: column;
+}
+
+.cw-card-text {
+  font-family: var(--cw-font-body);
+  font-size: 0.95rem;
+  line-height: 1.7;
+  color: var(--cw-color-dark);
+  margin: 0 0 20px 0;
+  text-align: left;
+}
+
+/* Stars Rating Segment inside Card Layouts */
+.cw-card-rating {
+  display: flex;
+  gap: 4px;
+  font-size: 1.2rem;
+  margin-bottom: 25px;
+}
+
+.cw-card-star.filled {
+  color: #1e293b; /* Active component solid ratings */
+}
+
+.cw-card-star.empty {
+  color: #cbd5e1; /* Inactive star outline fill metrics */
+}
+
+/* User identity Profile Footer configuration */
+.cw-user-profile {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-top: auto; /* Pushes the profile block precisely to card base */
+}
+
+.cw-user-avatar {
+  width: 65px;
+  height: 65px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.cw-user-info {
+  font-family: var(--cw-font-body);
+  font-size: 0.95rem;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.cw-user-name {
+  font-weight: 700;
+  color: var(--cw-color-dark);
+}
+
+.cw-user-divider {
+  color: var(--cw-color-muted);
+}
+
+.cw-user-role {
+  color: var(--cw-color-muted);
+  font-weight: 400;
+}
+
+/* Responsive breakpoint scaling down elegantly to viewport shifts */
+@media (max-width: 968px) {
+  .cw-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 30px;
+  }
+}
+
+@media (max-width: 680px) {
+  .client-words {
+    padding: 50px 16px;
+  }
+
+  .cw-main-title {
+    font-size: 2.1rem;
+  }
+
+  .cw-grid {
+    grid-template-columns: 1fr;
+    gap: 45px;
+  }
+}

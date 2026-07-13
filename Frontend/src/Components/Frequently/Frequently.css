@@ -1,0 +1,150 @@
+/* Import a thick, stylish font that resembles the reference image */
+@import url('https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Roboto:wght@400;500&display=swap');
+
+.faq-container {
+  max-width: 1000px;
+  margin: 40px auto;
+  padding: 0 20px;
+  font-family: 'Roboto', sans-serif;
+  color: #333333;
+}
+
+/* Header Styles */
+.faq-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.faq-header h1 {
+  font-family: 'Alfa Slab One', cursive;
+  color: #8B4513; /* Saddle Brown shade matching the image */
+  font-size: 2.5rem;
+  margin-bottom: 8px;
+  font-weight: 400;
+}
+
+.faq-header p {
+  font-size: 1.1rem;
+  color: #4A4A4A;
+  margin: 0 0 12px 0;
+}
+
+.star-rating {
+  font-size: 1.2rem;
+  display: flex;
+  justify-content: center;
+  gap: 4px;
+}
+
+.star.gold {
+  color: #F4B41A;
+}
+
+.star.black {
+  color: #1A1A1A;
+}
+
+/* Accordion Structure */
+.faq-accordion {
+  display: flex;
+  flex-direction: column;
+  gap: 16px; /* Spacing between bars */
+}
+
+.faq-item {
+  background-color: #F5F5F5; /* Light grey bar color */
+  border-radius: 4px;
+  overflow: hidden;
+  transition: background-color 0.3s ease;
+}
+
+/* Button Trigger Area */
+.faq-toggle-btn {
+  width: 100%;
+  background: none;
+  border: none;
+  padding: 20px 24px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  cursor: pointer;
+  text-align: left;
+  outline: none;
+}
+
+/* Question Font Styling */
+.faq-question {
+  font-family: 'Alfa Slab One', cursive;
+  color: #8B4513; 
+  font-size: 1.15rem;
+  font-weight: 400;
+  letter-spacing: 0.5px;
+}
+
+/* Bold Custom Icons */
+.faq-icon {
+  font-family: 'Alfa Slab One', cursive;
+  color: #8B4513;
+  font-size: 1.4rem;
+  min-width: 20px;
+  display: inline-block;
+  user-select: none;
+}
+
+/* Smooth CSS Dropdown Animation Mechanics */
+.faq-content-wrapper {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.3s ease-out;
+}
+
+.faq-item.open .faq-content-wrapper {
+  grid-template-rows: 1fr;
+}
+
+.faq-content {
+  overflow: hidden;
+}
+
+/* Inner Text Styling */
+.faq-content p {
+  padding: 0 24px 24px 60px; /* Align description text beautifully under the question */
+  margin: 0;
+  line-height: 1.6;
+  color: #2C2C2C;
+  font-size: 0.98rem;
+}
+
+/* --- Responsive Breakpoints --- */
+@media (max-width: 768px) {
+  .faq-header h1 {
+    font-size: 2rem;
+  }
+  
+  .faq-toggle-btn {
+    padding: 16px;
+  }
+  
+  .faq-question {
+    font-size: 1rem;
+  }
+
+  .faq-content p {
+    padding: 0 16px 16px 48px;
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .faq-header h1 {
+    font-size: 1.6rem;
+  }
+
+  .faq-toggle-btn {
+    gap: 10px;
+  }
+
+  .faq-content p {
+    padding: 0 16px 16px 16px; /* Stack layout on tiny mobile viewports */
+  }
+}

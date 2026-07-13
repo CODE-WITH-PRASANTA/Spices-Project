@@ -1,14 +1,14 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import "./Breadcrumb.css";
+import "./UsBreadcrumb.css";
 
 import BannerImage from "../../assets/dc.png";
 
-const Breadcrumb = ({
-  title = "ABOUT US",
+const UsBreadcrumb = ({
+  title = "CONTACT US",
   links = [
     { label: "Home", url: "/" },
-    { label: "About Us", url: null },
+    { label: "Contact Us", url: null },
   ],
 }) => {
   return (
@@ -45,4 +45,4 @@ const Breadcrumb = ({
   );
 };
 
-export default Breadcrumb;
+export default UsBreadcrumb;

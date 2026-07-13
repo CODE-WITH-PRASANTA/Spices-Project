@@ -1,0 +1,338 @@
+@import url("https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Poppins:wght@300;400;500;600;700&display=swap");
+
+/*==============================
+  OUR TEAM SECTION
+===============================*/
+
+.ourTeam-section {
+  width: 100%;
+  padding: 90px 20px;
+  background: #fff;
+  overflow: hidden;
+}
+
+.ourTeam-container {
+  max-width: 1350px;
+  margin: auto;
+}
+
+/*==============================
+  HEADING
+===============================*/
+
+.ourTeam-heading {
+  text-align: center;
+  margin-bottom: 70px;
+}
+
+.ourTeam-title {
+  font-family: "Alfa Slab One", serif;
+  font-size: 35px;
+  color: #a24a00;
+  font-weight: 400;
+  margin-bottom: 18px;
+}
+
+.ourTeam-subtitle {
+  font-family: "Poppins", sans-serif;
+  font-size: 15px;
+  color: #222;
+  letter-spacing: 0.5px;
+  margin-bottom: 22px;
+}
+
+.ourTeam-stars {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+}
+
+.ourTeam-star-small {
+  color: #f7b41d;
+  font-size: 9px;
+}
+
+.ourTeam-star-big {
+  color: #222;
+  font-size: 18px;
+}
+
+/*==============================
+  GRID
+===============================*/
+
+.ourTeam-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 15px;
+}
+
+/*==============================
+  CARD
+===============================*/
+
+.ourTeam-card {
+  text-align: center;
+  transition: 0.4s ease;
+}
+
+.ourTeam-card:hover {
+  transform: translateY(-10px);
+}
+
+/*==============================
+  IMAGE
+===============================*/
+
+.ourTeam-imageWrapper {
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.ourTeam-image {
+  width: 90%;
+  height: 320px;
+  object-fit: cover;
+  display: block;
+  transition: 0.6s ease;
+}
+
+.ourTeam-card:hover .ourTeam-image {
+  transform: scale(1.12);
+}
+
+/*==============================
+  OVERLAY
+===============================*/
+
+.ourTeam-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  opacity: 0;
+  transition: 0.45s ease;
+}
+
+.ourTeam-card:hover .ourTeam-overlay {
+  opacity: 1;
+}
+
+/*==============================
+  SOCIAL ICONS
+===============================*/
+
+.ourTeam-socials {
+  position: absolute;
+  left: 50%;
+  bottom: -80px;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 14px;
+  transition: 0.5s ease;
+  z-index: 10;
+}
+
+.ourTeam-card:hover .ourTeam-socials {
+  bottom: 30px;
+}
+
+.ourTeam-socials a {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: #ffb400;
+  color: #222;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-decoration: none;
+  font-size: 18px;
+  transition: 0.35s ease;
+}
+
+.ourTeam-socials a:nth-child(1) {
+  transition-delay: .05s;
+}
+
+.ourTeam-socials a:nth-child(2) {
+  transition-delay: .10s;
+}
+
+.ourTeam-socials a:nth-child(3) {
+  transition-delay: .15s;
+}
+
+.ourTeam-socials a:nth-child(4) {
+  transition-delay: .20s;
+}
+
+.ourTeam-socials a:hover {
+  background: #fff;
+  color: #a24a00;
+  transform: rotate(360deg) scale(1.12);
+}
+
+/*==============================
+  CONTENT
+===============================*/
+
+.ourTeam-content {
+  padding-top: 28px;
+}
+
+.ourTeam-name {
+  font-family: "Alfa Slab One", serif;
+  color: #a24a00;
+  font-size: 25px;
+  font-weight: 400;
+  margin-bottom: 8px;
+}
+
+.ourTeam-role {
+  font-family: "Poppins", sans-serif;
+  font-size: 22px;
+  color: #222;
+}
+
+/*==============================
+  CARD HOVER EFFECT
+===============================*/
+
+.ourTeam-card:hover .ourTeam-name {
+  color: #ff9800;
+  transition: .35s;
+}
+
+.ourTeam-card:hover .ourTeam-role {
+  color: #444;
+}
+
+/*==============================
+  DESKTOP
+===============================*/
+
+@media (max-width:1200px) {
+
+  .ourTeam-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .ourTeam-image {
+    height: 420px;
+  }
+
+  .ourTeam-title {
+    font-size: 50px;
+  }
+
+  .ourTeam-name {
+    font-size: 30px;
+  }
+
+}
+
+/*==============================
+  TABLET
+===============================*/
+
+@media (max-width:992px) {
+
+  .ourTeam-title {
+    font-size: 42px;
+  }
+
+  .ourTeam-subtitle {
+    font-size: 20px;
+  }
+
+  .ourTeam-image {
+    height: 380px;
+  }
+
+  .ourTeam-name {
+    font-size: 28px;
+  }
+
+  .ourTeam-role {
+    font-size: 19px;
+  }
+
+}
+
+/*==============================
+  MOBILE
+===============================*/
+
+@media (max-width:768px) {
+
+  .ourTeam-section {
+    padding: 70px 18px;
+  }
+
+  .ourTeam-grid {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
+  .ourTeam-title {
+    font-size: 36px;
+  }
+
+  .ourTeam-subtitle {
+    font-size: 18px;
+    line-height: 1.7;
+  }
+
+  .ourTeam-image {
+    height: 400px;
+  }
+
+  .ourTeam-name {
+    font-size: 26px;
+  }
+
+  .ourTeam-role {
+    font-size: 17px;
+  }
+
+}
+
+/*==============================
+  SMALL MOBILE
+===============================*/
+
+@media (max-width:480px) {
+
+  .ourTeam-title {
+    font-size: 30px;
+  }
+
+  .ourTeam-subtitle {
+    font-size: 16px;
+  }
+
+  .ourTeam-image {
+    height: 320px;
+  }
+
+  .ourTeam-socials {
+    gap: 10px;
+  }
+
+  .ourTeam-socials a {
+    width: 42px;
+    height: 42px;
+    font-size: 16px;
+  }
+
+  .ourTeam-name {
+    font-size: 22px;
+  }
+
+  .ourTeam-role {
+    font-size: 15px;
+  }
+
+}
