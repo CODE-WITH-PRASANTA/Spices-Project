@@ -1,0 +1,127 @@
+/* Container Layout with full section cover handling */
+.healthy-herbs {
+  width: 100%;
+  min-height: 550px;
+  height: auto;
+  padding: 80px 20px;
+  box-sizing: border-box;
+  background-color: #1a1a1a;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  font-family: 'Arial', sans-serif;
+  display: flex;
+  align-items: center;
+}
+
+/* Constraining layer aligning content over left margins safely */
+.healthy-herbs__container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: flex-start;
+}
+
+.healthy-herbs__content-box {
+  max-width: 500px;
+  width: 100%;
+  color: #ffffff;
+}
+
+/* Subtle accent tagline */
+.healthy-herbs__tagline {
+  font-size: 0.95rem;
+  letter-spacing: 0.5px;
+  color: #e2e2e2;
+  display: block;
+  margin-bottom: 15px;
+}
+
+/* Distinct heavy branding font style matching Cooper/Georgia structures */
+.healthy-herbs__main-title {
+  font-family: 'Cooper Black', 'Georgia', serif;
+  font-size: 2.8rem;
+  line-height: 1.25;
+  color: #e5a93b; /* Warm honey golden hue */
+  margin: 0 0 20px 0;
+}
+
+.healthy-herbs__description {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: #cccccc;
+  margin: 0 0 35px 0;
+}
+
+/* Action controls styling layer */
+.healthy-herbs__action-row {
+  display: flex;
+  gap: 16px;
+}
+
+.healthy-herbs__btn {
+  padding: 12px 32px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #ffffff;
+  background: transparent;
+  border: 1.5px solid #ffffff;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  outline: none;
+}
+
+.healthy-herbs__btn:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Requested active click yellow-fill state logic rule */
+.healthy-herbs__btn--active,
+.healthy-herbs__btn--active:hover {
+  background-color: #e5a93b;
+  border-color: #e5a93b;
+  color: #ffffff;
+  box-shadow: 0 4px 15px rgba(229, 169, 59, 0.3);
+}
+
+/* --- Responsive Adaptive Adjustments --- */
+@media (max-width: 900px) {
+  .healthy-herbs {
+    min-height: 480px;
+    background-position: 75% center; /* Adjust viewport focus to protect contrast overlay rules */
+  }
+  
+  .healthy-herbs__main-title {
+    font-size: 2.3rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .healthy-herbs {
+    padding: 60px 16px;
+    text-align: center;
+  }
+  
+  .healthy-herbs__container {
+    justify-content: center;
+  }
+  
+  .healthy-herbs__content-box {
+    max-width: 100%;
+  }
+  
+  .healthy-herbs__main-title {
+    font-size: 2rem;
+  }
+  
+  .healthy-herbs__action-row {
+    justify-content: center;
+  }
+  
+  .healthy-herbs__btn {
+    padding: 10px 24px;
+    font-size: 0.85rem;
+  }
+}
