@@ -1,0 +1,159 @@
+@import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=Poppins:wght@400;500;600&display=swap');
+
+.TeamContainer {
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 60px 20px;
+  box-sizing: border-box;
+  background-color: #ffffff;
+  font-family: 'Poppins', sans-serif;
+}
+
+/* Header Sections Styling */
+.TeamHeader {
+  text-align: center;
+  margin-bottom: 50px;
+}
+
+.TeamMainTitle {
+  font-family: 'Fredoka One', cursive, sans-serif;
+  color: #a04000; /* Reddish-brown tone matching design reference */
+  font-size: 2.5rem;
+  margin: 0 0 10px 0;
+}
+
+.TeamSubtitle {
+  color: #555555;
+  font-size: 0.95rem;
+  margin: 0 0 15px 0;
+}
+
+.TeamStarsRow {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
+}
+
+.TeamStarIcon {
+  color: #f1c40f; /* Yellow stars */
+  font-size: 0.8rem;
+}
+
+.TeamStarIcon.TeamStarCenter {
+  font-size: 1.1rem; /* The middle star is slightly larger */
+  color: #333333;    /* Black tint accent middle star matching reference */
+}
+
+/* Responsive Grid Layout */
+.TeamGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 25px;
+}
+
+/* Single Member Card */
+.TeamCard {
+  background: #ffffff;
+  border: 1px solid #f9d976; /* Thin matching colored border around entire card */
+  border-radius: 4px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Card Visual Header */
+.TeamCardTopVisual {
+  background-color: #f39c12; /* Golden orange yellow base background color */
+  height: 220px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Circular Avatar Wrapper Frame */
+.TeamAvatarWrapper {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 5px solid #a04000; /* Red-brown border profile ring matching reference image */
+  background-color: #ffffff;
+  box-sizing: border-box;
+}
+
+.TeamAvatarImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+/* Slight interactive zoom scaling when hovering over the avatar picture */
+.TeamCard:hover .TeamAvatarImage {
+  transform: scale(1.12);
+}
+
+/* Info Details Card Body */
+.TeamCardDetails {
+  padding: 25px 20px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex-grow: 1;
+}
+
+.TeamMemberName {
+  font-family: 'Fredoka One', cursive, sans-serif;
+  color: #a04000;
+  font-size: 1.4rem;
+  margin: 0 0 10px 0;
+}
+
+.TeamMemberRole {
+  color: #7f8c8d;
+  font-size: 0.9rem;
+  font-weight: 500;
+  margin: 0 0 20px 0;
+}
+
+/* Social Row Components Links */
+.TeamSocialIcons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+}
+
+.TeamSocialLink {
+  color: #111111;
+  font-size: 0.95rem;
+  transition: color 0.2s ease, transform 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.TeamSocialLink:hover {
+  color: #f39c12; /* Accent hover color shift on link icons */
+  transform: translateY(-2px);
+}
+
+/* Responsive Viewports */
+@media (min-width: 576px) {
+  .TeamGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .TeamGrid {
+    grid-template-columns: repeat(4, 1fr); /* 4 horizontal columns for large viewports */
+    gap: 20px;
+  }
+}
