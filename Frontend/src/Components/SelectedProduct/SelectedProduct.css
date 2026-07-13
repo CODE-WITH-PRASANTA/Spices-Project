@@ -1,0 +1,180 @@
+@import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=Poppins:wght@400;500;600;700&display=swap');
+
+.SelectedProductContainer {
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 20px;
+  box-sizing: border-box;
+  background-color: #ffffff;
+  font-family: 'Poppins', sans-serif;
+}
+
+.SelectedProductGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+}
+
+/* Left Side Items Grid Layout */
+.SelectedProductItemsGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+}
+
+.SelectedProductCard {
+  position: relative;
+  overflow: hidden;
+  height: 280px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.SelectedProductImageWrapper {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.SelectedProductImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+/* Slight hover effect zoom on image */
+.SelectedProductCard:hover .SelectedProductImage {
+  transform: scale(1.05);
+}
+
+/* Dark transparent center overlay box */
+.SelectedProductCardOverlay {
+  position: absolute;
+  bottom: 25px;
+  background-color: rgba(0, 0, 0, 0.82);
+  width: 65%;
+  padding: 18px;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+.SelectedProductCardTitle {
+  font-family: 'Fredoka One', cursive, sans-serif;
+  color: #ffffff;
+  font-size: 1.25rem;
+  margin: 0 0 12px 0;
+  letter-spacing: 0.3px;
+}
+
+/* Button UI styling */
+.SelectedProductBtn {
+  background: transparent;
+  color: #ffffff;
+  border: 1.5px solid #d35400; /* Amber brown border */
+  border-radius: 20px;
+  padding: 6px 20px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+/* Shop now turns Yellow color on hover */
+.SelectedProductBtn:hover {
+  background-color: #f1c40f; /* Yellow */
+  color: #000000;
+  border-color: #f1c40f;
+}
+
+/* Right Side Promo Banner Section */
+.SelectedProductPromo {
+  position: relative;
+  min-height: 450px;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  padding: 50px 40px;
+  box-sizing: border-box;
+}
+
+.SelectedProductPromoContent {
+  max-width: 400px;
+}
+
+.SelectedProductPromoDiscount,
+.SelectedProductPromoTitle {
+  font-family: 'Fredoka One', cursive, sans-serif;
+  color: #a04000; /* Matching the signature reddish-brown text */
+  margin: 0;
+  line-height: 1.1;
+}
+
+.SelectedProductPromoDiscount {
+  font-size: 2.2rem;
+}
+
+.SelectedProductPromoTitle {
+  font-size: 2.2rem;
+  margin-bottom: 25px;
+}
+
+.SelectedProductPromoSubtext {
+  color: #2c3e50;
+  font-size: 1rem;
+  line-height: 1.5;
+  margin: 0 0 30px 0;
+  letter-spacing: 0.3px;
+}
+
+.SelectedProductPromoSubtext strong {
+  font-weight: 700;
+  color: #111111;
+}
+
+.SelectedProductPromoBtn {
+  background: transparent;
+  color: #a04000;
+  border: 1.5px solid #a04000;
+  border-radius: 25px;
+  padding: 10px 28px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.SelectedProductPromoBtn:hover {
+  background-color: #f1c40f; /* Yellow */
+  color: #000000;
+  border-color: #f1c40f;
+}
+
+/* Breakpoints for Responsive viewports */
+@media (min-width: 640px) {
+  .SelectedProductItemsGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .SelectedProductGrid {
+    grid-template-columns: 1.8fr 1.2fr; /* Balanced multi-column ratio */
+    align-items: stretch;
+  }
+
+  .SelectedProductPromo {
+    min-height: 100%;
+    padding: 60px 45px;
+  }
+
+  .SelectedProductCard {
+    height: calc(290px - 10px); /* Synchronized tile rows matching the grid */
+  }
+}

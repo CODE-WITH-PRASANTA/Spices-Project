@@ -7,7 +7,7 @@ import './Products.css';
 import productsBg from '../../assets/bg.png';
 
 // Import product imagery assets
-import haldiImg from '../../assets/haldi.png';
+import haldiImg from '../../assets/turmeric.jpg';
 import dhaniyaImg from '../../assets/dhaniya.png';
 import garamMasalaImg from '../../assets/garam masla.png';
 import jeeraImg from '../../assets/jeera.png';

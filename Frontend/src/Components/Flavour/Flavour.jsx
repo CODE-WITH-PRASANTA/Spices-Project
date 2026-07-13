@@ -3,7 +3,7 @@ import "./Flavour.css";
 
 // Note: Ensure these images exist in your src/assets/ folder.
 // You can also change the extensions (.jpg, .png, etc.) to match your actual files.
-import haldiImg from "../../assets/haldi.png";
+import haldiImg from "../../assets/turmeric.jpg";
 import garamMasalaImg from "../../assets/garam masla.png";
 import dhaniyaImg from "../../assets/dhaniya.png";
 import jeeraImg from "../../assets/jeera.png";
