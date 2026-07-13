@@ -1,0 +1,201 @@
+/* Container block */
+.hero-section {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  min-height: 500px;
+  max-height: 750px;
+  overflow: hidden;
+  background-color: #0b0b0b;
+}
+
+.hero-section__wrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+/* Base Slide Styles with smooth cross-fade */
+.hero-section__slide {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  
+  /* Dimmed background effect to make layout typography legible */
+  background-image: linear-gradient(
+    rgba(0, 0, 0, 0.55),
+    rgba(0, 0, 0, 0.55)
+  );
+  background-blend-mode: overlay;
+
+  /* Smooth GPU-Accelerated Opacity Transition */
+  opacity: 0;
+  visibility: hidden;
+  will-change: opacity;
+  transition: opacity 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+              visibility 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  z-index: 1;
+}
+
+.hero-section__slide--active {
+  opacity: 1;
+  visibility: visible;
+  z-index: 2;
+}
+
+/* Card Typography Content */
+.hero-section__content {
+  text-align: center;
+  color: #ffffff;
+  padding: 0 24px;
+  max-width: 900px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.hero-section__title {
+  font-family: 'Cooper Black', 'Georgia', serif;
+  font-size: 4rem;
+  font-weight: 700;
+  margin: 0 0 8px 0;
+  letter-spacing: 0.5px;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.4);
+}
+
+.hero-section__divider {
+  width: 100%;
+  max-width: 320px;
+  height: 1px;
+  background: linear-gradient(to right, transparent, #e3933c, transparent);
+  margin: 16px auto;
+}
+
+.hero-section__discount {
+  font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 2.2rem;
+  font-weight: 600;
+  color: #fcae3a;
+  letter-spacing: 2px;
+  margin: 0 0 20px 0;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.3);
+}
+
+.hero-section__coupon {
+  font-family: monospace, sans-serif;
+  font-size: 1.15rem;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  color: #ffffff;
+  text-transform: uppercase;
+  margin: 0;
+  opacity: 0.9;
+}
+
+/* Exact replication of your reference 4 circular vector arrow style */
+.hero-section__arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: transparent;
+  border: 1.5px solid #d9822b; /* Subtle matching copper/orange tone ring */
+  border-radius: 50%;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  outline: none;
+  z-index: 10;
+  transition: background-color 0.25s ease, border-color 0.25s ease, transform 0.2s ease;
+}
+
+.hero-section__arrow:hover {
+  background-color: rgba(217, 130, 43, 0.15);
+  border-color: #fcae3a;
+}
+
+.hero-section__arrow:active {
+  transform: translateY(-50%) scale(0.95);
+}
+
+.hero-section__arrow--left {
+  left: 32px;
+}
+
+.hero-section__arrow--right {
+  right: 32px;
+}
+
+/* Custom Feather Icon strokes resizing */
+.hero-section__icon {
+  color: #ffffff;
+  font-size: 1.4rem;
+  stroke-width: 2.5px; /* Keeps chevron visually crisp and clean */
+}
+
+/* Responsive Adaptive Fluid Breakpoints */
+@media (max-width: 1024px) {
+  .hero-section__title {
+    font-size: 3.2rem;
+  }
+  .hero-section__discount {
+    font-size: 1.8rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .hero-section {
+    height: 65vh;
+  }
+  .hero-section__title {
+    font-size: 2.5rem;
+  }
+  .hero-section__discount {
+    font-size: 1.4rem;
+  }
+  .hero-section__coupon {
+    font-size: 1rem;
+  }
+  .hero-section__arrow {
+    width: 40px;
+    height: 40px;
+  }
+  .hero-section__arrow--left {
+    left: 16px;
+  }
+  .hero-section__arrow--right {
+    right: 16px;
+  }
+  .hero-section__icon {
+    font-size: 1.2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-section {
+    height: 50vh;
+    min-height: 360px;
+  }
+  .hero-section__title {
+    font-size: 1.85rem;
+  }
+  .hero-section__discount {
+    font-size: 1.1rem;
+    letter-spacing: 1px;
+  }
+  .hero-section__coupon {
+    font-size: 0.85rem;
+  }
+  .hero-section__divider {
+    max-width: 200px;
+  }
+}
