@@ -1,0 +1,221 @@
+@import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=Poppins:wght@400;500;600;700&display=swap');
+
+.BlogPostContainer {
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 60px 20px;
+  box-sizing: border-box;
+  background-color: #ffffff;
+  font-family: 'Poppins', sans-serif;
+  position: relative;
+}
+
+/* Header Elements Styling */
+.BlogPostHeader {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.BlogPostMainTitle {
+  font-family: 'Fredoka One', cursive, sans-serif;
+  color: #a04000; /* Reddish-brown signature header tone */
+  font-size: 2.5rem;
+  margin: 0 0 10px 0;
+}
+
+.BlogPostSubtitle {
+  color: #555555;
+  font-size: 0.95rem;
+  margin: 0 0 12px 0;
+}
+
+.BlogPostStarsRow {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
+}
+
+.BlogPostStarIcon {
+  color: #f1c40f;
+  font-size: 0.8rem;
+}
+
+.BlogPostStarIcon.BlogPostStarCenter {
+  font-size: 1.1rem;
+  color: #333333; /* Dark center accent star star */
+}
+
+/* Slider Track Layout Infrastructure */
+.BlogPostCarousel {
+  display: flex;
+  align-items: center;
+  position: relative;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.BlogPostSliderWindow {
+  width: 100%;
+  overflow: hidden;
+}
+
+.BlogPostSliderTrack {
+  display: flex;
+  transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1); /* Premium smooth slide physics transition */
+  width: 100%;
+}
+
+.BlogPostSlide {
+  display: grid;
+  grid-template-columns: 1fr;
+  width: 100%;
+  flex-shrink: 0;
+  gap: 40px;
+  align-items: center;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+/* Image Side & Dynamic Hover Configurations */
+.BlogPostImageWrapper {
+  width: 100%;
+  height: 380px;
+  background-color: #f7f7f7;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.BlogPostImage {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  mix-blend-mode: multiply; /* Removes white block backgrounds seamlessly */
+  transition: transform 0.5s ease;
+}
+
+/* Subtle image scale interaction on pointer entry */
+.BlogPostImageWrapper:hover .BlogPostImage {
+  transform: scale(1.04);
+}
+
+/* Right Content Column Layout */
+.BlogPostContent {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: left;
+}
+
+.BlogPostTitle {
+  font-family: 'Fredoka One', cursive, sans-serif;
+  color: #222222;
+  font-size: 1.8rem;
+  margin: 0 0 12px 0;
+}
+
+/* Metadata Configuration Styles */
+.BlogPostMetaRow {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  color: #777777;
+  font-size: 0.85rem;
+  margin-bottom: 20px;
+}
+
+.BlogPostMetaItem {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.BlogPostMetaIcon {
+  color: #e67e22; /* Warm metadata brand accent tint */
+  font-size: 0.95rem;
+}
+
+.BlogPostMetaDivider {
+  color: #dddddd;
+}
+
+.BlogPostExcerpt {
+  color: #666666;
+  font-size: 0.95rem;
+  line-height: 1.7;
+  margin: 0 0 30px 0;
+}
+
+/* Action Read More Pill Link button */
+.BlogPostReadMoreBtn {
+  align-self: flex-start;
+  background: transparent;
+  color: #222222;
+  border: 1.5px solid #a04000; /* Warm accent color match */
+  border-radius: 25px;
+  padding: 8px 28px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.BlogPostReadMoreBtn:hover {
+  background-color: #f1c40f; /* Interactive brand gold swap */
+  border-color: #f1c40f;
+  color: #000000;
+  font-weight: 600;
+}
+
+/* Navigation Arrow Configurations */
+.BlogPostArrowBtn {
+  background-color: #ffffff;
+  border: 1.5px solid #a04000;
+  color: #a04000;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  position: absolute;
+  z-index: 10;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+}
+
+.BlogPostArrowBtn:hover {
+  background-color: #f1c40f;
+  border-color: #f1c40f;
+  color: #000000;
+}
+
+.BlogPostLeftArrow {
+  left: -15px;
+}
+
+.BlogPostRightArrow {
+  right: -15px;
+}
+
+/* Breakpoints for Responsive Desktop Framework alignment */
+@media (min-width: 768px) {
+  .BlogPostSlide {
+    grid-template-columns: 1.1fr 1fr; /* Distinct double split column interface matching images */
+    gap: 50px;
+  }
+  
+  .BlogPostLeftArrow {
+    left: -25px;
+  }
+
+  .BlogPostRightArrow {
+    right: -25px;
+  }
+}

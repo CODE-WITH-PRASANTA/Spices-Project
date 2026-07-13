@@ -1,0 +1,151 @@
+@import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=Poppins:wght@400;500;600&display=swap');
+
+.PremiumQualityContainer {
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 60px 20px;
+  box-sizing: border-box;
+  background-color: #ffffff;
+  font-family: 'Poppins', sans-serif;
+}
+
+/* Header Text Alignments */
+.PremiumQualityHeader {
+  text-align: center;
+  margin-bottom: 45px;
+}
+
+.PremiumQualityMainTitle {
+  font-family: 'Fredoka One', cursive, sans-serif;
+  color: #a04000; /* Signature theme reddish-brown */
+  font-size: 2.4rem;
+  margin: 0 0 10px 0;
+  letter-spacing: 0.3px;
+}
+
+.PremiumQualitySubtitle {
+  color: #555555;
+  font-size: 0.95rem;
+  margin: 0 0 14px 0;
+}
+
+.PremiumQualityStarsRow {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
+}
+
+.PremiumQualityStarIcon {
+  color: #f1c40f; /* Theme accent yellow stars */
+  font-size: 0.8rem;
+}
+
+.PremiumQualityStarIcon.PremiumQualityStarCenter {
+  font-size: 1.1rem;
+  color: #333333; /* Dark middle accent star */
+}
+
+/* Responsive Product Display Grid */
+.PremiumQualityGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 30px;
+}
+
+/* Card Structures */
+.PremiumQualityCard {
+  display: flex;
+  flex-direction: column;
+  background-color: #ffffff;
+  text-align: center;
+}
+
+/* Card Image Box Window */
+.PremiumQualityImageWrapper {
+  width: 100%;
+  height: 200px;
+  overflow: hidden;
+  border-radius: 2px;
+}
+
+.PremiumQualityImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+/* Card Hover Zoom Interactive State */
+.PremiumQualityCard:hover .PremiumQualityImage {
+  transform: scale(1.06);
+}
+
+/* Card Info Column Details */
+.PremiumQualityContent {
+  padding: 20px 10px 10px 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.PremiumQualityCardTitle {
+  font-family: 'Fredoka One', cursive, sans-serif;
+  color: #222222;
+  font-size: 1.35rem;
+  margin: 0 0 12px 0;
+}
+
+.PremiumQualityCardDescription {
+  color: #666666;
+  font-size: 0.9rem;
+  line-height: 1.6;
+  margin: 0 0 20px 0;
+  max-width: 290px;
+  height: 76px; /* Retains aligned baseline grid geometry across standard paragraph variations */
+  overflow: hidden;
+}
+
+/* Action Control Pill Link Button */
+.PremiumQualityReadMoreBtn {
+  background: transparent;
+  color: #222222;
+  border: 1.5px solid #a04000; /* Reddish-brown theme boundary border line */
+  border-radius: 25px;
+  padding: 8px 26px;
+  font-size: 0.88rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+/* Turns completely yellow on pointer hover */
+.PremiumQualityReadMoreBtn:hover {
+  background-color: #f1c40f; /* Vibrant theme yellow highlight */
+  border-color: #f1c40f;
+  color: #000000;
+  font-weight: 600;
+  box-shadow: 0 4px 15px rgba(241, 196, 15, 0.3);
+}
+
+/* Device Media Breakpoints - Tablets Viewport */
+@media (min-width: 640px) {
+  .PremiumQualityGrid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 25px;
+  }
+}
+
+/* Device Media Breakpoints - Large Desktop Displays Layout */
+@media (min-width: 1024px) {
+  .PremiumQualityGrid {
+    grid-template-columns: repeat(4, 1fr); /* Aligns perfectly into 4 horizontal tiles */
+    gap: 20px;
+  }
+
+  .PremiumQualityImageWrapper {
+    height: 170px; /* Exact proportional crop scale matching standard desktop row ratios */
+  }
+}
