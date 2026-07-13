@@ -1,0 +1,499 @@
+/* ============================================================================
+   Typography, Resets, and Global Layouts
+   ============================================================================ */
+.blog-container {
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande", sans-serif;
+  color: #333333;
+  background-color: #ffffff;
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+  position: relative;
+}
+
+.blog-layout {
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  gap: 30px;
+}
+
+.blog-sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.section-header {
+  background-color: #EAEAEA;
+  border-left: 5px solid #8B4513; /* Warm brown theme tone from reference */
+  padding: 10px 15px;
+  font-weight: bold;
+  font-size: 18px;
+  color: #000000;
+  text-transform: capitalize;
+  margin-bottom: 20px;
+  transition: color 0.3s ease;
+}
+
+.item-title {
+  color: #8B4513;
+  font-weight: bold;
+  cursor: pointer;
+  transition: color 0.3s ease;
+  font-family:cursive;
+}
+
+/* ============================================================================
+   ITEM TITLE HOVER TRANSITIONS (Black to Yellow)
+   ============================================================================ */
+.item-title {
+  color: #000000 !important; /* Forces the default color to pure black */
+  cursor: pointer;
+  transition: color 0.2s ease-in-out; /* Smoothly fades the color shift */
+}
+
+/* Changes the title color to a rich vibrant yellow when cursor points out it */
+.item-title:hover {
+  color: #d4b819 !important; 
+}
+
+/* Also applying it specifically to the blog grid card titles */
+.blog-card h3.item-title {
+  color: #000000;
+  transition: color 0.2s ease-in-out;
+}
+
+.blog-card h3.item-title:hover {
+  color: #FFD700;
+}
+
+/* Applying it to the recent articles list in the sidebar */
+.recent-article-item .item-title {
+  color: #000000;
+  transition: color 0.2s ease-in-out;
+}
+
+.recent-article-item .item-title:hover {
+  color: #FFD700;
+}
+
+/* ============================================================================
+   Sidebar Inner Content Blocks
+   ============================================================================ */
+.recent-article-item {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 15px;
+  font-size: 14px;
+}
+
+.recent-article-img {
+  width: 70px;
+  height: 70px;
+  border-radius: 4px;
+  object-fit: cover;
+  background-color: #f5f5f5;
+}
+
+.tag-item {
+  padding: 6px 0;
+  color: #444444;
+  cursor: pointer;
+  transition: color 0.3s ease, font-weight 0.3s ease;
+  display: block;
+}
+
+/* ============================================================================
+   Clockwise Border Animation Mechanics (Categories & Best Sellers)
+   ============================================================================ */
+.animated-border-box {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid #EAEAEA;
+  transition: all 0.3s ease;
+  padding: 20px 10px;
+  background-color: #ffffff;
+  cursor: pointer;
+  text-align: center;
+}
+
+.animated-border-box:hover {
+  border-color: transparent;
+}
+
+.border-line {
+  position: absolute;
+  display: none;
+}
+
+.animated-border-box:hover .border-line {
+  display: block;
+}
+
+.line-top {
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(to right, transparent, #FFD700, #8B4513);
+  animation: borderClockwiseTop 1.5s linear infinite;
+}
+
+.line-right {
+  right: 0;
+  top: -100%;
+  width: 2px;
+  height: 100%;
+  background: linear-gradient(to bottom, transparent, #FFD700, #8B4513);
+  animation: borderClockwiseRight 1.5s linear infinite;
+  animation-delay: 0.375s;
+}
+
+.line-bottom {
+  bottom: 0;
+  right: -100%;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(to left, transparent, #FFD700, #8B4513);
+  animation: borderClockwiseBottom 1.5s linear infinite;
+  animation-delay: 0.75s;
+}
+
+.line-left {
+  left: 0;
+  bottom: -100%;
+  width: 2px;
+  height: 100%;
+  background: linear-gradient(to top, transparent, #FFD700, #8B4513);
+  animation: borderClockwiseLeft 1.5s linear infinite;
+  animation-delay: 1.125s;
+}
+
+@keyframes borderClockwiseTop { 0% { left: -100%; } 100% { left: 100%; } }
+@keyframes borderClockwiseRight { 0% { top: -100%; } 100% { top: 100%; } }
+@keyframes borderClockwiseBottom { 0% { right: -100%; } 100% { right: 100%; } }
+@keyframes borderClockwiseLeft { 0% { bottom: -100%; } 100% { bottom: 100%; } }
+
+/* ============================================================================
+   Product Image Overlay Icons
+   ============================================================================ */
+.product-img-wrapper {
+  position: relative;
+  height: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.product-img-wrapper img {
+  max-height: 100%;
+  max-width: 100%;
+  object-fit: contain;
+  transition: all 0.3s ease;
+}
+
+.overlay-icons {
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  gap: 10px;
+  z-index: 10;
+}
+
+.icon-circle {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background-color: #ffffff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  border: none;
+  cursor: pointer;
+  color: #8B4513;
+  transition: transform 0.2s;
+}
+
+.icon-circle:hover {
+  transform: scale(1.1);
+}
+
+/* ============================================================================
+   Main Blog Section & Cards
+   ============================================================================ */
+.main-content {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.blog-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 30px;
+}
+
+.blog-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.blog-img-container {
+  width: 100%;
+  height: 220px;
+  /* background-color: #F7F7F7; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 15px;
+  overflow: hidden;
+}
+
+.blog-img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.read-more-btn {
+  margin-top: 15px;
+  padding: 10px 28px;
+  border: 1.5px solid #8B4513;
+  border-radius: 25px;
+  background-color: transparent;
+  color: #8B4513;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.4s ease;
+}
+
+/* ============================================================================
+   Pagination Layout Components
+   ============================================================================ */
+.pagination-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.page-button {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1px solid #8B4513;
+  background-color: transparent;
+  color: #8B4513;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+/* ============================================================================
+   Shopping Cart Slide Drawer System
+   ============================================================================ */
+.drawer-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0,0,0,0.4);
+  z-index: 1000;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.cart-drawer {
+  width: 360px;
+  height: 100%;
+  background-color: #ffffff;
+  box-shadow: -2px 0 10px rgba(0,0,0,0.1);
+  padding: 25px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ============================================================================
+   Shopping Cart Slide Drawer System (Updated to match reference layout)
+   ============================================================================ */
+.drawer-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0,0,0,0.4);
+  z-index: 1000;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.cart-drawer {
+  width: 380px;
+  height: 100%;
+  background-color: #ffffff;
+  box-shadow: -2px 0 15px rgba(0,0,0,0.15);
+  padding: 30px 25px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+/* Reference Exact Circular Close Button Positioning */
+.cart-close-btn {
+  position: absolute;
+  top: 25px;
+  left: -20px; /* Overlaps outside drawer slightly like the image reference */
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #ffffff;
+  border: 2px solid #8B4513;
+  color: #8B4513;
+  font-size: 18px;
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  box-shadow: -2px 2px 8px rgba(0,0,0,0.15);
+  z-index: 1001;
+}
+
+.cart-title {
+  font-family: 'Georgia', serif; /* Matching the stylized display font */
+  font-size: 26px;
+  color: #8B4513;
+  margin: 0 0 20px 0;
+  font-weight: bold;
+}
+
+.cart-items-wrapper {
+  flex: 1;
+  overflow-y: auto;
+  margin-top: 10px;
+}
+
+.cart-item-container {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+  padding: 15px 0;
+  border-bottom: 1px solid #F0F0F0;
+}
+
+.cart-item-img {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%; /* Perfect circular image format matching reference */
+  object-fit: cover;
+  background-color: #f7f7f7;
+  border: 1px solid #eaeaea;
+}
+
+.cart-item-details {
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.cart-item-name {
+  font-family: 'Georgia', serif;
+  font-weight: bold;
+  font-size: 18px;
+  color: #333333;
+}
+
+.cart-item-weight {
+  color: #666666;
+  font-size: 14px;
+}
+
+.cart-item-price {
+  font-size: 16px;
+  color: #555555;
+  margin-bottom: 5px;
+}
+
+/* Reference-Exact Row Quantity Block Counter Box Mechanics */
+.quantity-counter-box {
+  display: inline-flex;
+  border: 1px solid #EAEAEA;
+  align-items: center;
+}
+
+.quantity-btn {
+  width: 32px;
+  height: 32px;
+  background: none;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: background-color 0.2s;
+}
+
+.quantity-btn.minus { color: #8B4513; }
+.quantity-btn.plus { color: #8B4513; }
+.quantity-btn:hover { background-color: #F9F9F9; }
+
+.quantity-display {
+  width: 36px;
+  text-align: center;
+  font-size: 15px;
+  color: #8B4513;
+  border-left: 1px solid #EAEAEA;
+  border-right: 1px solid #EAEAEA;
+  height: 32px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Rounded Bottom Action Button Overrides */
+.cart-action-btn-rounded {
+  width: 100%;
+  padding: 14px;
+  border-radius: 30px; /* Perfect oval outline design matching image reference */
+  border: 2px solid #8B4513;
+  background-color: transparent;
+  color: #8B4513;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.cart-action-btn-rounded:hover {
+  background-color: #8B4513;
+  color: #ffffff;
+}
+
+/* ============================================================================
+   Responsive Device Configurations
+   ============================================================================ */
+@media (max-width: 900px) {
+  .blog-layout {
+    grid-template-columns: 1fr;
+  }
+  .side-panel-item {
+    order: 2;
+  }
+  .main-panel-item {
+    order: 1;
+  }
+}
