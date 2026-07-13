@@ -1,0 +1,143 @@
+@import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=Poppins:wght@400;500;600;700&display=swap');
+
+.AllProductsContainer {
+  width: 100%;
+  min-height: 400px;
+  height: 60vh; /* Scalable aspect ratio for medium to large screens */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+  transition: transform 0.5s ease;
+}
+
+/* Slight background scaling effect when hovering over the component image container */
+.AllProductsContainer:hover {
+  transform: scale(1.01);
+}
+
+/* Global dark overlay matching the reference ambiance */
+.AllProductsOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.75); 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.AllProductsContent {
+  text-align: center;
+  max-width: 800px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Top text row */
+.AllProductsSubtitle {
+  font-family: 'Fredoka One', cursive, sans-serif;
+  color: #ffffff;
+  font-size: 1.6rem;
+  margin: 0 0 15px 0;
+  letter-spacing: 0.5px;
+  text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.6);
+}
+
+/* Prominent 50% text */
+.AllProductsTitle {
+  font-family: 'Fredoka One', cursive, sans-serif;
+  color: #f39c12; /* Golden orange yellow accent tone */
+  font-size: 4rem;
+  margin: 0 0 10px 0;
+  line-height: 1;
+  letter-spacing: 1px;
+}
+
+/* Bottom header tagline */
+.AllProductsHeading {
+  color: #e67e22; /* Warmer golden amber tone */
+  font-size: 1.4rem;
+  font-weight: 600;
+  margin: 0 0 35px 0;
+  letter-spacing: 4px; /* Matches spaced layout design style */
+}
+
+/* Action section styling */
+.AllProductsBtnGroup {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.AllProductsBtn {
+  background: transparent;
+  border-radius: 25px;
+  padding: 10px 32px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.AllProductsBtnShop {
+  color: #ffffff;
+  border: 1.5px solid #ffffff;
+}
+
+.AllProductsBtnView {
+  color: #e67e22;
+  border: 1.5px solid #e67e22;
+}
+
+/* Both buttons turn yellow on hover states */
+.AllProductsBtnShop:hover,
+.AllProductsBtnView:hover {
+  background-color: #f1c40f; /* Vibrant reference yellow color */
+  border-color: #f1c40f;
+  color: #000000;
+  font-weight: 600;
+  box-shadow: 0 6px 20px rgba(241, 196, 15, 0.35);
+}
+
+/* Responsive Viewports */
+@media (max-width: 768px) {
+  .AllProductsContainer {
+    min-height: 350px;
+    height: auto;
+    padding: 40px 0;
+  }
+
+  .AllProductsSubtitle {
+    font-size: 1.3rem;
+  }
+
+  .AllProductsTitle {
+    font-size: 3rem;
+  }
+
+  .AllProductsHeading {
+    font-size: 1.1rem;
+    margin-bottom: 25px;
+    letter-spacing: 2px;
+  }
+
+  .AllProductsBtn {
+    padding: 8px 24px;
+    font-size: 0.85rem;
+  }
+}

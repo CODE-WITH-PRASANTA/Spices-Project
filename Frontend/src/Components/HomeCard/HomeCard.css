@@ -1,0 +1,88 @@
+@import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=Poppins:wght@400;500;600&display=swap');
+
+.HomeCardContainer {
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 60px 20px;
+  box-sizing: border-box;
+  background-color: #ffffff;
+  font-family: 'Poppins', sans-serif;
+}
+
+/* Feature responsive layout alignment structure */
+.HomeCardGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 50px 30px; /* Provides extra top vertical headroom for floating absolute badges on mobile stacks */
+}
+
+.HomeCardItem {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+/* Circular floating top icon frame matching image */
+.HomeCardBadge {
+  position: absolute;
+  top: -35px; /* Centers half of the circle outside the inner body layout */
+  width: 70px;
+  height: 70px;
+  background-color: #8e3200; /* Signature theme rich brown color */
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.HomeCardIcon {
+  color: #ffffff;
+  font-size: 1.8rem;
+  stroke-width: 2.5; /* Emphasizes vector visibility */
+}
+
+/* Primary inner content framework panel container */
+.HomeCardContent {
+  background-color: #ffffff;
+  border: 1px solid #e2e8f0; /* Soft reference border frame */
+  border-radius: 8px;
+  padding: 55px 25px 35px 25px; /* Extended top padding protects alignment below floating badge */
+  text-align: center;
+  width: 100%;
+  box-sizing: border-box;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Gentle interactive lift effect when card element container focus changes */
+.HomeCardItem:hover .HomeCardContent {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+}
+
+.HomeCardTitle {
+  font-family: 'Fredoka One', cursive, sans-serif;
+  color: #8e3200; /* Matching text header coloration */
+  font-size: 1.25rem;
+  margin: 0 0 14px 0;
+  letter-spacing: 0.2px;
+}
+
+.HomeCardDescription {
+  color: #555555;
+  font-size: 0.9rem;
+  line-height: 1.7;
+  margin: 0;
+}
+
+/* Responsive Breakpoints - Medium and Large Scale Desktop Configurations */
+@media (min-width: 768px) {
+  .HomeCardGrid {
+    grid-template-columns: repeat(3, 1fr); /* Spreads out evenly across a 3 horizontal column grid */
+    gap: 30px;
+  }
+}

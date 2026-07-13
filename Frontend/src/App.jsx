@@ -5,6 +5,8 @@ import Navbar from "./Components/Navbar/Navbar";
 
 import Home from "./pages/Home/Home";
 import Blog from "./Components/Blog/Blog";
+import Footer from "./Components/Footer/Footer";
+import BlogDetails from "./Components/BlogDetails/BlogDetails";
 
 
 const App = () => {
@@ -16,9 +18,12 @@ const App = () => {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/Blog" element={<Blog/>} />
+        <Route path="/BlogDetails" element={<BlogDetails/>} />
       
         
       </Routes>
+
+      <Footer />
     </BrowserRouter>
   );
 };
