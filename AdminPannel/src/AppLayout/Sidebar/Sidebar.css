@@ -58,6 +58,7 @@
 .admin-sidebar.close {
   width: var(--sb-width-closed);
   min-width: var(--sb-width-closed);
+  overflow-y: visible; /* let hover tooltips escape the rail without clipping */
 }
 
 /* SCROLLBAR */
@@ -87,6 +88,11 @@
   align-items: center;
   justify-content: space-between;
   gap: 10px;
+}
+
+.admin-sidebar.close .sidebar-header {
+  justify-content: center;
+  padding: 20px 10px;
 }
 
 .sidebar-brand {
@@ -184,12 +190,6 @@
   border-radius: 2px;
   background: linear-gradient(90deg, var(--sb-accent-1), var(--sb-accent-2));
   flex-shrink: 0;
-}
-
-.sidebar-section--collapsed {
-  height: 1px;
-  margin: 14px 14px;
-  background: var(--sb-border);
 }
 
 /* MENU ITEM WRAPPER */
@@ -304,7 +304,7 @@
 }
 
 /* ============================
-   SUBMENU
+   SUBMENU (e.g. Blog → Blog Posting / Blog Management)
 ============================ */
 .submenu {
   margin-top: 6px;
@@ -326,7 +326,7 @@
   display: flex;
   align-items: center;
   gap: 10px;
-  padding: 9px 12px;
+  padding: 8px 10px;
   border-radius: 10px;
   text-decoration: none;
   color: #9eb0c8;
@@ -341,31 +341,139 @@
 }
 
 .submenu-link.active {
-  background: rgba(109, 94, 252, 0.2);
+  background: rgba(109, 94, 252, 0.16);
   color: var(--sb-text-strong);
 }
 
+/* Small icon tile for submenu items so nested links carry the
+   same premium treatment as the top-level icons, at a lighter weight. */
 .submenu-icon {
+  width: 26px;
+  height: 26px;
+  min-width: 26px;
   font-size: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  background: var(--sb-icon-bg);
+  color: var(--sb-text-muted);
+  transition: background 0.2s ease, color 0.2s ease;
 }
 
-/* ============================
-   COLLAPSE MODE (icon-only — applies on desktop AND mobile)
-============================ */
+.submenu-link:hover .submenu-icon {
+  background: var(--sb-icon-bg-hover);
+  color: var(--sb-text-strong);
+}
+
+.submenu-link.active .submenu-icon {
+  background: linear-gradient(135deg, var(--sb-accent-1), var(--sb-accent-2));
+  color: var(--sb-text-strong);
+  box-shadow: 0 3px 10px var(--sb-accent-glow);
+}
+
+/* ============================================================
+   COLLAPSE MODE — icon-only rail (desktop collapsed + mobile rail)
+============================================================ */
+
+/* Lay items out as a centered column with even, predictable gaps
+   instead of relying on per-item margins that made spacing look random. */
+.admin-sidebar.close .sidebar-menu {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 12px 8px 24px;
+  gap: 6px;
+}
+
+.admin-sidebar.close .sidebar-menu-item {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 0;
+}
+
 .admin-sidebar.close .menu-text,
 .admin-sidebar.close .sidebar-brand-text,
 .admin-sidebar.close .menu-arrow {
   display: none;
 }
 
+/* Every item becomes a fixed 48x48 tile, centered, so nothing
+   collapses to zero height or drifts out of alignment. */
 .admin-sidebar.close .menu-link,
 .admin-sidebar.close .menu-btn {
+  width: 48px;
+  height: 48px;
+  padding: 0;
   justify-content: center;
-  padding: 10px;
+  border-radius: 12px;
+  flex-shrink: 0;
+}
+
+.admin-sidebar.close .menu-main {
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+  gap: 0;
+}
+
+.admin-sidebar.close .menu-icon {
+  width: 100%;
+  height: 100%;
+  font-size: 17px;
+  border-radius: 12px;
 }
 
 .admin-sidebar.close .menu-link.active::before {
-  left: -12px;
+  left: -8px;
+}
+
+/* Submenus (like Blog) don't render while collapsed — the tooltip
+   below still tells the user what the icon is for. */
+
+/* Section dividers: a short centered rule instead of a full-width
+   line, so the rail doesn't look like it's full of stray marks. */
+.sidebar-section--collapsed {
+  width: 24px;
+  height: 1px;
+  margin: 10px 0;
+  background: var(--sb-border);
+}
+
+/* Tooltip: shows the item name on hover since the label is hidden.
+   Uses ::after so it doesn't collide with the ::before active bar. */
+.admin-sidebar.close .menu-link,
+.admin-sidebar.close .menu-btn {
+  position: relative;
+}
+
+.admin-sidebar.close .menu-link::after,
+.admin-sidebar.close .menu-btn::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  left: calc(100% + 14px);
+  top: 50%;
+  transform: translateY(-50%) translateX(-6px);
+  background: #101a2e;
+  color: var(--sb-text-strong);
+  font-size: 12.5px;
+  font-weight: 600;
+  white-space: nowrap;
+  padding: 7px 12px;
+  border-radius: 8px;
+  box-shadow: 0 10px 24px rgba(2, 6, 23, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.15s ease, transform 0.15s ease;
+  z-index: 1200;
+}
+
+.admin-sidebar.close .menu-link:hover::after,
+.admin-sidebar.close .menu-btn:hover::after {
+  opacity: 1;
+  transform: translateY(-50%) translateX(0);
 }
 
 /* ============================
@@ -439,6 +547,15 @@
   .menu-text {
     font-size: 14px;
   }
+
+  /* On small phones the tooltip has less room to breathe on the right,
+     keep it tucked closer to the icon. */
+  .admin-sidebar.close .menu-link::after,
+  .admin-sidebar.close .menu-btn::after {
+    left: calc(100% + 10px);
+    font-size: 12px;
+    padding: 6px 10px;
+  }
 }
 
 @media (max-width: 360px) {
@@ -453,5 +570,11 @@
 
   .sidebar-brand-text p {
     display: none;
+  }
+
+  .admin-sidebar.close .menu-link,
+  .admin-sidebar.close .menu-btn {
+    width: 40px;
+    height: 40px;
   }
 }
