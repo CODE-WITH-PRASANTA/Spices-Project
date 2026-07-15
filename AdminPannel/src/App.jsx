@@ -5,6 +5,10 @@ import AdminLayout from "./AppLayout/AdminLayout";
 import Dashboard from "./Pages/Dashboard/Dashboard";
 import OurTeam from "./Components/OurTeam/OurTeam";
 import PremiumQuality from "./Components/PremiumQuality/PremiumQuality";
+import BestProduct from "./Components/BestProduct/BestProduct";
+import ContactUs from "./Components/ContactUs/ContactUs";
+import Testimonial from "./Pages/Testimonial/Testimonial";
+import BlogManagement from "./Pages/BlogManagement/BlogManagement";
 
 
 const App = () => {
@@ -15,6 +19,10 @@ const App = () => {
         <Route path="/" element={<Dashboard/>}/>
         <Route path="/admin/our-team" element={<OurTeam/>}/>
         <Route path="/admin/premium-product" element={<PremiumQuality/>}/>
+        <Route path="admin/best-product" element={<BestProduct/>}/>
+          <Route path="admin/contact-us" element={<ContactUs/>}/>
+        <Route path="/admin/testimonial" element={<Testimonial/>}/>
+        <Route path="/admin/blog-management" element={<BlogManagement/>}/>
           
         </Route>
       </Routes>
