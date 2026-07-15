@@ -1,0 +1,312 @@
+/* Container Wrapper - Side by Side Layout */
+.BestProduct-container {
+  display: flex;
+  gap: 2rem;
+  padding: 2rem;
+  background-color: #f8fafc;
+  min-height: 100vh;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  box-sizing: border-box;
+}
+
+/* Base headings matching Ref 1 */
+.BestProduct-heading {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #1e293b;
+  margin-bottom: 1.5rem;
+}
+
+/* Left Form Box Section */
+.BestProduct-form-section {
+  flex: 1;
+  background: #ffffff;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+}
+
+.BestProduct-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.BestProduct-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.BestProduct-form-group label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #475569;
+}
+
+.BestProduct-form-group input[type="text"],
+.BestProduct-form-group input[type="number"] {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  color: #334155;
+  outline: none;
+  transition: border-color 0.2s ease;
+  box-sizing: border-box;
+}
+
+.BestProduct-form-group input:focus {
+  border-color: #3b82f6;
+}
+
+/* Custom File Upload design to mirror reference 1 */
+.BestProduct-file-upload-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  border: 1px solid #cbd5e1;
+  padding: 0.5rem;
+  border-radius: 6px;
+  background-color: #fdfdfd;
+}
+
+.BestProduct-file-upload-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: #f1f5f9;
+  border: 1px solid #cbd5e1;
+  color: #475569;
+  padding: 0.4rem 0.8rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.BestProduct-file-upload-btn:hover {
+  background-color: #e2e8f0;
+}
+
+.BestProduct-file-name {
+  font-size: 0.85rem;
+  color: #64748b;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+/* Image Preview */
+.BestProduct-preview-box {
+  margin-top: 0.5rem;
+  width: 80px;
+  height: 80px;
+  border-radius: 6px;
+  overflow: hidden;
+  border: 1px solid #e2e8f0;
+}
+
+.BestProduct-preview-box img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Form Action Button */
+.BestProduct-submit-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.75rem;
+  background-color: #3b82f6;
+  color: #ffffff;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.BestProduct-submit-btn:hover {
+  background-color: #2563eb;
+}
+
+/* Right Table Section */
+.BestProduct-list-section {
+  flex: 1.5;
+  background: #ffffff;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+}
+
+.BestProduct-table-container {
+  width: 100%;
+  overflow-x: auto; /* Handles responsiveness on smaller monitors */
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  margin-bottom: 1.5rem;
+}
+
+/* Styled Table matching the header color scheme of image 1 */
+.BestProduct-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.BestProduct-table th {
+  background-color: #0b57d0; /* Rich Blue Headers from Ref 1 */
+  color: #ffffff;
+  font-weight: 600;
+  font-size: 0.95rem;
+  padding: 1rem;
+}
+
+.BestProduct-table td {
+  padding: 1rem;
+  border-bottom: 1px solid #e2e8f0;
+  color: #334155;
+  font-size: 0.9rem;
+  vertical-align: middle;
+}
+
+/* Thumbnail inside Table */
+.BestProduct-table-img-wrapper {
+  width: 50px;
+  height: 50px;
+  border-radius: 6px;
+  overflow: hidden;
+  background-color: #f1f5f9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #e2e8f0;
+}
+
+.BestProduct-table-img-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.BestProduct-placeholder-icon {
+  color: #94a3b8;
+  font-size: 1.25rem;
+}
+
+.BestProduct-table-title {
+  color: #1e293b;
+  font-weight: 600;
+}
+
+/* Actions Styles */
+.BestProduct-action-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.BestProduct-action-btn {
+  border: none;
+  padding: 0.5rem;
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  font-size: 0.9rem;
+}
+
+.BestProduct-action-btn.edit {
+  background-color: #e0f2fe;
+  color: #0369a1;
+}
+
+.BestProduct-action-btn.edit:hover {
+  background-color: #0284c7;
+  color: #ffffff;
+}
+
+.BestProduct-action-btn.delete {
+  background-color: #fee2e2;
+  color: #b91c1c;
+}
+
+.BestProduct-action-btn.delete:hover {
+  background-color: #dc2626;
+  color: #ffffff;
+}
+
+.BestProduct-no-data {
+  text-align: center;
+  color: #94a3b8;
+  padding: 2rem !important;
+  font-style: italic;
+}
+
+/* Pagination Section */
+.BestProduct-pagination {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 1rem;
+  margin-top: auto;
+  padding-top: 1rem;
+}
+
+.BestProduct-page-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  background-color: #f1f5f9;
+  border: 1px solid #cbd5e1;
+  padding: 0.4rem 0.8rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #475569;
+  transition: all 0.2s ease;
+}
+
+.BestProduct-page-btn:hover:not(:disabled) {
+  background-color: #cbd5e1;
+  color: #1e293b;
+}
+
+.BestProduct-page-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.BestProduct-page-info {
+  font-size: 0.85rem;
+  color: #64748b;
+  font-weight: 500;
+}
+
+/* --- Mobile and Tablet Responsiveness --- */
+@media (max-width: 968px) {
+  .BestProduct-container {
+    flex-direction: column;
+    gap: 1.5rem;
+    padding: 1rem;
+  }
+  
+  .BestProduct-form-section, 
+  .BestProduct-list-section {
+    flex: none;
+    width: 100%;
+  }
+}
