@@ -1,0 +1,109 @@
+/* Container centered on the page */
+.signin-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 70vh; /* Adjust based on navbar/footer space */
+  padding: 20px;
+  background-color: #ffffff;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+/* Light gray wrapper box from screenshot */
+.signin-card {
+  background-color: #f4f4f4;
+  width: 100%;
+  max-width: 580px; /* Constrains it on desktop desktops */
+  padding: 50px 40px;
+  border-radius: 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  box-sizing: border-box;
+}
+
+/* Input structures */
+.input-group {
+  width: 100%;
+}
+
+.input-group input {
+  width: 100%;
+  padding: 16px 24px;
+  border: none;
+  border-radius: 50px; /* Creates the exact capsule/pill shape */
+  font-size: 16px;
+  color: #333333;
+  background-color: #ffffff;
+  outline: none;
+  box-sizing: border-box;
+  transition: box-shadow 0.2s ease;
+}
+
+/* Input placeholders color match */
+.input-group input::placeholder {
+  color: #8c8c8c;
+}
+
+/* Input interactive state */
+.input-group input:focus {
+  box-shadow: 0 0 0 2px #b05c33;
+}
+
+/* Button layout matching screenshot details */
+.signin-btn {
+  align-self: flex-start; /* Keeps it left-aligned and size restricted */
+  background-color: #ffffff;
+  color: #111111;
+  border: 1.5px solid #b05c33; /* Rust/brownish border color */
+  border-radius: 50px;
+  padding: 14px 40px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.signin-btn:hover {
+  background-color: #b05c33;
+  color: #ffffff;
+}
+
+/* Bottom Inline Inline Links styling */
+.signin-footer-links {
+  display: flex;
+  flex-wrap: wrap; /* Allows wrap adjustments on mobile devices */
+  gap: 4px; 
+  font-size: 14px;
+  color: #333333;
+  margin-top: 10px;
+}
+
+/* Simple link styles */
+.signin-footer-links a {
+  text-decoration: none;
+  color: #333333;
+  transition: color 0.2s ease;
+}
+
+.signin-footer-links a:hover {
+  color: #b05c33;
+  text-decoration: underline;
+}
+
+/* Responsiveness break-points for fluid elements */
+@media (max-width: 480px) {
+  .signin-card {
+    padding: 30px 20px;
+    gap: 20px;
+  }
+  
+  .signin-btn {
+    width: 100%; /* Fully spans width for easy access on tiny touch screens */
+    text-align: center;
+  }
+
+  .signin-footer-links {
+    flex-direction: column; /* Stacks links vertically if spacing disappears */
+    gap: 12px;
+  }
+}
