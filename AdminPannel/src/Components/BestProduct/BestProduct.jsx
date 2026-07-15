@@ -3,34 +3,41 @@ import {
   FaPlus, 
   FaTrashAlt, 
   FaEdit, 
-  FaChevronLeft, 
-  FaChevronRight, 
   FaUpload, 
   FaShoppingBag 
 } from 'react-icons/fa';
 import './BestProduct.css';
 
 const BestProduct = () => {
-  // State for products list (initialized with mockup data matching the 2nd image layout style)
+  // Mock data matching the layout items
   const [products, setProducts] = useState([
-    { id: 1, title: 'Fennel Seeds', price: '489.00', image: null },
-    { id: 2, title: 'Cubeb Pepper', price: '298.00', image: null },
-    { id: 3, title: 'White Mustard', price: '529.00', image: null },
-    { id: 4, title: 'Barberry', price: '286.00', image: null },
-    { id: 5, title: 'Fenugreek Dal', price: '129.00', image: null },
+    { 
+      id: 1, 
+      title: 'jeera', 
+      price: '200.00', 
+      image: null, 
+      category: 'General', 
+      date: '2026-07-15', 
+      description: 'No description provided.' 
+    },
+    { 
+      id: 2, 
+      title: 'Fennel Seeds', 
+      price: '489.00', 
+      image: null, 
+      category: 'Dried Seeds', 
+      date: '2026-07-15', 
+      description: 'Pellentesque massa placerat duis ultricies.' 
+    }
   ]);
 
-  // Form states
-  const [productTitle, setProductTitle] = useState('');
-  const [productPrice, setProductPrice] = useState('');
+  // Form input field states
   const [productImage, setProductImage] = useState(null);
   const [imagePreview, setImagePreview] = useState('');
+  const [productTitle, setProductTitle] = useState('');
+  const [productPrice, setProductPrice] = useState('');
 
-  // Pagination states
-  const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 5;
-
-  // Handle image upload change
+  // Handles image upload changes
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -39,11 +46,11 @@ const BestProduct = () => {
     }
   };
 
-  // Form submission
+  // Form submit handler
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!productTitle || !productPrice) {
-      alert('Please fill out all required fields.');
+      alert('Please fill out the required text inputs.');
       return;
     }
 
@@ -52,63 +59,36 @@ const BestProduct = () => {
       title: productTitle,
       price: parseFloat(productPrice).toFixed(2),
       image: imagePreview || null,
+      category: 'General', 
+      date: new Date().toISOString().split('T')[0],
+      description: 'Pellentesque massa placerat duis ultricies.'
     };
 
     setProducts([newProduct, ...products]);
     
-    // Reset Form
+    // Form field resets
     setProductTitle('');
     setProductPrice('');
     setProductImage(null);
     setImagePreview('');
   };
 
-  // Delete product handler
+  // Delete product action trigger
   const handleDelete = (id) => {
     if (window.confirm('Are you sure you want to delete this product?')) {
       setProducts(products.filter(product => product.id !== id));
     }
   };
 
-  // Pagination Logic
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentProducts = products.slice(indexOfFirstItem, indexOfLastItem);
-  const totalPages = Math.ceil(products.length / itemsPerPage);
-
   return (
     <div className="BestProduct-container">
       
-      {/* Left Column: Create Product Form */}
+      {/* Left Column Box: Form Panel (50% Width) */}
       <div className="BestProduct-form-section">
         <h2 className="BestProduct-heading">Add Best Product</h2>
         <form onSubmit={handleSubmit} className="BestProduct-form">
           
-          <div className="BestProduct-form-group">
-            <label htmlFor="productTitle">Product Title</label>
-            <input
-              type="text"
-              id="productTitle"
-              placeholder="Enter product title..."
-              value={productTitle}
-              onChange={(e) => setProductTitle(e.target.value)}
-              required
-            />
-          </div>
-
-          <div className="BestProduct-form-group">
-            <label htmlFor="productPrice">Product Price (₹)</label>
-            <input
-              type="number"
-              id="productPrice"
-              placeholder="Enter price (e.g. 299.00)"
-              value={productPrice}
-              onChange={(e) => setProductPrice(e.target.value)}
-              step="0.01"
-              required
-            />
-          </div>
-
+          {/* 1st Position: Upload Field */}
           <div className="BestProduct-form-group">
             <label>Upload Image</label>
             <div className="BestProduct-file-upload-wrapper">
@@ -123,7 +103,7 @@ const BestProduct = () => {
                 <FaUpload /> Choose File
               </label>
               <span className="BestProduct-file-name">
-                {productImage ? productImage.name : 'No file chosen'}
+                {productImage ? productImage.name : 'No file ch...'}
               </span>
             </div>
             {imagePreview && (
@@ -133,13 +113,42 @@ const BestProduct = () => {
             )}
           </div>
 
+          {/* 2nd Position: Title Input */}
+          <div className="BestProduct-form-group">
+            <label htmlFor="productTitle">Product Title</label>
+            <input
+              type="text"
+              id="productTitle"
+              className="BestProduct-input-field"
+              placeholder="Enter product title..."
+              value={productTitle}
+              onChange={(e) => setProductTitle(e.target.value)}
+              required
+            />
+          </div>
+
+          {/* 3rd Position: Price Input */}
+          <div className="BestProduct-form-group">
+            <label htmlFor="productPrice">Product Price (₹)</label>
+            <input
+              type="number"
+              id="productPrice"
+              className="BestProduct-input-field"
+              placeholder="Enter price"
+              value={productPrice}
+              onChange={(e) => setProductPrice(e.target.value)}
+              step="0.01"
+              required
+            />
+          </div>
+
           <button type="submit" className="BestProduct-submit-btn">
             <FaPlus /> Add Product
           </button>
         </form>
       </div>
 
-      {/* Right Column: Product List Table */}
+      {/* Right Column Box: Product List Table Grid (50% Width) */}
       <div className="BestProduct-list-section">
         <h2 className="BestProduct-heading">Product List</h2>
         
@@ -147,16 +156,17 @@ const BestProduct = () => {
           <table className="BestProduct-table">
             <thead>
               <tr>
-                <th>Image</th>
+                <th>Upload Image</th>
                 <th>Product Title</th>
-                <th>Price (₹)</th>
+                <th>Product Price</th>
                 <th style={{ textAlign: 'center' }}>Actions</th>
               </tr>
             </thead>
             <tbody>
-              {currentProducts.length > 0 ? (
-                currentProducts.map((product) => (
+              {products.length > 0 ? (
+                products.map((product) => (
                   <tr key={product.id}>
+                    {/* Column 1: Image Frame */}
                     <td>
                       <div className="BestProduct-table-img-wrapper">
                         {product.image ? (
@@ -168,14 +178,25 @@ const BestProduct = () => {
                         )}
                       </div>
                     </td>
-                    <td><strong className="BestProduct-table-title">{product.title}</strong></td>
-                    <td>₹{product.price}</td>
+
+                    {/* Column 2: Plain Clean Product Title Text */}
+                    <td>
+                      <span className="BestProduct-title-text">{product.title}</span>
+                    </td>
+
+                    {/* Column 3: Product Price */}
+                    <td className="BestProduct-table-price">
+                      ₹{product.price}
+                    </td>
+
+                    {/* Column 4: Actions */}
                     <td>
                       <div className="BestProduct-action-buttons">
-                        <button className="BestProduct-action-btn edit" title="Edit">
+                        <button type="button" className="BestProduct-action-btn edit" title="Edit">
                           <FaEdit />
                         </button>
                         <button 
+                          type="button"
                           className="BestProduct-action-btn delete" 
                           title="Delete"
                           onClick={() => handleDelete(product.id)}
@@ -196,29 +217,6 @@ const BestProduct = () => {
             </tbody>
           </table>
         </div>
-
-        {/* Pagination Controls */}
-        {totalPages > 1 && (
-          <div className="BestProduct-pagination">
-            <button 
-              onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))} 
-              disabled={currentPage === 1}
-              className="BestProduct-page-btn"
-            >
-              <FaChevronLeft /> Prev
-            </button>
-            <span className="BestProduct-page-info">
-              Page {currentPage} of {totalPages}
-            </span>
-            <button 
-              onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))} 
-              disabled={currentPage === totalPages}
-              className="BestProduct-page-btn"
-            >
-              Next <FaChevronRight />
-            </button>
-          </div>
-        )}
       </div>
 
     </div>
