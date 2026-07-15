@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import {
   FaTachometerAlt,
   FaPenFancy,
+  FaEdit,
   FaBlog,
   FaStore,
   FaAward,
@@ -20,9 +21,14 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }) {
   const menu = [
     { name: "Dashboard", path: "/", icon: <FaTachometerAlt /> },
 
-    { type: "section", label: "Content" },
-    { name: "Blog Posting", path: "/admin/blog-posting", icon: <FaPenFancy /> },
-    { name: "Blog Management", path: "/admin/blog-management", icon: <FaBlog /> },
+    {
+      name: "Blog",
+      icon: <FaBlog />,
+      submenu: [
+        { name: "Blog Posting", path: "/admin/blog-posting", icon: <FaPenFancy /> },
+        { name: "Blog Management", path: "/admin/blog-management", icon: <FaEdit /> },
+      ],
+    },
 
     { type: "section", label: "Shop" },
     { name: "Shop", path: "/admin/shop", icon: <FaStore /> },
@@ -115,6 +121,7 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }) {
                       type="button"
                       className={`menu-btn ${openMenu === item.name ? "expanded" : ""}`}
                       onClick={() => toggleMenu(item.name)}
+                      data-tooltip={item.name}
                     >
                       <div className="menu-main">
                         <span className="menu-icon">{item.icon}</span>
@@ -150,7 +157,7 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }) {
                   <NavLink
                     to={item.path}
                     onClick={handleMenuClick}
-                    title={!sidebarOpen ? item.name : undefined}
+                    data-tooltip={item.name}
                     className={({ isActive }) =>
                       `menu-link ${isActive ? "active" : ""}`
                     }

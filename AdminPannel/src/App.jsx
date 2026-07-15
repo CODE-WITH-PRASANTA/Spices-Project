@@ -3,6 +3,8 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import AdminLayout from "./AppLayout/AdminLayout";
 import Dashboard from "./Pages/Dashboard/Dashboard";
+import Testimonial from "./Pages/Testimonial/Testimonial";
+import BlogManagement from "./Pages/BlogManagement/BlogManagement";
 
 
 const App = () => {
@@ -11,6 +13,8 @@ const App = () => {
       <Routes>
         <Route element={<AdminLayout />}>
         <Route path="/" element={<Dashboard/>}/>
+        <Route path="/admin/testimonial" element={<Testimonial/>}/>
+        <Route path="/admin/blog-management" element={<BlogManagement/>}/>
           
         </Route>
       </Routes>
