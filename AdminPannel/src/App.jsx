@@ -10,6 +10,8 @@ import BestProduct from "./Components/BestProduct/BestProduct";
 import ContactUs from "./Components/ContactUs/ContactUs";
 import Testimonial from "./Pages/Testimonial/Testimonial";
 import BlogManagement from "./Pages/BlogManagement/BlogManagement";
+import Blog from "./Components/Blog/Blog";
+import Shop from "./Components/Shop/Shop";
 
 
 const App = () => {
@@ -25,7 +27,8 @@ const App = () => {
           <Route path="admin/contact-us" element={<ContactUs/>}/>
         <Route path="/admin/testimonial" element={<Testimonial/>}/>
         <Route path="/admin/blog-management" element={<BlogManagement/>}/>
-          
+        <Route path="/admin/blog-posting" element={<Blog />} />
+          <Route path="/admin/shop" element={<Shop />} />
         </Route>
       </Routes>
     </BrowserRouter>

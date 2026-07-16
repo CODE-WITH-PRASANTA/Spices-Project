@@ -1,0 +1,15 @@
+.Shop { padding: 40px; background-color: #eef6fc; min-height: 100vh; }
+.Shop__container { display: flex; gap: 20px; max-width: 1200px; margin: auto; }
+.Shop__form-section, .Shop__table-section { flex: 1; }
+
+.Shop__card { background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+.Shop__heading { color: #1a3c8e; margin-bottom: 20px; }
+.Shop__upload { border: 2px dashed #ccc; padding: 20px; text-align: center; cursor: pointer; border-radius: 8px; margin-bottom: 15px; }
+input { width: 100%; padding: 10px; margin: 10px 0; border: 1px solid #ccc; border-radius: 6px; box-sizing: border-box; }
+
+.Shop__submit-btn { width: 100%; padding: 12px; background: #1a3c8e; color: white; border: none; border-radius: 6px; cursor: pointer; }
+
+.Shop__table { width: 100%; background: white; border-collapse: collapse; border-radius: 8px; overflow: hidden; }
+.Shop__table th, .Shop__table td { padding: 15px; border-bottom: 1px solid #ddd; text-align: left; }
+
+@media (max-width: 768px) { .Shop__container { flex-direction: column; } }
