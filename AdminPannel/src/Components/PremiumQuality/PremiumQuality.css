@@ -1,0 +1,126 @@
+:root {
+  --primary: #2563eb;
+  --primary-hover: #1d4ed8;
+  --bg-body: #f8fafc;
+  --card-bg: #ffffff;
+  --text: #1e293b;
+  --border: #e2e8f0;
+}
+
+.pq-container {
+  display: flex;
+  gap: 25px;
+  padding: 30px;
+  background: var(--bg-body);
+  min-height: 100vh;
+}
+
+.pq-section {
+  flex: 1;
+  background: var(--card-bg);
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  height: max-content;
+}
+
+h2 { color: var(--text); margin-bottom: 20px; font-size: 1.25rem; }
+
+/* Form Styles */
+.pq-form-group { display: flex; flex-direction: column; margin-bottom: 18px; }
+.pq-form-group label { font-weight: 600; margin-bottom: 6px; font-size: 0.9rem; color: var(--text); }
+.pq-form-group input { padding: 10px; border: 1px solid var(--border); border-radius: 6px; }
+
+.pq-submit-btn {
+  background: var(--primary); color: white; padding: 12px; border: none;
+  border-radius: 6px; font-weight: 600; cursor: pointer; width: 100%; transition: 0.3s;
+}
+.pq-submit-btn:hover { background: var(--primary-hover); }
+
+/* Table Styles */
+.pq-table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+.pq-table th { background: #eff6ff; padding: 12px; text-align: left; color: var(--primary); }
+.pq-table td { padding: 12px; border-bottom: 1px solid var(--border); }
+
+/* Action Dots */
+.pq-action { position: relative; cursor: pointer; font-weight: bold; text-align: center; }
+.pq-dropdown {
+  display: none; position: absolute; right: 0; background: white;
+  border: 1px solid var(--border); border-radius: 4px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  z-index: 10;
+}
+.pq-action:hover .pq-dropdown { display: block; }
+.pq-dropdown button { display: block; width: 100%; padding: 8px 15px; border: none; background: none; cursor: pointer; }
+.pq-dropdown button:hover { background: #f1f5f9; }
+
+/* Pagination */
+.pq-pagination { margin-top: 20px; display: flex; gap: 5px; }
+.pq-pagination button { padding: 6px 12px; cursor: pointer; border: 1px solid var(--border); background: white; }
+/* ... (Keep all your existing CSS from previous turn) ... */
+
+/* New CSS for Table Image */
+.pq-table-img {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+}
+
+/* Ensure table cells align middle */
+.pq-table td {
+  padding: 12px;
+  border-bottom: 1px solid var(--border);
+  vertical-align: middle;
+}
+/* ... (Keep your existing CSS) ... */
+
+/* Action Dropdown Styling */
+.pq-dropdown {
+  display: none;
+  position: absolute;
+  right: 0;
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
+  z-index: 10;
+  padding: 5px 0;
+  min-width: 130px;
+}
+
+.pq-action:hover .pq-dropdown { display: block; }
+
+.pq-dropdown button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 90%;
+  margin: 4px auto;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-weight: 600;
+  transition: all 0.2s;
+}
+
+/* Green Edit Button */
+.btn-edit { 
+  background-color: #dcfce7; /* Light Green */
+  color: #166534;           /* Dark Green Text */
+}
+.btn-edit:hover { background-color: #bbf7d0; }
+
+/* Red Delete Button */
+.btn-delete { 
+  background-color: #fee2e2; /* Light Red */
+  color: #991b1b;           /* Dark Red Text */
+}
+.btn-delete:hover { background-color: #fecaca; }
+
+/* Responsive */
+@media (max-width: 768px) {
+  .pq-container { flex-direction: column; }
+}

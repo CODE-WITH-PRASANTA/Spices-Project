@@ -1,0 +1,110 @@
+/* --- Core Container Styles --- */
+.breadcrumb-wrapper {
+  position: relative;
+  width: 100%;
+  height: 280px; /* Default desktop height */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+/* Background darken shade overlay */
+.breadcrumb-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.55); 
+  z-index: 1;
+}
+
+/* --- Content Layout --- */
+.breadcrumb-content {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  color: #ffffff;
+  padding: 0 20px;
+  width: 100%;
+  max-width: 1200px;
+}
+
+.breadcrumb-heading {
+  font-family: 'Copperplate', 'Impact', 'Georgia', sans-serif; /* Aesthetic font family matching the storefront branding */
+  font-size: 42px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  margin: 0 0 12px 0;
+  text-transform: uppercase;
+}
+
+/* --- Navigation Typography --- */
+.breadcrumb-nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap; /* Prevents text overflow breaks on tiny phones */
+  gap: 4px;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.breadcrumb-link {
+  color: #e5e7eb; /* Subtle light gray */
+  text-decoration: none;
+  transition: color 0.2s ease-in-out;
+}
+
+.breadcrumb-link:hover {
+  color: #eab308; /* Gorgeous golden-yellow hover indicator matching the site buttons */
+}
+
+.breadcrumb-current {
+  color: #ffffff;
+  font-weight: 600;
+}
+
+.separator {
+  color: #9ca3af;
+  padding: 0 4px;
+}
+
+/* --- Responsive Media Queries --- */
+
+/* Tablets & Small Desktops */
+@media (max-width: 768px) {
+  .breadcrumb-wrapper {
+    height: 220px; /* Reduced vertical scale for tablet devices */
+  }
+
+  .breadcrumb-heading {
+    font-size: 32px;
+    letter-spacing: 1px;
+  }
+
+  .breadcrumb-nav {
+    font-size: 15px;
+  }
+}
+
+/* Mobile Devices */
+@media (max-width: 480px) {
+  .breadcrumb-wrapper {
+    height: 160px; /* Compact presentation format for standard mobile devices */
+  }
+
+  .breadcrumb-heading {
+    font-size: 26px;
+    margin-bottom: 8px;
+  }
+
+  .breadcrumb-nav {
+    font-size: 14px;
+    gap: 2px;
+  }
+}

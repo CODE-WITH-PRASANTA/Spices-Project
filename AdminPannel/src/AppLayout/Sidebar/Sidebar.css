@@ -1,0 +1,580 @@
+/* ============================
+   THEME TOKENS
+============================ */
+.admin-sidebar {
+  --sb-bg-1: #0b1220;
+  --sb-bg-2: #0d1b2f;
+  --sb-bg-3: #0f2744;
+  --sb-border: rgba(255, 255, 255, 0.06);
+  --sb-text: #cbd5e1;
+  --sb-text-muted: #7f90aa;
+  --sb-text-strong: #ffffff;
+  --sb-accent-1: #6d5efc;
+  --sb-accent-2: #8f67ff;
+  --sb-accent-glow: rgba(109, 94, 252, 0.35);
+  --sb-icon-bg: rgba(255, 255, 255, 0.05);
+  --sb-icon-bg-hover: rgba(255, 255, 255, 0.09);
+  --sb-radius: 14px;
+  --sb-width-open: 272px;
+  --sb-width-closed: 90px;
+}
+
+/* ============================
+   OVERLAY
+============================ */
+.sidebar-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.5);
+  backdrop-filter: blur(4px);
+  z-index: 999;
+  animation: sb-fade-in 0.2s ease;
+}
+
+@keyframes sb-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* ============================
+   SIDEBAR SHELL
+============================ */
+.admin-sidebar {
+  width: var(--sb-width-open);
+  min-width: var(--sb-width-open);
+  height: 100vh;
+  position: sticky;
+  top: 0;
+  left: 0;
+  background: linear-gradient(180deg, var(--sb-bg-1) 0%, var(--sb-bg-2) 50%, var(--sb-bg-3) 100%);
+  border-right: 1px solid var(--sb-border);
+  box-shadow: 12px 0 30px rgba(2, 6, 23, 0.2);
+  overflow-x: hidden;
+  overflow-y: auto;
+  transition: width 0.3s ease, min-width 0.3s ease;
+  z-index: 1000;
+}
+
+.admin-sidebar.close {
+  width: var(--sb-width-closed);
+  min-width: var(--sb-width-closed);
+  overflow-y: visible; /* let hover tooltips escape the rail without clipping */
+}
+
+/* SCROLLBAR */
+.admin-sidebar::-webkit-scrollbar {
+  width: 6px;
+}
+.admin-sidebar::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.14);
+  border-radius: 20px;
+}
+.admin-sidebar::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.22);
+}
+
+/* ============================
+   HEADER / BRAND
+============================ */
+.sidebar-header {
+  padding: 20px 16px;
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  background: rgba(11, 18, 32, 0.9);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--sb-border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.admin-sidebar.close .sidebar-header {
+  justify-content: center;
+  padding: 20px 10px;
+}
+
+.sidebar-brand {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-width: 0;
+}
+
+.sidebar-brand-icon {
+  width: 46px;
+  height: 46px;
+  min-width: 46px;
+  border-radius: 16px;
+  background: linear-gradient(135deg, var(--sb-accent-1), var(--sb-accent-2));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--sb-text-strong);
+  box-shadow: 0 10px 25px var(--sb-accent-glow);
+}
+
+.sidebar-brand-text h2 {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--sb-text-strong);
+  letter-spacing: 0.3px;
+  white-space: nowrap;
+}
+
+.sidebar-brand-text p {
+  margin: 4px 0 0;
+  font-size: 13px;
+  color: var(--sb-text);
+  font-weight: 600;
+  letter-spacing: 0.2px;
+  white-space: nowrap;
+}
+
+/* CLOSE (X) BUTTON — mobile only, shown when drawer is fully open */
+.sidebar-close-btn {
+  width: 34px;
+  height: 34px;
+  min-width: 34px;
+  border: none;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--sb-text);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background 0.2s ease, color 0.2s ease, transform 0.15s ease;
+}
+
+.sidebar-close-btn:hover {
+  background: rgba(255, 255, 255, 0.14);
+  color: var(--sb-text-strong);
+  transform: rotate(90deg);
+}
+
+/* ============================
+   MENU
+============================ */
+.sidebar-menu {
+  padding: 14px 12px 24px;
+}
+
+/* SECTION LABEL */
+.sidebar-section {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 20px 10px 10px;
+  padding: 0 2px;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--sb-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 1.4px;
+}
+
+.sidebar-section:first-child {
+  margin-top: 4px;
+}
+
+.sidebar-section__bar {
+  width: 10px;
+  height: 2px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, var(--sb-accent-1), var(--sb-accent-2));
+  flex-shrink: 0;
+}
+
+/* MENU ITEM WRAPPER */
+.sidebar-menu-item {
+  margin-bottom: 6px;
+}
+
+/* MENU LINK / BUTTON */
+.menu-link,
+.menu-btn {
+  width: 100%;
+  border: none;
+  background: transparent;
+  color: var(--sb-text);
+  border-radius: var(--sb-radius);
+  padding: 10px 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  text-decoration: none;
+  position: relative;
+  transition: background 0.2s ease, color 0.2s ease, transform 0.15s ease;
+}
+
+.menu-main {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+}
+
+/* ICON TILE */
+.menu-icon {
+  width: 36px;
+  height: 36px;
+  min-width: 36px;
+  font-size: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  background: var(--sb-icon-bg);
+  color: var(--sb-text);
+  transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+
+/* TEXT */
+.menu-text {
+  font-size: 14.5px;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* HOVER */
+.menu-link:hover,
+.menu-btn:hover {
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--sb-text-strong);
+}
+
+.menu-link:hover .menu-icon,
+.menu-btn:hover .menu-icon {
+  background: var(--sb-icon-bg-hover);
+  color: var(--sb-text-strong);
+  transform: translateY(-1px);
+}
+
+/* ACTIVE */
+.menu-link.active {
+  background: linear-gradient(135deg, rgba(109, 94, 252, 0.22), rgba(143, 103, 255, 0.14));
+  color: var(--sb-text-strong);
+  box-shadow: inset 0 0 0 1px rgba(129, 140, 248, 0.25);
+}
+
+.menu-link.active::before {
+  content: "";
+  position: absolute;
+  left: -12px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 4px;
+  height: 60%;
+  border-radius: 0 4px 4px 0;
+  background: linear-gradient(180deg, var(--sb-accent-1), var(--sb-accent-2));
+}
+
+.menu-link.active .menu-icon {
+  background: linear-gradient(135deg, var(--sb-accent-1), var(--sb-accent-2));
+  color: var(--sb-text-strong);
+  box-shadow: 0 4px 12px var(--sb-accent-glow);
+}
+
+/* EXPANDED (parent with open submenu) */
+.menu-btn.expanded {
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--sb-text-strong);
+}
+
+/* ARROW */
+.menu-arrow {
+  font-size: 11px;
+  color: var(--sb-text-muted);
+  transition: transform 0.3s ease;
+  flex-shrink: 0;
+}
+
+.menu-arrow.rotate {
+  transform: rotate(180deg);
+}
+
+/* ============================
+   SUBMENU (e.g. Blog → Blog Posting / Blog Management)
+============================ */
+.submenu {
+  margin-top: 6px;
+  margin-left: 30px;
+  padding-left: 14px;
+  border-left: 1px solid rgba(148, 163, 184, 0.2);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  animation: sb-slide-down 0.2s ease;
+}
+
+@keyframes sb-slide-down {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.submenu-link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px;
+  border-radius: 10px;
+  text-decoration: none;
+  color: #9eb0c8;
+  font-size: 13.5px;
+  font-weight: 500;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.submenu-link:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--sb-text-strong);
+}
+
+.submenu-link.active {
+  background: rgba(109, 94, 252, 0.16);
+  color: var(--sb-text-strong);
+}
+
+/* Small icon tile for submenu items so nested links carry the
+   same premium treatment as the top-level icons, at a lighter weight. */
+.submenu-icon {
+  width: 26px;
+  height: 26px;
+  min-width: 26px;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  background: var(--sb-icon-bg);
+  color: var(--sb-text-muted);
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.submenu-link:hover .submenu-icon {
+  background: var(--sb-icon-bg-hover);
+  color: var(--sb-text-strong);
+}
+
+.submenu-link.active .submenu-icon {
+  background: linear-gradient(135deg, var(--sb-accent-1), var(--sb-accent-2));
+  color: var(--sb-text-strong);
+  box-shadow: 0 3px 10px var(--sb-accent-glow);
+}
+
+/* ============================================================
+   COLLAPSE MODE — icon-only rail (desktop collapsed + mobile rail)
+============================================================ */
+
+/* Lay items out as a centered column with even, predictable gaps
+   instead of relying on per-item margins that made spacing look random. */
+.admin-sidebar.close .sidebar-menu {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 12px 8px 24px;
+  gap: 6px;
+}
+
+.admin-sidebar.close .sidebar-menu-item {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 0;
+}
+
+.admin-sidebar.close .menu-text,
+.admin-sidebar.close .sidebar-brand-text,
+.admin-sidebar.close .menu-arrow {
+  display: none;
+}
+
+/* Every item becomes a fixed 48x48 tile, centered, so nothing
+   collapses to zero height or drifts out of alignment. */
+.admin-sidebar.close .menu-link,
+.admin-sidebar.close .menu-btn {
+  width: 48px;
+  height: 48px;
+  padding: 0;
+  justify-content: center;
+  border-radius: 12px;
+  flex-shrink: 0;
+}
+
+.admin-sidebar.close .menu-main {
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+  gap: 0;
+}
+
+.admin-sidebar.close .menu-icon {
+  width: 100%;
+  height: 100%;
+  font-size: 17px;
+  border-radius: 12px;
+}
+
+.admin-sidebar.close .menu-link.active::before {
+  left: -8px;
+}
+
+/* Submenus (like Blog) don't render while collapsed — the tooltip
+   below still tells the user what the icon is for. */
+
+/* Section dividers: a short centered rule instead of a full-width
+   line, so the rail doesn't look like it's full of stray marks. */
+.sidebar-section--collapsed {
+  width: 24px;
+  height: 1px;
+  margin: 10px 0;
+  background: var(--sb-border);
+}
+
+/* Tooltip: shows the item name on hover since the label is hidden.
+   Uses ::after so it doesn't collide with the ::before active bar. */
+.admin-sidebar.close .menu-link,
+.admin-sidebar.close .menu-btn {
+  position: relative;
+}
+
+.admin-sidebar.close .menu-link::after,
+.admin-sidebar.close .menu-btn::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  left: calc(100% + 14px);
+  top: 50%;
+  transform: translateY(-50%) translateX(-6px);
+  background: #101a2e;
+  color: var(--sb-text-strong);
+  font-size: 12.5px;
+  font-weight: 600;
+  white-space: nowrap;
+  padding: 7px 12px;
+  border-radius: 8px;
+  box-shadow: 0 10px 24px rgba(2, 6, 23, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.15s ease, transform 0.15s ease;
+  z-index: 1200;
+}
+
+.admin-sidebar.close .menu-link:hover::after,
+.admin-sidebar.close .menu-btn:hover::after {
+  opacity: 1;
+  transform: translateY(-50%) translateX(0);
+}
+
+/* ============================
+   RESPONSIVE
+============================ */
+@media (max-width: 1024px) {
+  .admin-sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+  }
+
+  /* Closed state on mobile is now a persistent icon-only rail,
+     not fully hidden off-screen. */
+  .admin-sidebar.close {
+    width: var(--sb-width-closed);
+    min-width: var(--sb-width-closed);
+  }
+
+  .admin-sidebar.open {
+    width: var(--sb-width-open);
+    min-width: var(--sb-width-open);
+  }
+}
+
+@media (max-width: 576px) {
+  .admin-sidebar.open {
+    width: 84vw;
+    min-width: 0;
+    max-width: 300px;
+  }
+
+  .admin-sidebar.close {
+    width: 68px;
+    min-width: 68px;
+  }
+
+  .sidebar-header {
+    padding: 16px;
+  }
+
+  .sidebar-brand-icon {
+    width: 40px;
+    height: 40px;
+    min-width: 40px;
+    font-size: 19px;
+  }
+
+  .sidebar-brand-text h2 {
+    font-size: 19px;
+  }
+
+  .sidebar-close-btn {
+    width: 30px;
+    height: 30px;
+    min-width: 30px;
+    font-size: 13px;
+  }
+
+  .menu-link,
+  .menu-btn {
+    padding: 10px;
+  }
+
+  .menu-icon {
+    width: 34px;
+    height: 34px;
+    min-width: 34px;
+  }
+
+  .menu-text {
+    font-size: 14px;
+  }
+
+  /* On small phones the tooltip has less room to breathe on the right,
+     keep it tucked closer to the icon. */
+  .admin-sidebar.close .menu-link::after,
+  .admin-sidebar.close .menu-btn::after {
+    left: calc(100% + 10px);
+    font-size: 12px;
+    padding: 6px 10px;
+  }
+}
+
+@media (max-width: 360px) {
+  .admin-sidebar.open {
+    width: 88vw;
+  }
+
+  .admin-sidebar.close {
+    width: 60px;
+    min-width: 60px;
+  }
+
+  .sidebar-brand-text p {
+    display: none;
+  }
+
+  .admin-sidebar.close .menu-link,
+  .admin-sidebar.close .menu-btn {
+    width: 40px;
+    height: 40px;
+  }
+}
