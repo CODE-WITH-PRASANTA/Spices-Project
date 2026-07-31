@@ -14,6 +14,9 @@ import {
   FaBullhorn,
   FaChevronDown,
   FaTimes,
+  FaBoxOpen,
+  FaPlus,
+  FaBoxes,
 } from "react-icons/fa";
 import "./Sidebar.css";
 
@@ -30,9 +33,19 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }) {
       ],
     },
 
+    // Added Product dropdown after Blog
+    {
+      name: "Product",
+      icon: <FaBoxOpen />,
+      submenu: [
+        { name: "All Product", path: "/admin/all-products", icon: <FaBoxes /> },
+        { name: "Add Product", path: "/admin/add-product", icon: <FaPlus /> },
+        { name: "Best Product", path: "/admin/best-product", icon: <FaAward /> },
+      ],
+    },
+
     { type: "section", label: "Shop" },
     { name: "Shop", path: "/admin/shop", icon: <FaStore /> },
-    { name: "Best Product", path: "/admin/best-product", icon: <FaAward /> },
     { name: "Premium Quality Product", path: "/admin/premium-product", icon: <FaGem /> },
 
     { type: "section", label: "Company" },
@@ -109,7 +122,10 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }) {
                   {item.label}
                 </div>
               ) : (
-                <div className="sidebar-section sidebar-section--collapsed" key={`${item.label}-${index}`} />
+                <div
+                  className="sidebar-section sidebar-section--collapsed"
+                  key={`${item.label}-${index}`}
+                />
               );
             }
 
