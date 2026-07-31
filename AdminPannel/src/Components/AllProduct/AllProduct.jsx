@@ -291,36 +291,6 @@ const AllProduct = () => {
 
   return (
     <div className="AllProduct-container">
-      {/* HEADER SECTION */}
-      <header className="AllProduct-header">
-        <div className="AllProduct-header-left">
-          <h1>Products</h1>
-          <p>Dashboard &gt; <span>Products</span></p>
-        </div>
-        <div className="AllProduct-header-right">
-          <div className="AllProduct-search-bar">
-            <LuSearch className="search-icon" />
-            <input 
-              type="text" 
-              placeholder="Search anything..." 
-              value={topSearch} 
-              onChange={(e) => setTopSearch(e.target.value)}
-            />
-          </div>
-          <button className="AllProduct-notification-btn" title="Notifications">
-            <LuBell />
-            <span className="badge">5</span>
-          </button>
-          <div className="AllProduct-admin-profile">
-            <div className="avatar">A</div>
-            <div className="info">
-              <strong>Admin</strong>
-              <small>Super Admin</small>
-            </div>
-          </div>
-        </div>
-      </header>
-
       {/* METRIC CARDS */}
       <section className="AllProduct-stats-grid">
         <div className="AllProduct-stat-card">
