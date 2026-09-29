@@ -1,0 +1,70 @@
+.td-dashboard-container { padding: 24px; font-family: 'Segoe UI', sans-serif; background: #fafafa; min-height: 10vh; }
+
+.td-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+.td-title { font-size: 24px; font-weight: 700; color: #000; }
+.td-subtitle { color: #666; }
+.td-date-picker { padding: 8px 12px; border: 1px solid #ddd; border-radius: 6px; background: white; cursor: pointer; }
+
+.td-card-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+
+.td-card { background: white; padding: 20px; border-radius: 12px; border: 1px solid #eee; position: relative; overflow: hidden; }
+
+.td-card-top { display: flex; align-items: center; gap: 12px; margin-bottom: 15px; }
+.td-icon { width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; }
+
+.td-label { font-size: 14px; color: #666; }
+.td-value { font-size: 22px; font-weight: 700; margin-top: 4px; }
+
+.td-trend { font-size: 12px; font-weight: 600; margin-top: 10px; display: flex; align-items: center; gap: 4px; }
+.td-trend.up { color: #22c55e; }
+.td-trend.down { color: #ef4444; }
+/* ... Keep all existing CSS from previous turn ... */
+
+.td-card { 
+  background: white; 
+  padding: 20px; 
+  border-radius: 12px; 
+  border: 1px solid #eee; 
+  position: relative; 
+  overflow: hidden;
+  transition: all 0.3s ease; /* Smooth animation */
+}
+
+/* Hover Effect */
+.td-card:hover {
+  transform: translateY(-8px); /* Lifts the card */
+  box-shadow: 0 12px 20px rgba(0,0,0,0.08); /* Adds depth */
+}
+
+/* Specific Hover Border Colors */
+.td-card.sales:hover { border-color: #22c55e; }
+.td-card.orders:hover { border-color: #3b82f6; }
+.td-card.customers:hover { border-color: #f59e0b; }
+.td-card.stock:hover { border-color: #a855f7; }
+/* ... Keep all previous CSS ... */
+
+.td-chart {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  width: 80px;
+  height: 40px;
+  opacity: 0.6;
+}
+
+.td-chart path {
+  fill: none;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* Specific Chart Colors */
+.sales .td-chart path { stroke: #22c55e; }
+.orders .td-chart path { stroke: #3b82f6; }
+.customers .td-chart path { stroke: #f59e0b; }
+.stock .td-chart path { stroke: #a855f7; }
+
+/* Responsive Layout */
+@media (max-width: 1024px) { .td-card-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 600px) { .td-card-grid { grid-template-columns: 1fr; } }

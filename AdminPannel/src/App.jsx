@@ -1,6 +1,7 @@
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
+
 import Dashboard from "./Pages/Dashboard/Dashboard";
 import Lead from "./Components/Lead/Lead";
 import OurTeam from "./Components/OurTeam/OurTeam";
@@ -23,6 +24,7 @@ const App = () => {
     <BrowserRouter>
       <Routes>
         <Route element={<MainLayout/>}>
+        
         <Route path="/" element={<Dashboard/>}/>
         <Route path="/admin/lead" element={<Lead />} />
         <Route path="/admin/our-team" element={<OurTeam/>}/>
@@ -44,6 +46,13 @@ const App = () => {
 
 
 
+          <Route path="admin/contact-us" element={<ContactUs/>}/>
+        <Route path="/admin/testimonial" element={<Testimonial/>}/>
+        <Route path="/admin/blog-management" element={<BlogManagement/>}/>
+        <Route path="/admin/blog-posting" element={<Blog />} />
+          <Route path="/admin/shop" element={<Shop />} />
+          <Route path="/admin/all-products" element={<AllProduct/>}/>
+          <Route path="/admin/add-product" element={<AddProduct/>}/>
         </Route>
       </Routes>
     </BrowserRouter>
