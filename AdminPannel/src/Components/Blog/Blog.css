@@ -1,0 +1,339 @@
+/* Blog.css */
+
+/* --- Main Layout: 50% - 50% & Responsive --- */
+.Blog {
+  padding: 20px;
+  background-color: #f6f8fa; /* Main page background */
+  min-height: 100vh;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+.Blog__container {
+  display: flex;
+  gap: 20px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* Tablet (Portrait) Breakpoint - stack columns */
+@media (max-width: 1024px) {
+  .Blog__container {
+    flex-direction: column;
+  }
+}
+
+/* Mobile Breakpoint - stack columns and reduce padding */
+@media (max-width: 768px) {
+  .Blog {
+    padding: 10px;
+  }
+}
+
+/* 50% for each section on large screens */
+.Blog__form-section,
+.Blog__table-section {
+  flex: 1; /* Each takes 50% of available space */
+  box-sizing: border-box;
+}
+
+/* --- FORM SECTION (Replicating Image Design) --- */
+.Blog__form-section {
+  padding: 10px; /* Slight offset for layout */
+}
+
+.Blog__form {
+  background-color: #ffffff; /* Card background like image */
+  border-radius: 10px;
+  padding: 30px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05); /* Subtle shadow for card look */
+}
+
+.Blog__heading {
+  color: #2663d3; /* Dark blue color from image */
+  font-size: 26px;
+  margin-top: 0;
+  margin-bottom: 30px;
+  font-weight: 600;
+}
+
+.Blog__field {
+  margin-bottom: 20px;
+}
+
+.Blog__field--upload {
+  margin-bottom: 25px;
+}
+
+.Blog__label {
+  display: block;
+  font-weight: bold;
+  text-transform: uppercase;
+  color: #555;
+  font-size: 13px;
+  letter-spacing: 0.5px;
+  margin-bottom: 8px;
+}
+
+/* Drag and Drop Box Design */
+.Blog__upload-box {
+  width: 100%;
+  height: 150px;
+  border: 2px dashed #b1c1d1; /* Grey dashed border from image */
+  border-radius: 8px;
+  background-color: #f1f5f9; /* Light grey background */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: border-color 0.2s, background-color 0.2s;
+  color: #6a7c93; /* Icon and text color */
+}
+
+
+
+.Blog__upload-icon {
+  font-size: 36px;
+  margin-bottom: 12px;
+}
+
+.Blog__upload-text {
+  font-size: 14px;
+}
+
+.Blog__upload-preview {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain; /* Keeps image aspect ratio within box */
+  border-radius: 5px;
+}
+
+.Blog__image-name {
+  font-size: 12px;
+  color: #777;
+  margin-top: 5px;
+}
+
+/* Generic Input (Title) */
+.Blog__input {
+  width: 100%;
+  padding: 12px 15px;
+  border: 1px solid #d1d9e2;
+  border-radius: 8px;
+  font-size: 15px;
+  background-color: #f9fbff; /* Slight color from image */
+  box-sizing: border-box; /* Ensures padding doesn't push width */
+  transition: border-color 0.2s;
+}
+
+.Blog__input:focus {
+  border-color: #3b82f6;
+  outline: none;
+}
+
+/* Input placeholder text */
+.Blog__input::placeholder {
+  color: #9db1c6;
+}
+
+/* Date Input */
+.Blog__input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.Blog__input--date {
+  position: relative;
+  width: 100%;
+  cursor: pointer;
+}
+
+/* Customize the native datepicker appearance */
+.Blog__input--date::-webkit-calendar-picker-indicator {
+  cursor: pointer;
+  background: transparent;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+/* Calendar icon inside date input */
+.Blog__date-icon {
+  position: absolute;
+  right: 15px;
+  font-size: 18px;
+  color: #9db1c6;
+  pointer-events: none; /* Icon shouldn't block click */
+}
+
+/* TinyMCE wrapper */
+.Blog__field--description {
+  margin-top: 25px;
+  margin-bottom: 30px;
+}
+
+/* Style the editor container for consistent border radius */
+.tox.tox-tinymce {
+  border-radius: 8px !important;
+  border-color: #d1d9e2 !important;
+}
+
+/* Submit Button */
+.Blog__submit-btn {
+  width: 100%;
+  padding: 14px;
+  background-color: #1240c9; /* Blue color from image */
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background-color 0.2s, transform 0.1s;
+  letter-spacing: 0.5px;
+}
+
+.Blog__submit-btn:hover {
+  background-color: #0e32aa;
+}
+
+.Blog__submit-btn:active {
+  transform: translateY(1px);
+}
+
+/* Cancel Edit Button */
+.Blog__cancel-btn {
+  width: 100%;
+  margin-top: 10px;
+  padding: 10px;
+  background-color: transparent;
+  color: #888;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  font-size: 14px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.Blog__cancel-btn:hover {
+  color: #e11d48;
+}
+
+/* --- TABLE SECTION --- */
+.Blog__table-section {
+  padding: 10px;
+}
+
+.Blog__sub-heading {
+  font-size: 20px;
+  color: #2663d3;
+  margin-top: 0;
+  margin-bottom: 20px;
+  font-weight: 600;
+}
+
+.Blog__table-wrapper {
+  background-color: #ffffff;
+  border-radius: 10px;
+  padding: 25px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+  overflow-x: auto; /* Handles horizontal scroll for small screens */
+}
+
+.Blog__table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.Blog__table thead th {
+  background-color: #f1f5f9;
+  text-align: left;
+  padding: 12px 15px;
+  color: #023e8b;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border-bottom: 2px solid #e2e8f0;
+}
+
+.Blog__table tbody tr {
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.Blog__table tbody td {
+  padding: 15px;
+  color: #4a5568;
+  vertical-align: middle;
+}
+
+/* Specific Table Column Widths/Styles */
+.Blog__table-preview {
+  width: 50px;
+  height: 50px;
+  border-radius: 5px;
+  object-fit: cover; /* Crops image cleanly */
+  display: block;
+}
+
+.Blog__td--image {
+  width: 60px;
+}
+
+.Blog__td--title {
+  font-weight: 500;
+  color: #2d3748;
+}
+
+.Blog__td--description {
+  max-width: 250px; /* Limits description column width */
+}
+
+/* Center and reduce width of actions column */
+.Blog__td--actions {
+  width: 100px;
+  text-align: center;
+  white-space: nowrap; /* Keep buttons together */
+}
+
+/* Action Buttons (Edit/Delete) */
+.Blog__action-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border: 1px solid #d1d9e2;
+  background-color: transparent;
+  border-radius: 6px;
+  margin: 0 3px;
+  cursor: pointer;
+  transition: border-color 0.2s, background-color 0.2s;
+  color: #888;
+  font-size: 15px;
+}
+
+.Blog__action-btn:hover {
+  background-color: #f1f5f9;
+}
+
+.Blog__action-btn--edit:hover {
+  border-color: #3b82f6;
+  color: #3b82f6;
+}
+
+.Blog__action-btn--delete:hover {
+  border-color: #e11d48;
+  color: #e11d48;
+}
+
+.Blog__no-data {
+  text-align: center;
+  color: #888;
+  padding: 30px !important;
+  font-style: italic;
+}
