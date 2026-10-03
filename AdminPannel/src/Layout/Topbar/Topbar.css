@@ -1,219 +1,96 @@
 /* =========================================================
-   PALASH ESSENCE
-   PREMIUM GOLD + DARK SPICE TOPBAR
+   HEALTHY HEAVEN - PREMIUM TOPBAR THEME
 ========================================================= */
 
 :root {
-  --topbar-bg: #181008;
+  --topbar-bg: rgba(255, 255, 255, 0.94);
+  --topbar-border: #e5eee8;
 
-  --topbar-bg-light: #21150b;
+  --primary-green: #08784a;
+  --primary-green-dark: #045b38;
+  --primary-green-hover: #0a9155;
+  --primary-green-light: #eaf8ef;
+  --primary-green-soft: #f4fbf6;
 
-  --topbar-border:
-    rgba(218, 164, 65, 0.15);
+  --text-main: #12372b;
+  --text-muted: #6d8278;
+  --text-soft: #91a29a;
 
-  --gold: #d9a441;
-
-  --gold-light: #f5d477;
-
-  --gold-bright: #ffd978;
-
-  --gold-dark: #9a681b;
-
-  --gold-bg:
-    rgba(218, 164, 65, 0.11);
-
-  --gold-glow:
-    rgba(218, 164, 65, 0.3);
-
-  --text-main: #fff8e7;
-
-  --text-muted:
-    rgba(255, 244, 214, 0.68);
-
-  --surface: #24170c;
-
-  --surface-hover: #2d1c0d;
-
-  --dropdown-bg: #1b1008;
-
-  --danger: #e87952;
-
-  --topbar-height: 64px;
+  --danger: #ef4444;
+  --success: #16a66a;
 
   --shadow-sm:
-    0 2px 8px rgba(0, 0, 0, 0.28);
+    0 2px 8px rgba(0, 72, 45, 0.06);
 
   --shadow-md:
-    0 22px 45px rgba(0, 0, 0, 0.58),
-    0 8px 18px rgba(0, 0, 0, 0.32);
+    0 12px 30px rgba(0, 73, 46, 0.11),
+    0 4px 10px rgba(0, 0, 0, 0.035);
+
+  --shadow-green:
+    0 8px 22px rgba(8, 120, 74, 0.14);
 }
 
-
 /* =========================================================
-   BOX SIZING
-========================================================= */
-
-.Topbar,
-.Topbar *,
-.Topbar *::before,
-.Topbar *::after {
-  box-sizing: border-box;
-}
-
-
-/* =========================================================
-   TOPBAR
+   MAIN TOPBAR
 ========================================================= */
 
 .Topbar {
-  position: fixed;
-
-  top: 0;
-
-  left:
-    var(--sidebar-width, 275px);
-
-  right: 0;
-
-  z-index: 90;
-
-  height:
-    var(--topbar-height);
+  height: 70px;
 
   background:
     linear-gradient(
       180deg,
-      #21150b 0%,
-      #181008 100%
+      rgba(255, 255, 255, 0.98),
+      rgba(250, 253, 251, 0.96)
     );
+
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
 
   border-bottom:
     1px solid var(--topbar-border);
 
-  padding-left:
-    max(
-      20px,
-      env(safe-area-inset-left)
-    );
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 
-  padding-right:
-    max(
-      20px,
-      env(safe-area-inset-right)
-    );
+  padding: 0 25px;
 
-  box-shadow:
-    0 8px 28px rgba(0, 0, 0, 0.24);
-
-  transition:
-    left 0.3s
-    cubic-bezier(0.4, 0, 0.2, 1);
-
-  isolation: isolate;
-}
-
-
-/* =========================================================
-   TOP GOLD LINE
-========================================================= */
-
-.Topbar::before {
-  content: "";
-
-  position: absolute;
-
-  left: 0;
-  right: 0;
-
+  position: sticky;
   top: 0;
 
-  height: 1px;
+  z-index: 90;
 
-  background:
-    linear-gradient(
-      90deg,
-      transparent 0%,
-      rgba(218, 164, 65, 0.12) 15%,
-      rgba(245, 212, 119, 0.65) 50%,
-      rgba(218, 164, 65, 0.12) 85%,
-      transparent 100%
-    );
+  transition:
+    all 0.25s ease;
 
-  pointer-events: none;
+  box-shadow:
+    0 3px 18px rgba(0, 67, 42, 0.035);
 }
 
-
-/* =========================================================
-   SUBTLE BACKGROUND GLOW
-========================================================= */
+/* subtle green line */
 
 .Topbar::after {
   content: "";
 
   position: absolute;
 
-  width: 300px;
+  left: 0;
+  right: 0;
+  bottom: -1px;
 
-  height: 80px;
-
-  left: 15%;
-
-  top: -55px;
+  height: 1px;
 
   background:
-    radial-gradient(
-      ellipse,
-      rgba(218, 164, 65, 0.12),
-      transparent 70%
+    linear-gradient(
+      90deg,
+      transparent,
+      rgba(21, 166, 91, 0.22),
+      transparent
     );
 
-  filter: blur(10px);
-
-  pointer-events: none;
-
-  z-index: -1;
-}
-
-
-/* =========================================================
-   SPACER
-========================================================= */
-
-.Topbar-spacer {
-  height:
-    var(--topbar-height);
-
-  width: 100%;
-
-  flex-shrink: 0;
-}
-
-
-/* =========================================================
-   INNER
-========================================================= */
-
-.Topbar-inner {
-  height: 100%;
-
-  display: flex;
-
-  align-items: center;
-
-  justify-content: space-between;
-
-  gap: 16px;
-
-  transition:
-    opacity 0.15s ease;
-}
-
-.Topbar-inner.is-hidden {
-  opacity: 0;
-
   pointer-events: none;
 }
-
 
 /* =========================================================
    LEFT / RIGHT
@@ -222,85 +99,122 @@
 .Topbar-left,
 .Topbar-right {
   display: flex;
-
   align-items: center;
 
-  gap: 11px;
-
-  min-width: 0;
+  gap: 14px;
 }
-
-.Topbar-right {
-  position: relative;
-
-  flex-shrink: 0;
-}
-
 
 /* =========================================================
    SIDEBAR TOGGLE
 ========================================================= */
 
 .Topbar-toggle-btn {
-  width: 39px;
-
-  height: 39px;
-
-  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
 
   display: flex;
-
   align-items: center;
-
   justify-content: center;
-
-  border-radius: 10px;
-
-  border:
-    1px solid
-    rgba(218, 164, 65, 0.16);
 
   background:
     linear-gradient(
       145deg,
-      #2a1a0d,
-      #1b1008
+      #ffffff,
+      #f4faf6
     );
 
+  border:
+    1px solid #dcebe3;
+
   color:
-    rgba(255, 244, 214, 0.72);
+    var(--primary-green);
 
   cursor: pointer;
 
-  box-shadow:
-    var(--shadow-sm);
+  border-radius: 11px;
 
   transition:
     all 0.22s ease;
+
+  box-shadow:
+    var(--shadow-sm);
 }
 
 .Topbar-toggle-btn:hover {
-  color:
-    var(--gold-light);
+  background:
+    var(--primary-green);
+
+  color: #ffffff;
 
   border-color:
-    rgba(218, 164, 65, 0.38);
-
-  background:
-    linear-gradient(
-      145deg,
-      #35210e,
-      #211309
-    );
-
-  box-shadow:
-    0 5px 14px rgba(0, 0, 0, 0.3),
-    0 0 12px rgba(218, 164, 65, 0.08);
+    var(--primary-green);
 
   transform:
     translateY(-1px);
+
+  box-shadow:
+    var(--shadow-green);
 }
 
+.Topbar-toggle-btn:active {
+  transform:
+    translateY(0)
+    scale(0.97);
+}
+
+/* =========================================================
+   BREADCRUMB
+========================================================= */
+
+.Topbar-path {
+  display: flex;
+  align-items: center;
+
+  gap: 8px;
+
+  font-size: 13px;
+  font-weight: 500;
+
+  letter-spacing: 0.1px;
+}
+
+.Topbar-path-parent {
+  color:
+    var(--text-muted);
+
+  font-weight: 700;
+
+  font-size: 10px;
+
+  letter-spacing: 0.7px;
+
+  text-transform: uppercase;
+
+  background:
+    var(--primary-green-soft);
+
+  border:
+    1px solid #e4f1e8;
+
+  padding:
+    4px 9px;
+
+  border-radius: 7px;
+}
+
+.Topbar-path-separator {
+  color:
+    #c4d5cc;
+}
+
+.Topbar-path-current {
+  color:
+    var(--primary-green);
+
+  font-weight: 700;
+
+  text-transform: capitalize;
+}
 
 /* =========================================================
    SEARCH
@@ -310,108 +224,103 @@
   position: relative;
 
   display: flex;
-
   align-items: center;
 }
 
 .Topbar-search-icon {
   position: absolute;
 
-  left: 14px;
+  left: 15px;
 
   color:
-    rgba(255, 244, 214, 0.48);
+    #89a096;
 
   pointer-events: none;
 
   transition:
-    color 0.2s ease;
+    color 0.2s ease,
+    transform 0.2s ease;
 }
 
 .Topbar-search-input {
-  width:
-    clamp(190px, 24vw, 300px);
+  width: 250px;
 
-  height: 39px;
+  height: 40px;
 
   background:
-    linear-gradient(
-      145deg,
-      #2a1a0d,
-      #1e1209
-    );
+    #f5faf7;
 
   border:
-    1px solid
-    rgba(218, 164, 65, 0.14);
+    1px solid #dfebe4;
 
   padding:
-    9px 62px 9px 39px;
+    8px 48px 8px 41px;
 
-  border-radius: 21px;
+  border-radius: 12px;
 
   outline: none;
 
-  font-size: 13px;
+  font-size: 12.5px;
+
+  font-weight: 500;
 
   color:
     var(--text-main);
 
-  font-family: inherit;
-
   transition:
     all 0.25s ease;
 
-  box-shadow:
-    inset 0 1px 0
-    rgba(255, 255, 255, 0.025);
+  box-sizing: border-box;
 }
 
 .Topbar-search-input::placeholder {
   color:
-    rgba(255, 244, 214, 0.4);
+    #8ca097;
+}
+
+.Topbar-search-input:hover {
+  background:
+    #ffffff;
+
+  border-color:
+    #cce0d5;
 }
 
 .Topbar-search-input:focus {
-  width:
-    clamp(210px, 27vw, 320px);
-
-  border-color:
-    rgba(218, 164, 65, 0.55);
+  width: 290px;
 
   background:
-    #2a1a0d;
+    #ffffff;
+
+  border-color:
+    var(--primary-green);
 
   box-shadow:
     0 0 0 4px
-    rgba(218, 164, 65, 0.08),
-    0 6px 18px rgba(0, 0, 0, 0.22);
-}
-
-.Topbar-search-input:focus
-  ~ .Topbar-search-shortcut {
-  border-color:
-    rgba(218, 164, 65, 0.3);
-
-  color:
-    var(--gold-light);
+    rgba(8, 120, 74, 0.09);
 }
 
 .Topbar-search-box:focus-within
   .Topbar-search-icon {
   color:
-    var(--gold-light);
+    var(--primary-green);
+
+  transform:
+    scale(1.05);
 }
-
-
-/* =========================================================
-   SEARCH SHORTCUT
-========================================================= */
 
 .Topbar-search-shortcut {
   position: absolute;
 
-  right: 11px;
+  right: 10px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  min-width: 27px;
+
+  height: 22px;
 
   font-size: 9px;
 
@@ -419,185 +328,160 @@
 
   font-weight: 700;
 
-  letter-spacing: 0.03em;
-
   color:
-    rgba(255, 244, 214, 0.4);
+    #789087;
 
   background:
-    rgba(255, 244, 214, 0.05);
+    #ffffff;
 
   border:
-    1px solid
-    rgba(255, 244, 214, 0.09);
+    1px solid #dfeae4;
 
   padding:
-    3px 6px;
+    1px 5px;
 
-  border-radius: 5px;
+  border-radius: 6px;
 
   pointer-events: none;
+
+  box-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.03);
 }
 
+/* =========================================================
+   ACTION AREA
+========================================================= */
+
+.Topbar-action-wrapper {
+  display: flex;
+  align-items: center;
+
+  gap: 9px;
+
+  position: relative;
+}
 
 /* =========================================================
    ACTION BUTTON
 ========================================================= */
 
 .Topbar-action-btn {
-  width: 38px;
-
-  height: 38px;
-
-  position: relative;
-
-  flex-shrink: 0;
-
-  display: flex;
-
-  align-items: center;
-
-  justify-content: center;
-
-  border-radius: 10px;
-
-  border:
-    1px solid
-    rgba(218, 164, 65, 0.14);
+  width: 39px;
+  height: 39px;
 
   background:
-    linear-gradient(
-      145deg,
-      #2a1a0d,
-      #1b1008
-    );
+    #ffffff;
+
+  border:
+    1px solid #dfebe4;
 
   color:
-    rgba(255, 244, 214, 0.68);
+    #577066;
 
   cursor: pointer;
 
-  box-shadow:
-    var(--shadow-sm);
+  position: relative;
+
+  border-radius: 11px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
   transition:
-    all 0.22s ease;
+    all 0.2s ease;
+
+  box-shadow:
+    var(--shadow-sm);
 }
 
 .Topbar-action-btn:hover,
 .Topbar-action-btn.active {
   color:
-    var(--gold-light);
-
-  border-color:
-    rgba(218, 164, 65, 0.4);
+    var(--primary-green);
 
   background:
-    linear-gradient(
-      145deg,
-      #35210e,
-      #24160b
-    );
+    var(--primary-green-light);
+
+  border-color:
+    #bfe2ce;
 
   box-shadow:
-    0 5px 15px rgba(0, 0, 0, 0.3),
-    0 0 14px
-    rgba(218, 164, 65, 0.08);
+    0 5px 15px rgba(8, 120, 74, 0.09);
+
+  transform:
+    translateY(-1px);
 }
 
+.Topbar-action-btn:active {
+  transform:
+    scale(0.96);
+}
 
 /* =========================================================
-   BADGE
+   NOTIFICATION BADGE
 ========================================================= */
 
 .Topbar-badge {
   position: absolute;
 
   top: -4px;
-
   right: -4px;
-
-  min-width: 17px;
-
-  height: 17px;
-
-  display: flex;
-
-  align-items: center;
-
-  justify-content: center;
-
-  padding: 0 4px;
-
-  border-radius: 50%;
-
-  border:
-    2px solid
-    var(--topbar-bg);
 
   background:
     linear-gradient(
       135deg,
-      #f7d879,
-      #c88c27
+      #ff5b61,
+      #dc2626
     );
 
-  color:
-    #241707;
+  color: #ffffff;
 
   font-size: 9px;
 
-  font-weight: 900;
+  font-weight: 800;
 
-  box-shadow:
-    0 2px 7px
-    rgba(218, 164, 65, 0.4);
-}
+  height: 18px;
+  min-width: 18px;
 
-
-/* =========================================================
-   ACTION WRAPPER
-========================================================= */
-
-.Topbar-action-wrapper {
-  position: relative;
+  padding: 0 4px;
 
   display: flex;
-
   align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  border:
+    2px solid #ffffff;
+
+  box-shadow:
+    0 3px 7px rgba(220, 38, 38, 0.25);
 }
 
-
 /* =========================================================
-   USER
+   USER CARD
 ========================================================= */
 
 .Topbar-user {
-  min-height: 42px;
-
   display: flex;
-
   align-items: center;
 
-  gap: 9px;
+  gap: 10px;
+
+  cursor: pointer;
 
   padding:
     4px 9px 4px 5px;
 
-  margin-left: 2px;
-
-  border-radius: 25px;
-
-  border:
-    1px solid transparent;
+  border-radius: 30px;
 
   position: relative;
 
-  cursor: pointer;
-
   user-select: none;
 
-  flex-shrink: 0;
+  border:
+    1px solid transparent;
 
   transition:
     all 0.22s ease;
@@ -606,16 +490,14 @@
 .Topbar-user:hover,
 .Topbar-user.active {
   background:
-    rgba(218, 164, 65, 0.07);
+    #ffffff;
 
   border-color:
-    rgba(218, 164, 65, 0.16);
+    #deebe4;
 
   box-shadow:
-    0 4px 14px
-    rgba(0, 0, 0, 0.25);
+    var(--shadow-sm);
 }
-
 
 /* =========================================================
    AVATAR
@@ -625,187 +507,153 @@
   position: relative;
 
   display: flex;
-
-  flex-shrink: 0;
 }
 
 .Topbar-avatar {
-  width: 34px;
-
-  height: 34px;
+  width: 38px;
+  height: 38px;
 
   border-radius: 50%;
 
   object-fit: cover;
 
   border:
-    2px solid
-    rgba(218, 164, 65, 0.55);
+    2px solid #d9f0e2;
+
+  background:
+    #eaf8ef;
 
   box-shadow:
-    0 0 0 2px
-    rgba(218, 164, 65, 0.08);
-
-  transition:
-    border-color 0.2s ease,
-    box-shadow 0.2s ease;
+    0 3px 10px rgba(0, 78, 48, 0.08);
 }
-
-.Topbar-user:hover
-  .Topbar-avatar,
-.Topbar-user.active
-  .Topbar-avatar {
-  border-color:
-    var(--gold-light);
-
-  box-shadow:
-    0 0 0 3px
-    rgba(218, 164, 65, 0.08),
-    0 4px 12px
-    rgba(0, 0, 0, 0.3);
-}
-
-
-/* =========================================================
-   ONLINE STATUS
-========================================================= */
 
 .Topbar-status-indicator {
   position: absolute;
 
-  right: -1px;
-
   bottom: 0;
+  right: 0;
 
   width: 9px;
-
   height: 9px;
+
+  background:
+    #19b86a;
+
+  border:
+    2px solid #ffffff;
 
   border-radius: 50%;
 
-  background:
-    #d9a441;
-
-  border:
-    2px solid
-    var(--topbar-bg);
-
   box-shadow:
-    0 0 7px
-    rgba(218, 164, 65, 0.45);
+    0 0 0 1px rgba(25, 184, 106, 0.1);
 }
 
-
 /* =========================================================
-   USER INFO
+   USER INFORMATION
 ========================================================= */
 
 .Topbar-user-info {
   display: flex;
-
   flex-direction: column;
 
   line-height: 1.25;
 
-  white-space: nowrap;
+  min-width: 80px;
 }
 
 .Topbar-username {
-  color:
-    var(--text-main);
-
-  font-size: 13px;
+  font-size: 12.5px;
 
   font-weight: 700;
+
+  color:
+    var(--text-main);
 }
 
 .Topbar-role {
-  margin-top: 2px;
-
-  color:
-    rgba(255, 244, 214, 0.43);
-
   font-size: 10px;
 
-  font-weight: 600;
+  color:
+    var(--text-muted);
 
-  text-transform: uppercase;
+  font-weight: 500;
 
-  letter-spacing: 0.07em;
+  margin-top: 2px;
 }
-
-
-/* =========================================================
-   CHEVRON
-========================================================= */
 
 .Topbar-chevron {
   color:
-    rgba(255, 244, 214, 0.45);
-
-  flex-shrink: 0;
+    #789087;
 
   transition:
     transform 0.25s ease,
     color 0.2s ease;
 }
 
+.Topbar-user:hover
+  .Topbar-chevron {
+  color:
+    var(--primary-green);
+}
+
 .Topbar-chevron.open {
   transform:
     rotate(180deg);
-
-  color:
-    var(--gold-light);
 }
 
+/* =========================================================
+   VERTICAL DIVIDER
+========================================================= */
+
+.Topbar-right::before {
+  content: "";
+
+  width: 1px;
+  height: 27px;
+
+  background:
+    #e2ece6;
+
+  margin-right: 2px;
+}
 
 /* =========================================================
-   DROPDOWN
+   UNIVERSAL DROPDOWN
 ========================================================= */
 
 .Topbar-dropdown {
   position: absolute;
 
-  top:
-    calc(100% + 10px);
-
-  right: -3px;
-
-  width:
-    min(280px, calc(100vw - 30px));
-
-  padding: 7px;
-
-  display: flex;
-
-  flex-direction: column;
-
-  border-radius: 13px;
-
-  border:
-    1px solid
-    rgba(218, 164, 65, 0.18);
+  top: 49px;
+  right: 0;
 
   background:
-    linear-gradient(
-      160deg,
-      #25170c 0%,
-      #170d07 100%
-    );
+    rgba(255, 255, 255, 0.98);
 
-  color:
-    var(--text-main);
+  border:
+    1px solid #dfebe4;
+
+  border-radius: 14px;
 
   box-shadow:
-    var(--shadow-md);
+    0 18px 45px rgba(0, 68, 43, 0.13),
+    0 4px 12px rgba(0, 0, 0, 0.04);
+
+  padding: 6px;
+
+  display: flex;
+  flex-direction: column;
 
   z-index: 100;
 
   animation:
-    topbarDropdownSlide
-    0.2s ease-out;
+    topbarDropdownSlide 0.2s ease-out;
 
-  overflow: hidden;
+  backdrop-filter:
+    blur(14px);
+
+  -webkit-backdrop-filter:
+    blur(14px);
 }
 
 @keyframes topbarDropdownSlide {
@@ -813,8 +661,8 @@
     opacity: 0;
 
     transform:
-      translateY(-7px)
-      scale(0.98);
+      translateY(-8px)
+      scale(0.97);
   }
 
   to {
@@ -826,113 +674,168 @@
   }
 }
 
-
 /* =========================================================
-   DROPDOWN TOP GOLD LINE
+   USER DROPDOWN
 ========================================================= */
 
-.Topbar-dropdown::before {
-  content: "";
+.Topbar-user-dropdown {
+  width: 225px;
+}
 
-  position: absolute;
-
-  left: 20px;
-  right: 20px;
-
-  top: 0;
-
-  height: 1px;
+.Topbar-user-card {
+  padding:
+    10px 11px;
 
   background:
     linear-gradient(
-      90deg,
-      transparent,
-      rgba(245, 212, 119, 0.5),
-      transparent
+      135deg,
+      #f2fbf5,
+      #ffffff
     );
+
+  border-radius: 10px;
+
+  margin-bottom: 4px;
 }
 
+.Topbar-card-name {
+  font-size: 13px;
+
+  font-weight: 700;
+
+  color:
+    var(--text-main);
+
+  margin: 0;
+}
+
+.Topbar-card-email {
+  font-size: 10.5px;
+
+  color:
+    var(--text-muted);
+
+  margin:
+    3px 0 0;
+
+  word-break: break-all;
+}
 
 /* =========================================================
-   DROPDOWN HEADER
+   DROPDOWN ITEMS
 ========================================================= */
 
-.Topbar-dropdown-header {
+.Topbar-dropdown-item {
   display: flex;
-
   align-items: center;
-
-  justify-content: space-between;
 
   gap: 10px;
 
   padding:
-    9px 9px 10px;
+    9px 11px;
 
-  border-bottom:
-    1px solid
-    rgba(218, 164, 65, 0.1);
-}
+  font-size: 12px;
 
-.Topbar-dropdown-title-wrap {
-  display: flex;
-
-  align-items: center;
-
-  gap: 7px;
+  font-weight: 600;
 
   color:
-    var(--gold-light);
+    var(--text-main);
+
+  text-decoration: none;
+
+  border-radius: 9px;
+
+  transition:
+    all 0.15s ease;
+}
+
+.Topbar-dropdown-item:hover {
+  background:
+    var(--primary-green-light);
+
+  color:
+    var(--primary-green);
+
+  transform:
+    translateX(2px);
+}
+
+.Topbar-dropdown-item.logout {
+  color:
+    #ef4444;
+}
+
+.Topbar-dropdown-item.logout:hover {
+  background:
+    #fff1f1;
+
+  color:
+    #dc2626;
+}
+
+.Topbar-dropdown-divider {
+  height: 1px;
+
+  background:
+    #edf3ef;
+
+  margin:
+    4px 0;
+}
+
+/* =========================================================
+   NOTIFICATION DROPDOWN
+========================================================= */
+
+.Topbar-notifications-dropdown {
+  width: 300px;
+
+  padding: 12px;
+}
+
+.Topbar-dropdown-header {
+  display: flex;
+
+  justify-content: space-between;
+  align-items: center;
+
+  padding:
+    2px 2px 10px;
+
+  border-bottom:
+    1px solid #edf3ef;
+
+  margin-bottom: 7px;
 }
 
 .Topbar-dropdown-title {
   font-size: 13px;
 
   font-weight: 800;
+
+  color:
+    var(--text-main);
 }
 
 .Topbar-dropdown-badge {
+  font-size: 9px;
+
+  background:
+    var(--primary-green-light);
+
+  color:
+    var(--primary-green);
+
+  font-weight: 800;
+
   padding:
     3px 7px;
 
-  border-radius: 10px;
-
-  color:
-    var(--gold-light);
-
-  background:
-    rgba(218, 164, 65, 0.1);
-
-  border:
-    1px solid
-    rgba(218, 164, 65, 0.12);
-
-  font-size: 9px;
-
-  font-weight: 700;
+  border-radius: 20px;
 }
-
 
 /* =========================================================
-   NOTIFICATION LIST
-========================================================= */
-
-.Topbar-notifications-dropdown {
-  width:
-    min(310px, calc(100vw - 30px));
-
-  padding: 8px;
-}
-
-.Topbar-notification-list {
-  max-height: 320px;
-
-  overflow-y: auto;
-}
-
-
-/* =========================================================
-   NOTIFICATION ITEM
+   NOTIFICATION ITEMS
 ========================================================= */
 
 .Topbar-notification-item {
@@ -940,651 +843,196 @@
 
   gap: 10px;
 
-  padding:
-    10px 8px;
+  padding: 9px;
 
   border-radius: 9px;
 
   transition:
-    background 0.18s ease;
+    background-color 0.15s ease;
 }
 
 .Topbar-notification-item:hover {
   background:
-    rgba(218, 164, 65, 0.07);
+    #f5faf7;
 }
 
-
-/* =========================================================
-   NOTIFICATION ICON
-========================================================= */
-
-.Topbar-notification-icon {
-  width: 32px;
-
-  height: 32px;
-
-  flex:
-    0 0 32px;
-
-  display: flex;
-
-  align-items: center;
-
-  justify-content: center;
-
-  border-radius: 9px;
-}
-
-.Topbar-notification-icon.order {
-  color:
-    var(--gold-light);
+.Topbar-notification-dot {
+  width: 7px;
+  height: 7px;
 
   background:
-    rgba(218, 164, 65, 0.1);
-}
-
-.Topbar-notification-icon.review {
-  color:
-    #f2c76b;
-
-  background:
-    rgba(242, 199, 107, 0.09);
-}
-
-.Topbar-notification-icon.message {
-  color:
-    #e8bd5d;
-
-  background:
-    rgba(232, 189, 93, 0.09);
-}
-
-
-/* =========================================================
-   NOTIFICATION CONTENT
-========================================================= */
-
-.Topbar-notification-content {
-  min-width: 0;
-
-  flex: 1;
-}
-
-.Topbar-notification-text {
-  margin: 0;
-
-  color:
-    rgba(255, 244, 214, 0.78);
-
-  font-size: 11.5px;
-
-  line-height: 1.5;
-}
-
-.Topbar-notification-text strong {
-  color:
-    var(--gold-light);
-}
-
-.Topbar-notification-time {
-  display: block;
-
-  margin-top: 3px;
-
-  color:
-    rgba(255, 244, 214, 0.34);
-
-  font-size: 9.5px;
-}
-
-
-/* =========================================================
-   VIEW ALL
-========================================================= */
-
-.Topbar-view-all {
-  margin-top: 4px;
-
-  padding:
-    9px;
-
-  text-align: center;
-
-  color:
-    var(--gold-light);
-
-  border-top:
-    1px solid
-    rgba(218, 164, 65, 0.1);
-
-  font-size: 10px;
-
-  font-weight: 700;
-
-  cursor: pointer;
-
-  transition:
-    background 0.18s ease;
-}
-
-.Topbar-view-all:hover {
-  background:
-    rgba(218, 164, 65, 0.06);
-}
-
-
-/* =========================================================
-   USER DROPDOWN
-========================================================= */
-
-.Topbar-user-dropdown {
-  width:
-    min(250px, calc(100vw - 30px));
-}
-
-
-/* =========================================================
-   USER CARD
-========================================================= */
-
-.Topbar-user-card {
-  display: flex;
-
-  align-items: center;
-
-  gap: 10px;
-
-  padding:
-    9px 8px;
-}
-
-.Topbar-user-card-avatar {
-  width: 40px;
-
-  height: 40px;
-
-  flex:
-    0 0 40px;
+    var(--primary-green);
 
   border-radius: 50%;
 
-  overflow: hidden;
-
-  border:
-    1px solid
-    rgba(218, 164, 65, 0.3);
-}
-
-.Topbar-user-card-avatar img {
-  width: 100%;
-
-  height: 100%;
-
-  object-fit: cover;
-}
-
-.Topbar-user-card-details {
-  min-width: 0;
-}
-
-.Topbar-card-name {
-  margin: 0;
-
-  color:
-    var(--text-main);
-
-  font-size: 13px;
-
-  font-weight: 800;
-
-  white-space: nowrap;
-
-  overflow: hidden;
-
-  text-overflow: ellipsis;
-}
-
-.Topbar-card-email {
-  margin:
-    3px 0 0;
-
-  color:
-    rgba(255, 244, 214, 0.4);
-
-  font-size: 10px;
-
-  word-break: break-all;
-}
-
-
-/* =========================================================
-   DIVIDER
-========================================================= */
-
-.Topbar-dropdown-divider {
-  height: 1px;
-
-  margin:
-    4px 2px;
-
-  background:
-    rgba(218, 164, 65, 0.1);
-}
-
-
-/* =========================================================
-   DROPDOWN ITEM
-========================================================= */
-
-.Topbar-dropdown-item {
-  display: flex;
-
-  align-items: center;
-
-  gap: 10px;
-
-  padding:
-    10px 11px;
-
-  color:
-    rgba(255, 244, 214, 0.72);
-
-  font-size: 12px;
-
-  font-weight: 600;
-
-  text-decoration: none;
-
-  border-radius: 8px;
-
-  transition:
-    all 0.18s ease;
-}
-
-.Topbar-dropdown-item svg {
-  color:
-    rgba(218, 164, 65, 0.65);
+  margin-top: 5px;
 
   flex-shrink: 0;
-
-  transition:
-    color 0.18s ease;
-}
-
-.Topbar-dropdown-item:hover {
-  color:
-    var(--gold-light);
-
-  background:
-    rgba(218, 164, 65, 0.08);
-
-  padding-left: 14px;
-}
-
-.Topbar-dropdown-item:hover svg {
-  color:
-    var(--gold-light);
-}
-
-
-/* =========================================================
-   LOGOUT
-========================================================= */
-
-.Topbar-dropdown-item.logout {
-  color:
-    #e9a083;
-}
-
-.Topbar-dropdown-item.logout svg {
-  color:
-    #d77d5d;
-}
-
-.Topbar-dropdown-item.logout:hover {
-  color:
-    #f09a78;
-
-  background:
-    rgba(217, 100, 65, 0.08);
-}
-
-
-/* =========================================================
-   MOBILE SEARCH BUTTON
-========================================================= */
-
-.Topbar-mobile-search-btn {
-  display: none;
-}
-
-
-/* =========================================================
-   MOBILE SEARCH OVERLAY
-========================================================= */
-
-.Topbar-mobile-search-overlay {
-  position: absolute;
-
-  inset: 0;
-
-  display: flex;
-
-  align-items: center;
-
-  gap: 9px;
-
-  padding:
-    0 max(
-      14px,
-      env(safe-area-inset-left)
-    );
-
-  background:
-    linear-gradient(
-      180deg,
-      #21150b,
-      #181008
-    );
-
-  animation:
-    topbarSearchSlide
-    0.18s ease-out;
-}
-
-.Topbar-mobile-search-overlay
-  .Topbar-search-icon {
-  position: static;
-
-  flex-shrink: 0;
-
-  color:
-    var(--gold-light);
-}
-
-.Topbar-mobile-search-input {
-  flex: 1;
-
-  min-width: 0;
-
-  height: 38px;
-
-  padding:
-    8px 14px;
-
-  border-radius: 20px;
-
-  border:
-    1px solid
-    rgba(218, 164, 65, 0.45);
-
-  outline: none;
-
-  background:
-    #2a1a0d;
-
-  color:
-    var(--text-main);
-
-  font-size: 13px;
-
-  font-family: inherit;
 
   box-shadow:
     0 0 0 3px
-    rgba(218, 164, 65, 0.06);
+    rgba(8, 120, 74, 0.08);
 }
 
-.Topbar-mobile-search-input::placeholder {
-  color:
-    rgba(255, 244, 214, 0.4);
-}
-
-.Topbar-mobile-search-close {
-  width: 36px;
-
-  height: 36px;
-
-  flex-shrink: 0;
-
-  display: flex;
-
-  align-items: center;
-
-  justify-content: center;
-
-  border-radius: 9px;
-
-  border:
-    1px solid
-    rgba(218, 164, 65, 0.16);
-
-  background:
-    #24170c;
+.Topbar-notification-text {
+  font-size: 11.5px;
 
   color:
-    rgba(255, 244, 214, 0.65);
+    var(--text-main);
 
-  cursor: pointer;
+  margin: 0;
 
-  transition:
-    all 0.2s ease;
+  line-height: 1.45;
 }
 
-.Topbar-mobile-search-close:hover {
+.Topbar-notification-time {
+  font-size: 9.5px;
+
   color:
-    var(--gold-light);
+    var(--text-muted);
 
-  border-color:
-    rgba(218, 164, 65, 0.35);
+  display: block;
+
+  margin-top: 3px;
 }
-
-@keyframes topbarSearchSlide {
-  from {
-    opacity: 0;
-
-    transform:
-      translateY(-4px);
-  }
-
-  to {
-    opacity: 1;
-
-    transform:
-      translateY(0);
-  }
-}
-
 
 /* =========================================================
-   FOCUS
-========================================================= */
-
-.Topbar-toggle-btn:focus-visible,
-.Topbar-action-btn:focus-visible,
-.Topbar-user:focus-visible,
-.Topbar-dropdown-item:focus-visible,
-.Topbar-mobile-search-close:focus-visible {
-  outline:
-    2px solid
-    var(--gold);
-
-  outline-offset: 2px;
-}
-
-
-/* =========================================================
-   TABLET
+   RESPONSIVE - TABLET
 ========================================================= */
 
 @media (max-width: 1024px) {
   .Topbar {
-    padding-left:
-      max(
-        16px,
-        env(safe-area-inset-left)
-      );
-
-    padding-right:
-      max(
-        16px,
-        env(safe-area-inset-right)
-      );
+    padding:
+      0 18px;
   }
 
   .Topbar-search-input {
-    width:
-      clamp(160px, 20vw, 230px);
+    width: 210px;
   }
 
-  .Topbar-user-info {
-    max-width: 110px;
-
-    overflow: hidden;
-
-    text-overflow: ellipsis;
-  }
-}
-
-
-/* =========================================================
-   MOBILE
-========================================================= */
-
-@media (max-width: 768px) {
-  .Topbar {
-    left: 0;
-
-    padding-left:
-      max(
-        12px,
-        env(safe-area-inset-left)
-      );
-
-    padding-right:
-      max(
-        12px,
-        env(safe-area-inset-right)
-      );
-  }
-
-  .Topbar-inner {
-    gap: 7px;
+  .Topbar-search-input:focus {
+    width: 240px;
   }
 
   .Topbar-left,
   .Topbar-right {
-    gap: 7px;
-  }
-
-  .Topbar-search-box {
-    display: none;
-  }
-
-  .Topbar-mobile-search-btn {
-    display: flex;
-  }
-
-  .Topbar-user-info {
-    display: none;
-  }
-
-  .Topbar-user {
-    padding: 4px;
-
-    margin-left: 0;
-  }
-
-  .Topbar-chevron {
-    display: none;
-  }
-
-  .Topbar-dropdown {
-    position: fixed;
-
-    top:
-      calc(
-        var(--topbar-height) + 8px
-      );
-
-    left: 10px;
-
-    right: 10px;
-
-    width: auto;
-  }
-
-  .Topbar-notification-list {
-    max-height: 45vh;
+    gap: 10px;
   }
 }
 
+/* =========================================================
+   RESPONSIVE - MOBILE
+========================================================= */
+
+@media (max-width: 768px) {
+  .Topbar {
+    height: 64px;
+
+    padding:
+      0 13px;
+  }
+
+  .Topbar-search-box,
+  .Topbar-user-info,
+  .Topbar-path {
+    display: none;
+  }
+
+  .Topbar-left,
+  .Topbar-right {
+    gap: 8px;
+  }
+
+  .Topbar-toggle-btn,
+  .Topbar-action-btn {
+    width: 37px;
+    height: 37px;
+
+    border-radius: 10px;
+  }
+
+  .Topbar-user {
+    padding:
+      3px 4px;
+  }
+
+  .Topbar-avatar {
+    width: 36px;
+    height: 36px;
+  }
+
+  .Topbar-right::before {
+    display: none;
+  }
+
+  .Topbar-user-dropdown {
+    right: -3px;
+
+    width: 220px;
+  }
+
+  .Topbar-notifications-dropdown {
+    right: -42px;
+
+    width: min(
+      300px,
+      calc(100vw - 25px)
+    );
+  }
+}
 
 /* =========================================================
    SMALL MOBILE
 ========================================================= */
 
 @media (max-width: 480px) {
-  :root {
-    --topbar-height: 58px;
+  .Topbar {
+    padding:
+      0 10px;
   }
 
-  .Topbar-fullscreen-btn {
-    display: none;
-  }
-
-  .Topbar-toggle-btn,
-  .Topbar-action-btn {
-    width: 35px;
-
-    height: 35px;
-
-    border-radius: 9px;
-  }
-
-  .Topbar-avatar {
-    width: 30px;
-
-    height: 30px;
-  }
-
-  .Topbar-status-indicator {
-    width: 8px;
-
-    height: 8px;
-  }
-
-  .Topbar-dropdown {
-    left: 7px;
-
-    right: 7px;
-  }
-}
-
-
-/* =========================================================
-   VERY SMALL MOBILE
-========================================================= */
-
-@media (max-width: 360px) {
-  .Topbar-left,
-  .Topbar-right {
+  .Topbar-action-wrapper {
     gap: 5px;
   }
 
   .Topbar-toggle-btn,
   .Topbar-action-btn {
-    width: 33px;
-
-    height: 33px;
+    width: 35px;
+    height: 35px;
   }
 
-  .Topbar-mobile-search-btn {
-    display: flex;
+  .Topbar-avatar {
+    width: 34px;
+    height: 34px;
+  }
+
+  .Topbar-badge {
+    top: -3px;
+    right: -3px;
+
+    min-width: 16px;
+    height: 16px;
+
+    font-size: 8px;
+  }
+
+  .Topbar-user-dropdown {
+    right: -4px;
   }
 }
 
+/* =========================================================
+   ACCESSIBILITY
+========================================================= */
+
+.Topbar button:focus-visible,
+.Topbar input:focus-visible,
+.Topbar a:focus-visible {
+  outline:
+    2px solid #3dc76b;
+
+  outline-offset: 2px;
+}
 
 /* =========================================================
    REDUCED MOTION
@@ -1592,31 +1040,11 @@
 
 @media (prefers-reduced-motion: reduce) {
   .Topbar,
-  .Topbar-inner,
-  .Topbar-dropdown,
-  .Topbar-mobile-search-overlay,
-  .Topbar-toggle-btn,
-  .Topbar-action-btn,
-  .Topbar-user,
-  .Topbar-chevron {
-    transition: none !important;
-
+  .Topbar *,
+  .Topbar *::before,
+  .Topbar *::after {
     animation: none !important;
-  }
-}
 
-
-/* =========================================================
-   TOUCH DEVICES
-========================================================= */
-
-@media (hover: none) and (pointer: coarse) {
-  .Topbar-toggle-btn:hover,
-  .Topbar-action-btn:hover {
-    transform: none;
-  }
-
-  .Topbar-dropdown-item:hover {
-    padding-left: 11px;
+    transition: none !important;
   }
 }

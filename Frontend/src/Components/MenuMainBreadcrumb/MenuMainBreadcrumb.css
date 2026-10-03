@@ -1,0 +1,259 @@
+/* =========================================================
+   MENU MAIN BREADCRUMB
+   ========================================================= */
+
+.MenuMainBreadcrumb {
+  position: relative;
+  width: 100%;
+  min-height: 40vh;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  overflow: hidden;
+
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+
+  isolation: isolate;
+}
+
+/* =========================================================
+   DARK IMAGE OVERLAY
+   ========================================================= */
+
+.MenuMainBreadcrumb__overlay {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+
+  background: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0.62) 0%,
+    rgba(0, 0, 0, 0.68) 50%,
+    rgba(0, 0, 0, 0.74) 100%
+  );
+
+  z-index: -1;
+  pointer-events: none;
+}
+
+/* =========================================================
+   MAIN CONTENT
+   ========================================================= */
+
+.MenuMainBreadcrumb__content {
+  position: relative;
+  z-index: 2;
+
+  width: 100%;
+  max-width: 1250px;
+
+  padding: 30px 20px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+/* =========================================================
+   PAGE TITLE
+   ========================================================= */
+
+.MenuMainBreadcrumb__title {
+  margin: 0;
+  color: #ffffff;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(34px, 4.2vw, 64px);
+  font-weight: 700;
+  font-style: italic;
+  line-height: 1.1;
+  letter-spacing: -1.5px;
+  text-shadow: 0 5px 18px rgba(0, 0, 0, 0.4);
+  user-select: none;
+
+  animation: MenuMainBreadcrumb__titleAnimation 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* =========================================================
+   BREADCRUMB BOX
+   ========================================================= */
+
+.MenuMainBreadcrumb__breadcrumb {
+  position: relative;
+  margin-top: 20px;
+  min-height: 48px;
+  padding: 0 28px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+
+  border-radius: 12px;
+  background: linear-gradient(135deg, #88b942 0%, #7eac39 100%);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.18);
+
+  transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+  animation: MenuMainBreadcrumb__breadcrumbAnimation 0.9s 0.15s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* =========================================================
+   BREADCRUMB HOVER
+   ========================================================= */
+
+.MenuMainBreadcrumb__breadcrumb:hover {
+  transform: translateY(-3px);
+  background: linear-gradient(135deg, #94c74b 0%, #83b63d 100%);
+  box-shadow: 0 16px 32px rgba(0, 0, 0, 0.34), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+/* =========================================================
+   HOME & CURRENT LABELS
+   ========================================================= */
+
+.MenuMainBreadcrumb__home {
+  color: #ffffff;
+  text-decoration: none;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: opacity 0.2s ease, text-decoration 0.2s ease;
+}
+
+.MenuMainBreadcrumb__home:hover {
+  opacity: 0.9;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.MenuMainBreadcrumb__current {
+  color: #ffffff;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+/* =========================================================
+   ARROW
+   ========================================================= */
+
+.MenuMainBreadcrumb__arrow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 22px;
+  color: #ffffff;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 22px;
+  font-weight: 300;
+  line-height: 1;
+  margin-top: -2px;
+  transition: transform 0.3s ease;
+}
+
+.MenuMainBreadcrumb__breadcrumb:hover .MenuMainBreadcrumb__arrow {
+  transform: translateX(4px);
+}
+
+/* =========================================================
+   ANIMATIONS
+   ========================================================= */
+
+@keyframes MenuMainBreadcrumb__titleAnimation {
+  0% {
+    opacity: 0;
+    transform: translateY(20px) scale(0.96);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes MenuMainBreadcrumb__breadcrumbAnimation {
+  0% {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* =========================================================
+   RESPONSIVE ADJUSTMENTS
+   ========================================================= */
+
+@media (max-width: 767px) {
+  .MenuMainBreadcrumb__title {
+    font-size: clamp(28px, 7vw, 42px);
+    letter-spacing: -1px;
+  }
+
+  .MenuMainBreadcrumb__breadcrumb {
+    margin-top: 16px;
+    min-height: 42px;
+    padding: 0 18px;
+    gap: 8px;
+    border-radius: 10px;
+  }
+
+  .MenuMainBreadcrumb__home,
+  .MenuMainBreadcrumb__current {
+    font-size: 14px;
+  }
+
+  .MenuMainBreadcrumb__arrow {
+    font-size: 18px;
+    width: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .MenuMainBreadcrumb__content {
+    padding: 20px 15px;
+  }
+
+  .MenuMainBreadcrumb__title {
+    font-size: 30px;
+  }
+
+  .MenuMainBreadcrumb__breadcrumb {
+    min-height: 38px;
+    padding: 0 14px;
+    gap: 6px;
+  }
+
+  .MenuMainBreadcrumb__home,
+  .MenuMainBreadcrumb__current {
+    font-size: 13px;
+  }
+}
+
+/* =========================================================
+   REDUCED MOTION
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  .MenuMainBreadcrumb__title,
+  .MenuMainBreadcrumb__breadcrumb {
+    animation: none;
+  }
+
+  .MenuMainBreadcrumb__breadcrumb,
+  .MenuMainBreadcrumb__arrow {
+    transition: none;
+  }
+}

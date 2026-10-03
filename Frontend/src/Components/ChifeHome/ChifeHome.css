@@ -1,0 +1,917 @@
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700;9..144,800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+
+
+/* ==========================================================================
+   DESIGN TOKENS & SHELL
+   ========================================================================== */
+
+.chife-home {
+  --ch-black: #050505;
+  --ch-black-soft: #0a0a09;
+  --ch-black-card: #10100f;
+  --ch-black-light: #171613;
+
+  --ch-gold-dark: #8d641c;
+  --ch-gold: #d4a237;
+  --ch-gold-bright: #f3ca67;
+  --ch-gold-light: #ffe5a0;
+
+  --ch-gold-glow: rgba(212, 162, 55, 0.32);
+  --ch-gold-soft: rgba(212, 162, 55, 0.10);
+  --ch-gold-border: rgba(212, 162, 55, 0.24);
+
+  --ch-card-bg: #10100f;
+  --ch-text-main: #fff8e8;
+  --ch-text-muted: #b9b09e;
+
+  --ch-radius: 24px;
+
+  --ch-serif: 'Fraunces', Georgia, serif;
+  --ch-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+
+  position: relative;
+  isolation: isolate;
+
+  width: 100%;
+  box-sizing: border-box;
+
+  background:
+    radial-gradient(
+      circle at 50% 0%,
+      rgba(212, 162, 55, 0.08),
+      transparent 35%
+    ),
+    linear-gradient(
+      180deg,
+      #050505 0%,
+      #080807 50%,
+      #050505 100%
+    );
+
+  padding:
+    clamp(3.5rem, 6vw, 6rem)
+    clamp(1.2rem, 3.5vw, 3rem);
+
+  font-family: var(--ch-sans);
+  color: var(--ch-text-main);
+
+  overflow: hidden;
+}
+
+
+/* ==========================================================================
+   BACKGROUND AMBIENT LIGHTING
+   ========================================================================== */
+
+.chife-home__bg-pattern {
+  position: absolute;
+  inset: 0;
+
+  pointer-events: none;
+  z-index: 0;
+
+  overflow: hidden;
+}
+
+
+.chife-home__glow-sphere {
+  position: absolute;
+
+  border-radius: 50%;
+
+  filter: blur(85px);
+
+  opacity: 0.55;
+
+  pointer-events: none;
+}
+
+
+.chife-home__glow-sphere--1 {
+  width: 450px;
+  height: 450px;
+
+  top: -100px;
+  left: 50%;
+
+  transform: translateX(-50%);
+
+  background:
+    radial-gradient(
+      circle,
+      rgba(212, 162, 55, 0.13) 0%,
+      transparent 70%
+    );
+}
+
+
+.chife-home__glow-sphere--2 {
+  width: 550px;
+  height: 350px;
+
+  bottom: -60px;
+  left: 50%;
+
+  transform: translateX(-50%);
+
+  background:
+    radial-gradient(
+      circle,
+      rgba(243, 202, 103, 0.08) 0%,
+      transparent 70%
+    );
+}
+
+
+/* ==========================================================================
+   INNER CONTAINER
+   ========================================================================== */
+
+.chife-home__inner {
+  position: relative;
+
+  z-index: 1;
+
+  width: 100%;
+  max-width: 1240px;
+
+  margin: 0 auto;
+}
+
+
+/* ==========================================================================
+   HEADER SECTION
+   ========================================================================== */
+
+.chife-home__header {
+  text-align: center;
+
+  max-width: 700px;
+
+  margin:
+    0 auto
+    clamp(2.5rem, 4.5vw, 4rem);
+}
+
+
+/* ==========================================================================
+   BRAND BADGE
+   ========================================================================== */
+
+.chife-home__badge {
+  display: inline-flex;
+
+  align-items: center;
+  justify-content: center;
+
+  gap: 0.55rem;
+
+  padding: 0.38rem 0.95rem;
+
+  margin-bottom: 0.85rem;
+
+  border:
+    1px solid
+    rgba(212, 162, 55, 0.28);
+
+  border-radius: 999px;
+
+  background:
+    rgba(212, 162, 55, 0.07);
+
+  color: var(--ch-gold-bright);
+
+  font-size: 0.72rem;
+
+  font-weight: 800;
+
+  letter-spacing: 0.12em;
+
+  text-transform: uppercase;
+
+  box-shadow:
+    inset 0 0 20px
+    rgba(212, 162, 55, 0.025),
+    0 0 20px
+    rgba(212, 162, 55, 0.03);
+}
+
+
+/* ==========================================================================
+   BADGE DOT
+   ========================================================================== */
+
+.chife-home__dot {
+  width: 7px;
+  height: 7px;
+
+  flex-shrink: 0;
+
+  border-radius: 50%;
+
+  background: var(--ch-gold-bright);
+
+  box-shadow:
+    0 0 8px var(--ch-gold),
+    0 0 16px rgba(212, 162, 55, 0.4);
+
+  animation:
+    ch-pulse 2s infinite ease-in-out;
+}
+
+
+@keyframes ch-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+
+  50% {
+    transform: scale(1.4);
+    opacity: 0.6;
+  }
+}
+
+
+/* ==========================================================================
+   MAIN TITLE
+   ========================================================================== */
+
+.chife-home__title {
+  font-family: var(--ch-serif);
+
+  font-size:
+    clamp(2.1rem, 3.8vw, 3.2rem);
+
+  font-weight: 700;
+
+  line-height: 1.15;
+
+  letter-spacing: -0.02em;
+
+  color: var(--ch-text-main);
+
+  margin: 0 0 0.75rem;
+}
+
+
+.chife-home__title em {
+  font-style: italic;
+
+  font-weight: 400;
+
+  color: var(--ch-gold-bright);
+
+  text-shadow:
+    0 0 25px
+    rgba(212, 162, 55, 0.12);
+}
+
+
+/* ==========================================================================
+   SUBTITLE
+   ========================================================================== */
+
+.chife-home__subtitle {
+  margin: 0 auto 1.4rem;
+
+  font-size:
+    clamp(0.88rem, 1.3vw, 1.02rem);
+
+  line-height: 1.65;
+
+  color: var(--ch-text-muted);
+
+  font-weight: 500;
+
+  max-width: 610px;
+}
+
+
+/* ==========================================================================
+   GOLD DIVIDER
+   ========================================================================== */
+
+.chife-home__divider {
+  width: 56px;
+  height: 4px;
+
+  background:
+    linear-gradient(
+      90deg,
+      var(--ch-gold-dark) 0%,
+      var(--ch-gold-bright) 50%,
+      var(--ch-gold-dark) 100%
+    );
+
+  margin: 0 auto;
+
+  border-radius: 999px;
+
+  box-shadow:
+    0 2px 12px
+    var(--ch-gold-glow);
+}
+
+
+/* ==========================================================================
+   GRID & CARD ARCHITECTURE
+   ========================================================================== */
+
+.chife-home__grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(4, 1fr);
+
+  gap:
+    clamp(1rem, 2vw, 1.6rem);
+
+  align-items: stretch;
+}
+
+
+/* ==========================================================================
+   FEATURE CARD
+   ========================================================================== */
+
+.chife-home__card {
+  position: relative;
+
+  background:
+    linear-gradient(
+      145deg,
+      #151411 0%,
+      #0c0c0b 100%
+    );
+
+  border-radius: var(--ch-radius);
+
+  padding:
+    clamp(2rem, 3vw, 2.6rem)
+    1.5rem
+    2.2rem;
+
+  text-align: center;
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  border:
+    1px solid
+    rgba(212, 162, 55, 0.15);
+
+  box-shadow:
+    0 12px 32px
+    rgba(0, 0, 0, 0.28),
+    inset 0 1px 0
+    rgba(255, 229, 160, 0.025);
+
+  transition:
+    transform 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 0.45s ease;
+
+  overflow: hidden;
+}
+
+
+/* ==========================================================================
+   CARD HIGHLIGHT
+   ========================================================================== */
+
+.chife-home__card-highlight {
+  position: absolute;
+
+  top: 0;
+  left: 0;
+
+  width: 100%;
+  height: 3px;
+
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      var(--ch-gold-dark),
+      var(--ch-gold-bright),
+      var(--ch-gold-dark),
+      transparent
+    );
+
+  opacity: 0;
+
+  transition:
+    opacity 0.45s ease;
+}
+
+
+/* ==========================================================================
+   CARD HOVER
+   ========================================================================== */
+
+.chife-home__card:hover {
+  transform: translateY(-8px);
+
+  border-color:
+    rgba(212, 162, 55, 0.42);
+
+  box-shadow:
+    0 24px 45px
+    rgba(0, 0, 0, 0.42),
+
+    0 0 24px
+    rgba(212, 162, 55, 0.10),
+
+    inset 0 1px 0
+    rgba(255, 229, 160, 0.05);
+}
+
+
+.chife-home__card:hover .chife-home__card-highlight {
+  opacity: 1;
+}
+
+
+/* ==========================================================================
+   ICON COMPOSITION
+   ========================================================================== */
+
+.chife-home__icon-wrapper {
+  position: relative;
+
+  width: 82px;
+  height: 82px;
+
+  margin-bottom: 1.4rem;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+}
+
+
+/* ==========================================================================
+   ICON GOLD RING
+   ========================================================================== */
+
+.chife-home__icon-ring {
+  position: absolute;
+
+  inset: 0;
+
+  border-radius: 50%;
+
+  border:
+    2px dashed
+    rgba(212, 162, 55, 0.35);
+
+  animation:
+    ch-spin 22s linear infinite;
+
+  transition:
+    border-color 0.4s ease,
+    box-shadow 0.4s ease;
+}
+
+
+@keyframes ch-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+
+.chife-home__card:hover .chife-home__icon-ring {
+  border-color: var(--ch-gold-bright);
+
+  box-shadow:
+    0 0 18px
+    rgba(212, 162, 55, 0.12);
+}
+
+
+/* ==========================================================================
+   ICON
+   ========================================================================== */
+
+.chife-home__icon {
+  position: relative;
+
+  width: 64px;
+  height: 64px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #1c1913 0%,
+      #080807 100%
+    );
+
+  border:
+    1px solid
+    rgba(212, 162, 55, 0.28);
+
+  border-radius: 50%;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  color: var(--ch-gold-bright);
+
+  box-shadow:
+    0 10px 24px
+    rgba(0, 0, 0, 0.42),
+
+    inset 0 0 18px
+    rgba(212, 162, 55, 0.05);
+
+  transition:
+    transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
+    box-shadow 0.4s ease,
+    border-color 0.4s ease;
+}
+
+
+.chife-home__icon svg {
+  width: 27px;
+  height: 27px;
+
+  stroke: var(--ch-gold-bright);
+
+  transition:
+    stroke 0.3s ease,
+    filter 0.3s ease;
+}
+
+
+.chife-home__card:hover .chife-home__icon {
+  transform: scale(1.08);
+
+  border-color:
+    rgba(243, 202, 103, 0.7);
+
+  box-shadow:
+    0 12px 30px
+    rgba(0, 0, 0, 0.5),
+
+    0 0 18px
+    rgba(212, 162, 55, 0.13);
+}
+
+
+.chife-home__card:hover .chife-home__icon svg {
+  filter:
+    drop-shadow(
+      0 0 5px
+      rgba(243, 202, 103, 0.4)
+    );
+}
+
+
+/* ==========================================================================
+   CARD TYPOGRAPHY
+   ========================================================================== */
+
+.chife-home__card-title {
+  font-family: var(--ch-serif);
+
+  font-size: 1.22rem;
+
+  font-weight: 700;
+
+  color: var(--ch-text-main);
+
+  margin: 0 0 0.65rem;
+
+  line-height: 1.28;
+
+  letter-spacing: -0.01em;
+
+  transition:
+    color 0.3s ease,
+    text-shadow 0.3s ease;
+}
+
+
+.chife-home__card:hover .chife-home__card-title {
+  color: var(--ch-gold-bright);
+
+  text-shadow:
+    0 0 18px
+    rgba(212, 162, 55, 0.10);
+}
+
+
+.chife-home__card-desc {
+  font-size: 0.86rem;
+
+  color: var(--ch-text-muted);
+
+  line-height: 1.62;
+
+  font-weight: 500;
+
+  margin: 0;
+}
+
+
+/* ==========================================================================
+   PALASH ESSENCE BRAND NOTE
+   ========================================================================== */
+
+.chife-home__brand-note {
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  gap: 1.25rem;
+
+  margin-top: clamp(2.5rem, 4vw, 3.5rem);
+
+  width: 100%;
+}
+
+
+.chife-home__brand-line {
+  width: 90px;
+  height: 1px;
+
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      rgba(212, 162, 55, 0.45)
+    );
+}
+
+
+.chife-home__brand-line:last-child {
+  background:
+    linear-gradient(
+      90deg,
+      rgba(212, 162, 55, 0.45),
+      transparent
+    );
+}
+
+
+.chife-home__brand-content {
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  gap: 0.22rem;
+
+  text-align: center;
+}
+
+
+.chife-home__brand-small {
+  color: #928b7d;
+
+  font-size: 0.68rem;
+
+  font-weight: 600;
+
+  letter-spacing: 0.13em;
+
+  text-transform: uppercase;
+}
+
+
+.chife-home__brand-content strong {
+  font-family: var(--ch-serif);
+
+  color: var(--ch-gold-bright);
+
+  font-size: 1rem;
+
+  font-weight: 800;
+
+  letter-spacing: 0.16em;
+
+  text-shadow:
+    0 0 18px
+    rgba(212, 162, 55, 0.12);
+}
+
+
+/* ==========================================================================
+   TABLETS / MEDIUM SCREENS
+   ========================================================================== */
+
+@media (max-width: 1080px) {
+
+  .chife-home__grid {
+    grid-template-columns:
+      repeat(2, 1fr);
+
+    gap: 1.4rem;
+  }
+
+
+  .chife-home__card {
+    padding:
+      2.2rem
+      1.4rem;
+  }
+}
+
+
+/* ==========================================================================
+   MOBILE DEVICES & SMALL TABLETS
+   ========================================================================== */
+
+@media (max-width: 680px) {
+
+  .chife-home {
+    padding:
+      3rem
+      1.1rem;
+  }
+
+
+  .chife-home__header {
+    margin-bottom: 2rem;
+  }
+
+
+  .chife-home__title {
+    font-size: 1.95rem;
+  }
+
+
+  .chife-home__subtitle {
+    font-size: 0.86rem;
+  }
+
+
+  .chife-home__grid {
+    grid-template-columns: 1fr;
+
+    max-width: 440px;
+
+    margin: 0 auto;
+
+    gap: 1.15rem;
+  }
+
+
+  .chife-home__card {
+    padding:
+      1.9rem
+      1.25rem;
+
+    border-radius: 20px;
+  }
+
+
+  .chife-home__icon-wrapper {
+    width: 74px;
+    height: 74px;
+
+    margin-bottom: 1.15rem;
+  }
+
+
+  .chife-home__icon {
+    width: 58px;
+    height: 58px;
+  }
+
+
+  .chife-home__icon svg {
+    width: 25px;
+    height: 25px;
+  }
+
+
+  .chife-home__card-title {
+    font-size: 1.15rem;
+  }
+
+
+  .chife-home__card-desc {
+    font-size: 0.83rem;
+  }
+
+
+  .chife-home__brand-note {
+    gap: 0.7rem;
+
+    margin-top: 2.3rem;
+  }
+
+
+  .chife-home__brand-line {
+    width: 45px;
+  }
+
+
+  .chife-home__brand-small {
+    font-size: 0.58rem;
+  }
+
+
+  .chife-home__brand-content strong {
+    font-size: 0.85rem;
+    letter-spacing: 0.12em;
+  }
+}
+
+
+/* ==========================================================================
+   SMALL MOBILE DEVICES
+   ========================================================================== */
+
+@media (max-width: 420px) {
+
+  .chife-home {
+    padding:
+      2.6rem
+      0.85rem;
+  }
+
+
+  .chife-home__badge {
+    font-size: 0.62rem;
+
+    padding:
+      0.34rem
+      0.75rem;
+  }
+
+
+  .chife-home__title {
+    font-size: 1.72rem;
+  }
+
+
+  .chife-home__subtitle {
+    font-size: 0.81rem;
+
+    line-height: 1.6;
+  }
+
+
+  .chife-home__card {
+    padding:
+      1.7rem
+      1rem;
+  }
+
+
+  .chife-home__card-title {
+    font-size: 1.08rem;
+  }
+
+
+  .chife-home__card-desc {
+    font-size: 0.79rem;
+  }
+
+
+  .chife-home__brand-note {
+    gap: 0.45rem;
+  }
+
+
+  .chife-home__brand-line {
+    width: 30px;
+  }
+
+
+  .chife-home__brand-content strong {
+    font-size: 0.76rem;
+  }
+}
+
+
+/* ==========================================================================
+   ACCESSIBILITY / REDUCED MOTION
+   ========================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+
+  .chife-home__icon-ring,
+  .chife-home__dot {
+    animation: none !important;
+  }
+
+
+  .chife-home__card,
+  .chife-home__icon {
+    transition: none !important;
+  }
+}

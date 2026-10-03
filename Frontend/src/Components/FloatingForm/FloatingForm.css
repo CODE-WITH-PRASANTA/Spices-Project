@@ -1,0 +1,1679 @@
+/* =========================================================
+   FOODIGO
+   PREMIUM FLOATING CONTACT FORM
+   REFERENCE: 2ND IMAGE
+========================================================= */
+
+:root {
+  --foodigo-red: #e30613;
+  --foodigo-red-dark: #c9000d;
+  --foodigo-red-light: #ff2633;
+
+  --foodigo-black: #101010;
+  --foodigo-text: #1a1a1a;
+
+  --foodigo-gray: #6d7478;
+  --foodigo-border: #dce1e4;
+
+  --foodigo-white: #ffffff;
+}
+
+
+/* =========================================================
+   OVERLAY
+========================================================= */
+
+.foodigo-overlay {
+  position: fixed;
+
+  inset: 0;
+
+  width: 100%;
+  height: 100%;
+
+  padding: 15px;
+
+  box-sizing: border-box;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  background:
+    rgba(9, 12, 13, 0.73);
+
+  backdrop-filter:
+    blur(7px);
+
+  -webkit-backdrop-filter:
+    blur(7px);
+
+  z-index: 999999;
+
+  overflow: hidden;
+
+  opacity: 1;
+
+  transition:
+    opacity 0.3s ease;
+}
+
+.foodigo-overlay-closing {
+  opacity: 0;
+
+  pointer-events: none;
+}
+
+
+/* =========================================================
+   MAIN CARD
+========================================================= */
+
+.foodigo-card {
+  position: relative;
+
+  width: min(100%, 455px);
+
+  min-height: 575px;
+
+  max-height: calc(100vh - 30px);
+
+  overflow: hidden;
+
+  box-sizing: border-box;
+
+  background:
+    linear-gradient(
+      145deg,
+      #ffffff 0%,
+      #ffffff 76%,
+      #fafafa 100%
+    );
+
+  border-radius: 27px;
+
+  box-shadow:
+    0 32px 75px
+      rgba(0, 0, 0, 0.34),
+
+    0 12px 28px
+      rgba(0, 0, 0, 0.14);
+
+  font-family:
+    Inter,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    Arial,
+    sans-serif;
+
+  animation:
+    foodigoCardIn
+    0.4s
+    cubic-bezier(
+      0.16,
+      1,
+      0.3,
+      1
+    )
+    forwards;
+
+  transition:
+    transform 0.3s ease,
+    opacity 0.3s ease;
+}
+
+.foodigo-card-closing {
+  opacity: 0;
+
+  transform:
+    translateY(14px)
+    scale(0.96);
+}
+
+@keyframes foodigoCardIn {
+  from {
+    opacity: 0;
+
+    transform:
+      translateY(22px)
+      scale(0.95);
+  }
+
+  to {
+    opacity: 1;
+
+    transform:
+      translateY(0)
+      scale(1);
+  }
+}
+
+
+/* =========================================================
+   TOP RED SHAPE
+========================================================= */
+
+.foodigo-top-red {
+  position: absolute;
+
+  top: -122px;
+  right: -88px;
+
+  width: 315px;
+  height: 315px;
+
+  background:
+    linear-gradient(
+      145deg,
+      #ff202b 0%,
+      #f10b17 48%,
+      #d9000c 100%
+    );
+
+  border-radius:
+    48% 52% 48% 52% /
+    48% 45% 55% 52%;
+
+  z-index: 1;
+
+  pointer-events: none;
+}
+
+
+/* =========================================================
+   RED CURVE EXTENSION
+========================================================= */
+
+.foodigo-top-red::after {
+  content: "";
+
+  position: absolute;
+
+  right: -15px;
+  bottom: -92px;
+
+  width: 220px;
+  height: 180px;
+
+  background:
+    #ed0815;
+
+  border-radius:
+    0 0 0 100%;
+
+  transform:
+    rotate(-14deg);
+
+  box-shadow:
+    -8px -8px 25px
+      rgba(255, 255, 255, 0.08);
+}
+
+
+/* =========================================================
+   RED HIGHLIGHT
+========================================================= */
+
+.foodigo-top-red-highlight {
+  position: absolute;
+
+  top: -45px;
+  right: 58px;
+
+  width: 95px;
+  height: 230px;
+
+  border-left:
+    2px solid
+    rgba(255, 255, 255, 0.14);
+
+  border-radius: 50%;
+
+  transform:
+    rotate(17deg);
+
+  filter:
+    blur(1px);
+
+  z-index: 3;
+
+  pointer-events: none;
+}
+
+.foodigo-top-red-highlight::after {
+  content: "";
+
+  position: absolute;
+
+  top: 0;
+  left: 26px;
+
+  width: 42px;
+  height: 180px;
+
+  border-left:
+    1px solid
+    rgba(255, 255, 255, 0.12);
+
+  border-radius: 50%;
+}
+
+
+/* =========================================================
+   FOOD IMAGE AREA
+========================================================= */
+
+.foodigo-food-wrapper {
+  position: absolute;
+
+  top: 31px;
+  right: -5px;
+
+  width: 215px;
+  height: 215px;
+
+  z-index: 12;
+
+  pointer-events: none;
+}
+
+
+/* =========================================================
+   IMAGE GLOW
+========================================================= */
+
+.foodigo-food-glow {
+  position: absolute;
+
+  inset: 22px;
+
+  border-radius: 50%;
+
+  background:
+    radial-gradient(
+      circle,
+      rgba(255, 255, 255, 0.28),
+      rgba(255, 255, 255, 0)
+    );
+
+  filter:
+    blur(10px);
+
+  z-index: 0;
+}
+
+
+/* =========================================================
+   FOOD IMAGE
+========================================================= */
+
+.foodigo-food-image {
+  position: relative;
+
+  width: 100%;
+  height: 100%;
+
+  display: block;
+
+  object-fit: contain;
+
+  z-index: 2;
+
+  filter:
+    drop-shadow(
+      0 15px 15px
+      rgba(0, 0, 0, 0.27)
+    );
+}
+
+
+/* =========================================================
+   FOOD DECORATIVE LEAVES
+========================================================= */
+
+.foodigo-food-leaf {
+  position: absolute;
+
+  z-index: 5;
+
+  font-size: 22px;
+
+  filter:
+    drop-shadow(
+      0 4px 5px
+      rgba(0, 0, 0, 0.18)
+    );
+}
+
+.foodigo-food-leaf-1 {
+  left: 7px;
+  bottom: 13px;
+
+  transform:
+    rotate(-24deg);
+}
+
+.foodigo-food-leaf-2 {
+  right: 3px;
+  bottom: -2px;
+
+  transform:
+    rotate(27deg);
+}
+
+
+/* =========================================================
+   CLOSE BUTTON
+========================================================= */
+
+.foodigo-close {
+  position: absolute;
+
+  top: 12px;
+  right: 13px;
+
+  width: 38px;
+  height: 38px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  border: none;
+
+  border-radius: 50%;
+
+  background:
+    rgba(255, 255, 255, 0.97);
+
+  box-shadow:
+    0 5px 17px
+      rgba(0, 0, 0, 0.18);
+
+  cursor: pointer;
+
+  z-index: 40;
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.foodigo-close span {
+  position: absolute;
+
+  width: 15px;
+  height: 2.4px;
+
+  background:
+    #555;
+
+  border-radius: 10px;
+}
+
+.foodigo-close span:first-child {
+  transform:
+    rotate(45deg);
+}
+
+.foodigo-close span:last-child {
+  transform:
+    rotate(-45deg);
+}
+
+.foodigo-close:hover:not(:disabled) {
+  transform:
+    rotate(90deg)
+    scale(1.05);
+
+  box-shadow:
+    0 8px 22px
+      rgba(0, 0, 0, 0.23);
+}
+
+.foodigo-close:disabled {
+  opacity: 0.5;
+
+  cursor: not-allowed;
+}
+
+
+/* =========================================================
+   CONTENT
+========================================================= */
+
+.foodigo-content {
+  position: relative;
+
+  z-index: 20;
+
+  padding:
+    31px
+    24px
+    17px;
+}
+
+
+/* =========================================================
+   FOODIGO LOGO
+========================================================= */
+
+.foodigo-brand {
+  position: relative;
+
+  width: 190px;
+
+  margin-bottom: 9px;
+}
+
+.foodigo-brand-oval {
+  position: relative;
+
+  width: 184px;
+  height: 58px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  background:
+    #ffffff;
+
+  border:
+    2px solid
+    var(--foodigo-red);
+
+  border-radius:
+    50%;
+
+  transform:
+    rotate(-1deg);
+
+  box-sizing: border-box;
+}
+
+.foodigo-brand-oval::before {
+  content: "";
+
+  position: absolute;
+
+  inset: 5px;
+
+  border:
+    1px solid
+    rgba(227, 6, 19, 0.42);
+
+  border-radius:
+    50%;
+}
+
+.foodigo-brand-text {
+  position: relative;
+
+  color:
+    var(--foodigo-red);
+
+  font-family:
+    Georgia,
+    "Times New Roman",
+    serif;
+
+  font-size: 38px;
+
+  font-weight: 900;
+
+  font-style: italic;
+
+  line-height: 1;
+
+  letter-spacing:
+    -2.7px;
+
+  text-shadow:
+    1px 1px 0
+    #b8000b;
+
+  z-index: 2;
+}
+
+.foodigo-brand-fresh {
+  position: absolute;
+
+  left: 67px;
+  bottom: -6px;
+
+  padding:
+    2px
+    8px;
+
+  color:
+    #222;
+
+  background:
+    #ffffff;
+
+  border:
+    1px solid
+    #252525;
+
+  border-radius:
+    12px;
+
+  font-size: 8px;
+
+  line-height: 1.1;
+
+  font-weight: 900;
+
+  letter-spacing:
+    0.5px;
+
+  transform:
+    rotate(-3deg);
+
+  z-index: 4;
+}
+
+
+/* =========================================================
+   HEADING
+========================================================= */
+
+.foodigo-heading {
+  position: relative;
+
+  width: 245px;
+
+  max-width: 100%;
+}
+
+.foodigo-eyebrow {
+  display: flex;
+
+  align-items: center;
+
+  gap: 9px;
+
+  margin-bottom: 3px;
+}
+
+.foodigo-eyebrow-line {
+  width: 25px;
+  height: 3px;
+
+  flex-shrink: 0;
+
+  background:
+    var(--foodigo-red);
+
+  border-radius:
+    10px;
+}
+
+.foodigo-eyebrow span:last-child {
+  color:
+    #717171;
+
+  font-size: 7px;
+
+  line-height: 1;
+
+  font-weight: 800;
+
+  letter-spacing:
+    2px;
+
+  white-space:
+    nowrap;
+}
+
+.foodigo-heading h2 {
+  margin: 0;
+
+  color:
+    #111111;
+
+  font-size: 39px;
+
+  line-height: 0.98;
+
+  font-weight: 900;
+
+  letter-spacing:
+    -1.8px;
+}
+
+.foodigo-heading h2 span {
+  color:
+    var(--foodigo-red);
+
+  font-weight:
+    900;
+}
+
+.foodigo-heading p {
+  margin:
+    5px 0 0;
+
+  color:
+    #62676a;
+
+  font-size: 10px;
+
+  line-height: 1.35;
+
+  font-weight:
+    500;
+}
+
+
+/* =========================================================
+   FORM
+========================================================= */
+
+.foodigo-form {
+  position: relative;
+
+  z-index: 25;
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 8px;
+
+  margin-top: 15px;
+}
+
+
+/* =========================================================
+   FIELD
+========================================================= */
+
+.foodigo-field {
+  width: 100%;
+}
+
+.foodigo-field label {
+  display: block;
+
+  margin:
+    0 0
+    4px
+    2px;
+
+  color:
+    #252525;
+
+  font-size: 10px;
+
+  line-height: 1.1;
+
+  font-weight:
+    800;
+}
+
+.foodigo-field label em {
+  color:
+    var(--foodigo-red);
+
+  font-style:
+    normal;
+}
+
+
+/* =========================================================
+   INPUT
+========================================================= */
+
+.foodigo-input {
+  position: relative;
+
+  width: 100%;
+}
+
+.foodigo-input svg {
+  position: absolute;
+
+  left: 13px;
+  top: 50%;
+
+  width: 17px;
+  height: 17px;
+
+  color:
+    #727c82;
+
+  transform:
+    translateY(-50%);
+
+  pointer-events:
+    none;
+
+  z-index: 2;
+
+  transition:
+    color 0.2s ease;
+}
+
+.foodigo-input input {
+  width: 100%;
+
+  height: 42px;
+
+  padding:
+    0
+    13px
+    0
+    40px;
+
+  box-sizing:
+    border-box;
+
+  border:
+    1px solid
+    var(--foodigo-border);
+
+  border-radius:
+    11px;
+
+  outline:
+    none;
+
+  background:
+    linear-gradient(
+      180deg,
+      #ffffff,
+      #f7f8f8
+    );
+
+  color:
+    #222;
+
+  font-family:
+    inherit;
+
+  font-size:
+    11px;
+
+  font-weight:
+    500;
+
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    background 0.2s ease;
+}
+
+.foodigo-input input::placeholder {
+  color:
+    #9ca4a8;
+
+  font-size:
+    10.5px;
+}
+
+.foodigo-input input:hover:not(:disabled) {
+  border-color:
+    #c8cdd0;
+}
+
+.foodigo-input input:focus {
+  border-color:
+    #ed1a25;
+
+  background:
+    #ffffff;
+
+  box-shadow:
+    0 0 0 3px
+      rgba(227, 6, 19, 0.07);
+}
+
+.foodigo-input:focus-within svg {
+  color:
+    var(--foodigo-red);
+}
+
+.foodigo-input input:disabled {
+  opacity:
+    0.6;
+
+  cursor:
+    not-allowed;
+}
+
+
+/* =========================================================
+   SUBMIT BUTTON
+========================================================= */
+
+.foodigo-submit {
+  position: relative;
+
+  width: 100%;
+
+  height: 46px;
+
+  margin-top: 4px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  gap: 9px;
+
+  border:
+    none;
+
+  border-radius:
+    11px;
+
+  background:
+    linear-gradient(
+      100deg,
+      #d8000d 0%,
+      #ed0715 48%,
+      #ff1721 100%
+    );
+
+  color:
+    #ffffff;
+
+  font-family:
+    inherit;
+
+  font-size:
+    13px;
+
+  font-weight:
+    900;
+
+  cursor:
+    pointer;
+
+  box-shadow:
+    0 12px 24px
+      rgba(227, 6, 19, 0.24);
+
+  transition:
+    transform 0.22s ease,
+    box-shadow 0.22s ease,
+    background 0.22s ease;
+}
+
+.foodigo-submit:hover:not(:disabled) {
+  transform:
+    translateY(-1.5px);
+
+  box-shadow:
+    0 15px 30px
+      rgba(227, 6, 19, 0.31);
+
+  background:
+    linear-gradient(
+      100deg,
+      #c9000c,
+      #e30613,
+      #ff1822
+    );
+}
+
+.foodigo-submit:active:not(:disabled) {
+  transform:
+    translateY(0);
+}
+
+.foodigo-submit:disabled {
+  opacity:
+    0.75;
+
+  cursor:
+    wait;
+}
+
+
+/* =========================================================
+   BUTTON ARROW
+========================================================= */
+
+.foodigo-arrow {
+  width: 28px;
+  height: 28px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  border-radius:
+    50%;
+
+  background:
+    rgba(255, 255, 255, 0.20);
+
+  transition:
+    transform 0.2s ease;
+}
+
+.foodigo-submit:hover
+.foodigo-arrow {
+  transform:
+    translateX(3px);
+}
+
+.foodigo-arrow svg {
+  width: 15px;
+  height: 15px;
+}
+
+
+/* =========================================================
+   SPINNER
+========================================================= */
+
+.foodigo-spinner {
+  width: 15px;
+  height: 15px;
+
+  border:
+    2px solid
+    rgba(255, 255, 255, 0.35);
+
+  border-top-color:
+    #ffffff;
+
+  border-radius:
+    50%;
+
+  animation:
+    foodigoSpinner
+    0.7s
+    linear
+    infinite;
+}
+
+@keyframes foodigoSpinner {
+  to {
+    transform:
+      rotate(360deg);
+  }
+}
+
+
+/* =========================================================
+   SECURITY
+========================================================= */
+
+.foodigo-security {
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  gap: 6px;
+
+  margin-top: 1px;
+
+  color:
+    #85898b;
+
+  font-size:
+    7.8px;
+
+  line-height:
+    1;
+
+  font-weight:
+    500;
+
+  text-align:
+    center;
+}
+
+.foodigo-security svg {
+  width: 14px;
+  height: 14px;
+
+  color:
+    var(--foodigo-red);
+
+  flex-shrink:
+    0;
+}
+
+
+/* =========================================================
+   BOTTOM LEAVES
+========================================================= */
+
+.foodigo-bottom-leaves {
+  position: absolute;
+
+  left: -9px;
+  bottom: -7px;
+
+  width: 95px;
+  height: 60px;
+
+  z-index: 30;
+
+  pointer-events:
+    none;
+}
+
+.foodigo-bottom-leaves span {
+  position: absolute;
+
+  font-size:
+    32px;
+
+  filter:
+    drop-shadow(
+      0 4px 5px
+      rgba(0, 0, 0, 0.15)
+    );
+}
+
+.foodigo-bottom-leaves span:nth-child(1) {
+  left: 3px;
+  bottom: 0;
+
+  transform:
+    rotate(15deg);
+}
+
+.foodigo-bottom-leaves span:nth-child(2) {
+  left: 32px;
+  bottom: -8px;
+
+  font-size:
+    27px;
+
+  transform:
+    rotate(-12deg);
+}
+
+.foodigo-bottom-leaves span:nth-child(3) {
+  left: 55px;
+  bottom: -12px;
+
+  font-size:
+    23px;
+
+  transform:
+    rotate(24deg);
+}
+
+
+/* =========================================================
+   RIGHT SIDE LEAF
+========================================================= */
+
+.foodigo-side-leaf {
+  position: absolute;
+
+  right: -7px;
+  top: 348px;
+
+  z-index: 30;
+
+  font-size:
+    28px;
+
+  transform:
+    rotate(20deg);
+
+  filter:
+    drop-shadow(
+      0 4px 5px
+      rgba(0, 0, 0, 0.14)
+    );
+
+  pointer-events:
+    none;
+}
+
+
+/* =========================================================
+   SWEET ALERT
+========================================================= */
+
+.swal2-container {
+  z-index:
+    10000000 !important;
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 500px) {
+  .foodigo-overlay {
+    padding:
+      10px;
+  }
+
+  .foodigo-card {
+    width:
+      min(100%, 425px);
+
+    min-height:
+      550px;
+
+    border-radius:
+      24px;
+  }
+
+  .foodigo-content {
+    padding:
+      26px
+      20px
+      15px;
+  }
+
+  .foodigo-food-wrapper {
+    width:
+      190px;
+
+    height:
+      190px;
+
+    top:
+      34px;
+
+    right:
+      -4px;
+  }
+
+  .foodigo-heading h2 {
+    font-size:
+      36px;
+  }
+
+  .foodigo-heading p {
+    font-size:
+      9.5px;
+  }
+
+  .foodigo-form {
+    margin-top:
+      13px;
+
+    gap:
+      7px;
+  }
+
+  .foodigo-input input {
+    height:
+      40px;
+  }
+
+  .foodigo-submit {
+    height:
+      44px;
+  }
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 390px) {
+  .foodigo-overlay {
+    padding:
+      7px;
+  }
+
+  .foodigo-card {
+    width:
+      100%;
+
+    min-height:
+      0;
+
+    border-radius:
+      21px;
+  }
+
+  .foodigo-top-red {
+    top:
+      -100px;
+
+    right:
+      -72px;
+
+    width:
+      250px;
+
+    height:
+      250px;
+  }
+
+  .foodigo-top-red::after {
+    width:
+      180px;
+
+    height:
+      140px;
+
+    bottom:
+      -72px;
+  }
+
+  .foodigo-food-wrapper {
+    width:
+      150px;
+
+    height:
+      150px;
+
+    top:
+      34px;
+
+    right:
+      -2px;
+  }
+
+  .foodigo-close {
+    top:
+      9px;
+
+    right:
+      9px;
+
+    width:
+      34px;
+
+    height:
+      34px;
+  }
+
+  .foodigo-close span {
+    width:
+      13px;
+  }
+
+  .foodigo-content {
+    padding:
+      21px
+      16px
+      13px;
+  }
+
+  .foodigo-brand {
+    width:
+      145px;
+
+    margin-bottom:
+      8px;
+  }
+
+  .foodigo-brand-oval {
+    width:
+      142px;
+
+    height:
+      47px;
+  }
+
+  .foodigo-brand-text {
+    font-size:
+      30px;
+
+    letter-spacing:
+      -2px;
+  }
+
+  .foodigo-brand-fresh {
+    left:
+      49px;
+
+    bottom:
+      -5px;
+
+    font-size:
+      7px;
+
+    padding:
+      2px 6px;
+  }
+
+  .foodigo-heading {
+    width:
+      205px;
+  }
+
+  .foodigo-eyebrow {
+    gap:
+      6px;
+  }
+
+  .foodigo-eyebrow-line {
+    width:
+      21px;
+
+    height:
+      2px;
+  }
+
+  .foodigo-eyebrow span:last-child {
+    font-size:
+      5.6px;
+
+    letter-spacing:
+      1.25px;
+  }
+
+  .foodigo-heading h2 {
+    font-size:
+      30px;
+
+    letter-spacing:
+      -1.2px;
+  }
+
+  .foodigo-heading p {
+    margin-top:
+      4px;
+
+    font-size:
+      8.7px;
+  }
+
+  .foodigo-form {
+    margin-top:
+      11px;
+
+    gap:
+      6px;
+  }
+
+  .foodigo-field label {
+    font-size:
+      8.5px;
+
+    margin-bottom:
+      3px;
+  }
+
+  .foodigo-input input {
+    height:
+      37px;
+
+    padding-left:
+      36px;
+
+    font-size:
+      10px;
+
+    border-radius:
+      9px;
+  }
+
+  .foodigo-input input::placeholder {
+    font-size:
+      9px;
+  }
+
+  .foodigo-input svg {
+    left:
+      11px;
+
+    width:
+      15px;
+
+    height:
+      15px;
+  }
+
+  .foodigo-submit {
+    height:
+      40px;
+
+    margin-top:
+      3px;
+
+    border-radius:
+      9px;
+
+    font-size:
+      10.5px;
+  }
+
+  .foodigo-arrow {
+    width:
+      23px;
+
+    height:
+      23px;
+  }
+
+  .foodigo-arrow svg {
+    width:
+      13px;
+
+    height:
+      13px;
+  }
+
+  .foodigo-security {
+    font-size:
+      7px;
+  }
+
+  .foodigo-security svg {
+    width:
+      12px;
+
+    height:
+      12px;
+  }
+
+  .foodigo-side-leaf {
+    top:
+      315px;
+
+    font-size:
+      23px;
+  }
+
+  .foodigo-bottom-leaves {
+    transform:
+      scale(0.8);
+
+    transform-origin:
+      bottom left;
+  }
+}
+
+
+/* =========================================================
+   VERY SMALL DEVICES
+========================================================= */
+
+@media (max-width: 350px) {
+  .foodigo-content {
+    padding:
+      17px
+      14px
+      10px;
+  }
+
+  .foodigo-food-wrapper {
+    width:
+      125px;
+
+    height:
+      125px;
+
+    top:
+      34px;
+  }
+
+  .foodigo-brand-oval {
+    width:
+      132px;
+
+    height:
+      43px;
+  }
+
+  .foodigo-brand-text {
+    font-size:
+      27px;
+  }
+
+  .foodigo-heading h2 {
+    font-size:
+      27px;
+  }
+
+  .foodigo-heading p {
+    font-size:
+      8px;
+  }
+
+  .foodigo-form {
+    margin-top:
+      8px;
+
+    gap:
+      5px;
+  }
+
+  .foodigo-input input {
+    height:
+      35px;
+  }
+
+  .foodigo-submit {
+    height:
+      38px;
+  }
+
+  .foodigo-security {
+    font-size:
+      6.5px;
+  }
+
+  .foodigo-bottom-leaves {
+    display:
+      none;
+  }
+}
+
+
+/* =========================================================
+   SHORT HEIGHT
+========================================================= */
+
+@media (max-height: 650px) {
+  .foodigo-overlay {
+    padding:
+      5px;
+  }
+
+  .foodigo-card {
+    min-height:
+      0;
+
+    border-radius:
+      20px;
+  }
+
+  .foodigo-content {
+    padding:
+      15px
+      19px
+      10px;
+  }
+
+  .foodigo-food-wrapper {
+    width:
+      130px;
+
+    height:
+      130px;
+
+    top:
+      27px;
+  }
+
+  .foodigo-brand {
+    margin-bottom:
+      5px;
+  }
+
+  .foodigo-heading h2 {
+    font-size:
+      29px;
+  }
+
+  .foodigo-heading p {
+    margin-top:
+      3px;
+
+    font-size:
+      8px;
+  }
+
+  .foodigo-form {
+    gap:
+      5px;
+
+    margin-top:
+      7px;
+  }
+
+  .foodigo-field label {
+    margin-bottom:
+      2px;
+
+    font-size:
+      8px;
+  }
+
+  .foodigo-input input {
+    height:
+      34px;
+  }
+
+  .foodigo-submit {
+    height:
+      37px;
+  }
+
+  .foodigo-security {
+    font-size:
+      6.7px;
+  }
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  .foodigo-card,
+  .foodigo-overlay,
+  .foodigo-close,
+  .foodigo-submit,
+  .foodigo-input input,
+  .foodigo-spinner {
+    animation:
+      none !important;
+
+    transition:
+      none !important;
+  }
+}

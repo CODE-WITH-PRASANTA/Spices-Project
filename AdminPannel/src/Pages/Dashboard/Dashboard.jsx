@@ -1,18 +1,16 @@
 import React from 'react'
-import TopDeals from '../../Components/TopDeals/TopDeals'
-import SalesOverview from '../../Components/SalesOverview/SalesOverview'
-import InventorySummury from '../../Components/InventorySummury/InventorySummury'
+import DashboardOne from '../../Components/DashboardOne/DashboardOne'
+import DashboardTwo from '../../Components/DashboardTwo/DashboardTwo'
+import DashboardThree from '../../Components/DashboardThree/DashboardThree'
 
-const Dashboard = () => {
+const DashBoard = () => {
   return (
     <div>
-
-      
-      <TopDeals/>
-      <SalesOverview/>
-      <InventorySummury/>
+      <DashboardOne/>
+      <DashboardTwo/>
+      <DashboardThree/>
     </div>
   )
 }
 
-export default Dashboard
+export default DashBoard
