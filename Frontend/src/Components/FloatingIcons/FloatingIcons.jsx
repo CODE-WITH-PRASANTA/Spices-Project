@@ -4,6 +4,10 @@ import "./FloatingIcons.css";
 const FloatingIcons = () => {
   const [showScrollTop, setShowScrollTop] = useState(false);
 
+  // =====================================================
+  // SCROLL DETECTION
+  // =====================================================
+
   useEffect(() => {
     const handleScroll = () => {
       setShowScrollTop(window.scrollY > 300);
@@ -18,6 +22,10 @@ const FloatingIcons = () => {
     };
   }, []);
 
+  // =====================================================
+  // SCROLL TO TOP
+  // =====================================================
+
   const scrollToTop = () => {
     window.scrollTo({
       top: 0,
@@ -29,11 +37,14 @@ const FloatingIcons = () => {
   // CONTACT NUMBERS
   // =====================================================
 
-  const callNumber = "+9190072522221";
+  // Call number
+  const callNumber = "+916291851838";
 
-  // WhatsApp number must NOT contain + or spaces
-  const whatsappNumber = "9190072522221";
+  // WhatsApp number
+  // Do NOT include + or spaces here
+  const whatsappNumber = "916291851838";
 
+  // WhatsApp default message
   const whatsappMessage = encodeURIComponent(
     "Hello! I would like to get more information."
   );
@@ -46,6 +57,7 @@ const FloatingIcons = () => {
       {/* =================================================
           SCROLL TO TOP
       ================================================= */}
+
       <button
         type="button"
         className={`FloatingIcons__btn FloatingIcons__btn--scroll ${
@@ -64,6 +76,7 @@ const FloatingIcons = () => {
           strokeWidth="2.5"
           strokeLinecap="round"
           strokeLinejoin="round"
+          aria-hidden="true"
         >
           <polyline points="18 15 12 9 6 15" />
         </svg>
@@ -72,10 +85,11 @@ const FloatingIcons = () => {
       {/* =================================================
           CALL BUTTON
       ================================================= */}
+
       <a
         href={`tel:${callNumber}`}
         className="FloatingIcons__btn FloatingIcons__btn--call"
-        aria-label="Call +91 90072522221"
+        aria-label="Call +91 6291851838"
       >
         <svg
           className="FloatingIcons__svg"
@@ -90,12 +104,13 @@ const FloatingIcons = () => {
       {/* =================================================
           WHATSAPP BUTTON
       ================================================= */}
+
       <a
         href={`https://wa.me/${whatsappNumber}?text=${whatsappMessage}`}
         target="_blank"
         rel="noopener noreferrer"
         className="FloatingIcons__btn FloatingIcons__btn--whatsapp"
-        aria-label="Chat on WhatsApp +91 90072522221"
+        aria-label="Chat on WhatsApp +91 6291851838"
       >
         <svg
           className="FloatingIcons__svg"

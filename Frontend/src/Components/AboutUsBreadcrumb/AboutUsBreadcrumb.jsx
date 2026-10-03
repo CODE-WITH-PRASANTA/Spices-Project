@@ -3,7 +3,7 @@ import { Link } from "react-router-dom"; // Link for React Router navigation
 import "./AboutUsBreadcrumb.css";
 
 // Background image
-import AboutUsBreadcrumbImage from "../../assets/breadcrumbcontact.webp";
+import AboutUsBreadcrumbImage from "../../assets/p-breadcrumb.png";
 
 const AboutUsBreadcrumb = () => {
   return (

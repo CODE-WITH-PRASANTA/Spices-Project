@@ -15,7 +15,7 @@ import {
   MailBadge,
 } from "lucide-react";
 
-import logo from "../../assets/main-logo.webp";
+import logo from "../../assets/main-palash-logo.png";
 import "./Sidebar.css";
 
 // Navigation Items configuration
@@ -79,7 +79,7 @@ const Sidebar = ({
   onMobileClose = () => {},
   onProfileClick = () => {},
   onLogout = () => {},
-  brandName = "Foodigo",
+  brandName = "PALASH",
   brandTagline = "ADMIN PANEL",
   user = {
     name: "Admin",
