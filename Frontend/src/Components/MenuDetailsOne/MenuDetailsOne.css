@@ -1,0 +1,470 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap');
+
+/* Main Wrapper */
+.menu-details-one {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+  background-color: #fafbfc;
+  font-family: 'Poppins', sans-serif;
+  box-sizing: border-box;
+}
+
+/* Card Container */
+.menu-details-one__container {
+  max-width: 1180px;
+  width: 100%;
+  background-color: #ffffff;
+  border-radius: 20px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.04);
+  display: flex;
+  gap: 48px;
+  padding: 36px;
+  box-sizing: border-box;
+  align-items: center;
+}
+
+/* Left Image Column */
+.menu-details-one__image-wrapper {
+  flex: 0 0 42%;
+  max-width: 42%;
+  height: 520px;
+  border-radius: 16px;
+  overflow: hidden;
+  background-color: #0b0c10;
+}
+
+.menu-details-one__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.4s ease;
+}
+
+.menu-details-one__image:hover {
+  transform: scale(1.03);
+}
+
+/* Right Content Column */
+.menu-details-one__content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Veg Badge */
+.menu-details-one__veg-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.menu-details-one__veg-icon {
+  width: 16px;
+  height: 16px;
+  border: 1.5px solid #28a745;
+  border-radius: 3px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.menu-details-one__veg-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: #28a745;
+}
+
+.menu-details-one__veg-text {
+  font-size: 13px;
+  font-weight: 500;
+  color: #4b5563;
+}
+
+/* Title */
+.menu-details-one__title {
+  font-size: 32px;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin: 0 0 8px 0;
+  line-height: 1.25;
+}
+
+/* Rating */
+.menu-details-one__rating-wrap {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 14px;
+}
+
+.menu-details-one__star {
+  color: #ffb703;
+  font-size: 15px;
+}
+
+.menu-details-one__rating-text {
+  font-size: 13.5px;
+  font-weight: 500;
+  color: #555555;
+}
+
+/* Description */
+.menu-details-one__description {
+  font-size: 13.5px;
+  line-height: 1.65;
+  color: #6c757d;
+  margin: 0 0 24px 0;
+}
+
+/* Price & Quantity Row */
+.menu-details-one__meta-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 48px;
+  margin-bottom: 24px;
+}
+
+.menu-details-one__price-group,
+.menu-details-one__quantity-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.menu-details-one__label {
+  font-size: 13px;
+  font-weight: 500;
+  color: #64748b;
+}
+
+.menu-details-one__price {
+  font-size: 24px;
+  font-weight: 700;
+  color: #6e9c3b;
+}
+
+/* Quantity Stepper */
+.menu-details-one__stepper {
+  display: inline-flex;
+  align-items: center;
+  background-color: #f1f3f5;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  overflow: hidden;
+  height: 38px;
+}
+
+.menu-details-one__stepper-btn {
+  width: 38px;
+  height: 100%;
+  border: none;
+  background: transparent;
+  font-size: 18px;
+  font-weight: 600;
+  color: #495057;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.menu-details-one__stepper-btn:hover {
+  background-color: #e2e8f0;
+  color: #111827;
+}
+
+.menu-details-one__stepper-btn:active {
+  background-color: #cbd5e1;
+}
+
+.menu-details-one__stepper-value {
+  min-width: 32px;
+  text-align: center;
+  font-size: 14.5px;
+  font-weight: 600;
+  color: #1f2937;
+  user-select: none;
+}
+
+/* Add On Section */
+.menu-details-one__addon-section {
+  margin-bottom: 28px;
+}
+
+.menu-details-one__addon-title {
+  font-size: 17px;
+  font-weight: 700;
+  color: #1e293b;
+  margin: 0 0 14px 0;
+}
+
+.menu-details-one__addon-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+}
+
+.menu-details-one__addon-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 10px 14px;
+  background-color: #ffffff;
+  cursor: pointer;
+  user-select: none;
+  transition: all 0.2s ease;
+}
+
+.menu-details-one__addon-card:hover {
+  border-color: #73a436;
+  background-color: #fcfdfa;
+}
+
+.menu-details-one__addon-card--active {
+  border-color: #cbd5e1;
+}
+
+.menu-details-one__addon-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.menu-details-one__addon-thumb {
+  width: 44px;
+  height: 44px;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+.menu-details-one__addon-name {
+  font-size: 14.5px;
+  font-weight: 500;
+  color: #1f2937;
+}
+
+/* Checkbox */
+.menu-details-one__checkbox {
+  width: 22px;
+  height: 22px;
+  border: 1.5px solid #73a436;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  background-color: #ffffff;
+}
+
+.menu-details-one__checkbox--checked {
+  background-color: #73a436;
+  border-color: #73a436;
+}
+
+.menu-details-one__checkmark {
+  width: 14px;
+  height: 14px;
+}
+
+/* Action & Social Proof Row */
+.menu-details-one__action-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-top: auto;
+}
+
+.menu-details-one__button-group {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.menu-details-one__btn-cart {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background-color: #73a436;
+  color: #ffffff;
+  border: none;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 12px 24px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.25s ease, transform 0.15s ease, box-shadow 0.2s ease;
+  box-shadow: 0 4px 12px rgba(115, 164, 54, 0.25);
+}
+
+.menu-details-one__btn-cart:hover {
+  background-color: #64912e;
+  transform: translateY(-1px);
+}
+
+.menu-details-one__btn-buy {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background-color: #ffffff;
+  color: #eab308;
+  border: 1.5px solid #facc15;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 10.5px 22px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.menu-details-one__btn-buy:hover {
+  background-color: #fefce8;
+  border-color: #eab308;
+  transform: translateY(-1px);
+}
+
+.menu-details-one__btn-icon {
+  display: block;
+}
+
+/* Social Proof Avatar Stack */
+.menu-details-one__avatar-stack {
+  display: flex;
+  align-items: center;
+}
+
+.menu-details-one__avatar {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 2px solid #ffffff;
+  object-fit: cover;
+  margin-left: -9px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+}
+
+.menu-details-one__avatar:first-child {
+  margin-left: 0;
+}
+
+.menu-details-one__avatar-badge {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 2px solid #ffffff;
+  background-color: #73a436;
+  color: #ffffff;
+  font-size: 11px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: -9px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+}
+
+/* ========================================================
+   RESPONSIVE DESIGN BREAKPOINTS
+======================================================== */
+
+/* Tablet & Smaller Laptops */
+@media (max-width: 992px) {
+  .menu-details-one__container {
+    flex-direction: column;
+    padding: 28px;
+    gap: 32px;
+    max-width: 680px;
+  }
+
+  .menu-details-one__image-wrapper {
+    flex: none;
+    max-width: 100%;
+    width: 100%;
+    height: 380px;
+  }
+
+  .menu-details-one__title {
+    font-size: 28px;
+  }
+}
+
+/* Mobile Devices */
+@media (max-width: 640px) {
+  .menu-details-one {
+    padding: 16px 12px;
+  }
+
+  .menu-details-one__container {
+    padding: 18px;
+    border-radius: 16px;
+    gap: 24px;
+  }
+
+  .menu-details-one__image-wrapper {
+    height: 260px;
+    border-radius: 12px;
+  }
+
+  .menu-details-one__title {
+    font-size: 22px;
+  }
+
+  .menu-details-one__meta-row {
+    gap: 28px;
+  }
+
+  .menu-details-one__price {
+    font-size: 21px;
+  }
+
+  .menu-details-one__addon-grid {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .menu-details-one__addon-card {
+    padding: 8px 12px;
+  }
+
+  .menu-details-one__addon-thumb {
+    width: 38px;
+    height: 38px;
+  }
+
+  .menu-details-one__addon-name {
+    font-size: 13.5px;
+  }
+
+  .menu-details-one__action-row {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 18px;
+  }
+
+  .menu-details-one__button-group {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .menu-details-one__btn-cart,
+  .menu-details-one__btn-buy {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .menu-details-one__avatar-stack {
+    justify-content: center;
+  }
+}

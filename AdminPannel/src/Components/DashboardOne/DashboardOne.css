@@ -1,0 +1,249 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+
+* {
+  box-sizing: border-box;
+}
+
+.dashboard-one-wrapper {
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 32px 24px;
+  background-color: #fafbfb;
+  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  color: #111827;
+}
+
+
+/* =========================================
+   CARDS GRID
+========================================= */
+.dashboard-one-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  width: 100%;
+}
+
+.dashboard-one-card {
+  position: relative;
+  border-radius: 18px;
+  padding: 22px 20px 18px 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 182px;
+  overflow: hidden;
+  transition: transform 0.22s ease, box-shadow 0.22s ease;
+}
+
+.dashboard-one-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.05);
+}
+
+/* Backgrounds & borders matching the image tints */
+.dashboard-one-card--orders {
+  background: #f3fcf6;
+  border: 1px solid #e1f6e9;
+}
+
+.dashboard-one-card--revenue {
+  background: #fff8ef;
+  border: 1px solid #fdecd7;
+}
+
+.dashboard-one-card--customers {
+  background: #f2fcf5;
+  border: 1px solid #def6e6;
+}
+
+.dashboard-one-card--reviews {
+  background: #fef5f5;
+  border: 1px solid #fde2e2;
+}
+
+/* Round Badge Icons */
+.dashboard-one-icon-badge {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  margin-bottom: 14px;
+}
+
+.dashboard-one-icon-badge svg {
+  width: 22px;
+  height: 22px;
+}
+
+.dashboard-one-rupee-sign {
+  font-size: 1.45rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.dashboard-one-icon-badge--orders {
+  background: #16a34a;
+  box-shadow: 0 6px 14px rgba(22, 163, 74, 0.28);
+}
+
+.dashboard-one-icon-badge--revenue {
+  background: #f97316;
+  box-shadow: 0 6px 14px rgba(249, 115, 22, 0.28);
+}
+
+.dashboard-one-icon-badge--customers {
+  background: #22c55e;
+  box-shadow: 0 6px 14px rgba(34, 197, 94, 0.28);
+}
+
+.dashboard-one-icon-badge--reviews {
+  background: #ef4444;
+  box-shadow: 0 6px 14px rgba(239, 68, 68, 0.28);
+}
+
+/* Card Content / Labels */
+.dashboard-one-info-block {
+  margin-bottom: 12px;
+}
+
+.dashboard-one-card-title {
+  display: block;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #4b5563;
+  margin-bottom: 4px;
+}
+
+.dashboard-one-card-number {
+  font-size: 1.95rem;
+  font-weight: 800;
+  color: #0f172a;
+  margin: 0;
+  letter-spacing: -0.035em;
+  line-height: 1.1;
+}
+
+/* Bottom Row (Percentages + Wave Side by Side) */
+.dashboard-one-bottom-row {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  position: relative;
+  width: 100%;
+  margin-top: 6px;
+}
+
+.dashboard-one-trend-group {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+  z-index: 2;
+}
+
+.dashboard-one-trend-percentage {
+  font-size: 0.86rem;
+  font-weight: 700;
+  color: #15803d;
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.dashboard-one-trend-arrow {
+  width: 13px;
+  height: 13px;
+}
+
+.dashboard-one-trend-label {
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: #64748b;
+  white-space: nowrap;
+}
+
+/* =========================================
+   EXACT WAVE DESIGN & ANIMATION
+========================================= */
+.dashboard-one-wave-container {
+  width: 95px;
+  height: 44px;
+  flex-shrink: 0;
+  position: relative;
+  margin-bottom: -4px;
+  z-index: 1;
+}
+
+.dashboard-one-wave-svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.dashboard-one-wave-stroke {
+  stroke-dasharray: 200;
+  stroke-dashoffset: 200;
+  animation: dashboardOneDrawWave 1.4s ease-out forwards;
+}
+
+@keyframes dashboardOneDrawWave {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* =========================================
+   RESPONSIVENESS (ALL DEVICES)
+========================================= */
+@media (max-width: 1200px) {
+  .dashboard-one-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+}
+
+@media (max-width: 768px) {
+  .dashboard-one-wrapper {
+    padding: 20px 14px;
+  }
+
+  .dashboard-one-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .dashboard-one-main-title {
+    font-size: 1.7rem;
+  }
+
+  .dashboard-one-grid {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  .dashboard-one-card {
+    padding: 18px 16px;
+    min-height: 168px;
+  }
+}
+
+@media (max-width: 380px) {
+  .dashboard-one-card-number {
+    font-size: 1.65rem;
+  }
+  
+  .dashboard-one-wave-container {
+    width: 80px;
+    height: 38px;
+  }
+
+  .dashboard-one-trend-label {
+    font-size: 0.72rem;
+  }
+}

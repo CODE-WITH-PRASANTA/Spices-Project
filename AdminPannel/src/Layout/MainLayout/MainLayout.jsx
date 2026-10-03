@@ -9,33 +9,58 @@ const MainLayout = () => {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [isMobileOpen, setIsMobileOpen] = useState(false);
 
+  // =========================================================
+  // DESKTOP SIDEBAR COLLAPSE / MOBILE SIDEBAR OPEN
+  // =========================================================
+
   const toggleSidebar = () => {
     if (window.innerWidth <= 768) {
-      setIsMobileOpen(!isMobileOpen);
+      setIsMobileOpen((prev) => !prev);
     } else {
-      setIsCollapsed(!isCollapsed);
+      setIsCollapsed((prev) => !prev);
     }
   };
+
+  // =========================================================
+  // MOBILE SIDEBAR CLOSE
+  // =========================================================
 
   const closeMobileSidebar = () => {
     setIsMobileOpen(false);
   };
 
   return (
-    <div className={`MainLayout ${isCollapsed ? "sidebar-collapsed" : ""}`}>
+    <div
+      className={`MainLayout ${
+        isCollapsed ? "sidebar-collapsed" : ""
+      }`}
+    >
+      {/* =====================================================
+          SIDEBAR
+      ===================================================== */}
+
       <Sidebar
         isCollapsed={isCollapsed}
         isMobileOpen={isMobileOpen}
-        onClose={closeMobileSidebar}
+        onToggleCollapse={toggleSidebar}
+        onMobileClose={closeMobileSidebar}
       />
 
-      {/* Mobile Overlay */}
+      {/* =====================================================
+          MOBILE OVERLAY
+      ===================================================== */}
+
       {isMobileOpen && (
         <div
           className="MainLayout-overlay"
           onClick={closeMobileSidebar}
+          aria-hidden="true"
         />
       )}
+
+      {/* =====================================================
+          MAIN CONTAINER
+      ===================================================== */}
 
       <div className="MainLayout-container">
         <Topbar toggleSidebar={toggleSidebar} />

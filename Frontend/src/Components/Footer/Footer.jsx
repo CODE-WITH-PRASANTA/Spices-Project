@@ -1,137 +1,265 @@
-import React from 'react';
-import {
-  MapPin,
-  Phone,
-  Clock,
-  Mail,
-  ChevronRight,
-  ArrowUp,
-} from 'lucide-react';
+import React from "react";
+import "./Footer.css";
 
-import {
-  FaFacebookF,
-  FaPinterestP,
-  FaInstagram,
-} from 'react-icons/fa';
-import './Footer.css';
+// Assets
+import FooterLogo from "../../assets/main-palash-logo.png";
+import FooterAlmond from "../../assets/footeralmond.png";
+import FooterTomato from "../../assets/footertamato.png";
 
-// Import your footer background image asset
-import footerBg from '../../assets/footer_1.webp'; 
+// SVG Icons
+const FooterLocationIcon = ({ size = 20 }) => (
+  <svg
+    width={size}
+    height={size}
+    viewBox="0 0 24 24"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M20 10C20 15.5 12 21 12 21C12 21 4 15.5 4 10C4 5.58 7.58 2 12 2C16.42 2 20 5.58 20 10Z"
+      stroke="currentColor"
+      strokeWidth="1.9"
+      strokeLinejoin="round"
+    />
+    <circle
+      cx="12"
+      cy="10"
+      r="2.8"
+      stroke="currentColor"
+      strokeWidth="1.9"
+    />
+  </svg>
+);
+
+const FooterPhoneIcon = ({ size = 20 }) => (
+  <svg
+    width={size}
+    height={size}
+    viewBox="0 0 24 24"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M6.6 3.2L9.1 2.6C9.7 2.45 10.3 2.75 10.55 3.3L11.75 6.15C11.95 6.62 11.82 7.16 11.42 7.5L9.75 8.95C10.75 11.1 12.5 12.85 14.65 13.85L16.1 12.18C16.44 11.78 16.98 11.65 17.45 11.85L20.3 13.05C20.85 13.3 21.15 13.9 21 14.5L20.4 17C20.23 17.72 19.58 18.25 18.84 18.25C10.83 18.25 5.75 13.17 5.75 5.16C5.75 4.42 6.28 3.77 7 3.6L6.6 3.2Z"
+      stroke="currentColor"
+      strokeWidth="1.8"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </svg>
+);
+
+const FooterMailIcon = ({ size = 20 }) => (
+  <svg
+    width={size}
+    height={size}
+    viewBox="0 0 24 24"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <rect
+      x="3"
+      y="5"
+      width="18"
+      height="14"
+      rx="2"
+      stroke="currentColor"
+      strokeWidth="1.9"
+    />
+    <path
+      d="M4 7L12 13L20 7"
+      stroke="currentColor"
+      strokeWidth="1.9"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </svg>
+);
+
+const FooterChevronIcon = ({ size = 13 }) => (
+  <svg
+    width={size}
+    height={size}
+    viewBox="0 0 24 24"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M9 5L16 12L9 19"
+      stroke="currentColor"
+      strokeWidth="2.2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </svg>
+);
+
+const FooterHeartIcon = ({ size = 14 }) => (
+  <svg
+    width={size}
+    height={size}
+    viewBox="0 0 24 24"
+    fill="currentColor"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path d="M12 21C11.7 21 11.4 20.9 11.15 20.7C5.5 16.15 2 12.92 2 8.85C2 5.6 4.45 3 7.5 3C9.25 3 10.82 3.82 12 5.1C13.18 3.82 14.75 3 16.5 3C19.55 3 22 5.6 22 8.85C22 12.92 18.5 16.15 12.85 20.7C12.6 20.9 12.3 21 12 21Z" />
+  </svg>
+);
 
 const Footer = () => {
-  const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
+  const footerLinks = [
+    { label: "Home", href: "/" },
+    { label: "About Us", href: "/about" },
+    { label: "Our Products", href: "/menu" },
+    { label: "Gallery", href: "/gallery" },
+    { label: "Testimonials", href: "/testimonial" },
+  ];
+
+  const serviceLinks = [
+    { label: "Bulk & Wholesale Supply", href: "/menu" },
+    { label: "Retail Distribution", href: "/contact" },
+    { label: "Pure & Hygienic Sourcing", href: "/about" },
+    { label: "Fast Regional Dispatch", href: "/contact" },
+  ];
+
+  const helpLinks = [
+    { label: "FAQ", href: "/faq" },
+    { label: "Product Catalogue", href: "/menu" },
+    { label: "Business Enquiries", href: "/contact" },
+    { label: "Terms & Conditions", href: "/terms" },
+    { label: "Contact Us", href: "/contact" },
+  ];
+
+  const renderLinkList = (links) => (
+    <ul className="FooterLinkList">
+      {links.map((item) => (
+        <li key={item.label} className="FooterLinkItem">
+          <a href={item.href} className="FooterLink">
+            <span className="FooterLinkArrow">
+              <FooterChevronIcon />
+            </span>
+            <span className="FooterLinkLabel">{item.label}</span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  );
 
   return (
-    <footer className="waffy-footer" style={{ backgroundImage: `url(${footerBg})` }}>
-      <div className="footer-main-container">
-        <div className="footer-grid-layout">
-          
-          {/* COLUMN 1: About Us */}
-          <div className="footer-column about-column">
-            <h3 className="column-heading">About us</h3>
-            <p className="about-text">
-              Pellentesque posuere orci lobortis scelerisque blandit. Donec id tellus lacinia an, tincidunt risus ac, consequat velit.
-            </p>
-            <a href="/about" className="read-more-link">Read More</a>
-           <div className="social-icons-row">
-  <a href="#" className="social-icon"><FaFacebookF size={16} /></a>
-  <a href="#" className="social-icon"><FaPinterestP size={16} /></a>
-  <a href="#" className="social-icon"><FaInstagram size={16} /></a>
-</div>
-          </div>
-
-          {/* COLUMN 2: Help Links */}
-          <div className="footer-column links-column">
-            <h3 className="column-heading">Help</h3>
-            <ul className="links-list">
-              <li><a href="/search"><ChevronRight size={14} className="bullet-arrow" /> Search</a></li>
-              <li><a href="/help"><ChevronRight size={14} className="bullet-arrow" /> Help</a></li>
-              <li><a href="/information"><ChevronRight size={14} className="bullet-arrow" /> Information</a></li>
-              <li><a href="/privacy"><ChevronRight size={14} className="bullet-arrow" /> Privacy Policy</a></li>
-              <li><a href="/shipping"><ChevronRight size={14} className="bullet-arrow" /> Shipping Details</a></li>
-            </ul>
-          </div>
-
-          {/* COLUMN 3: Support Links */}
-          <div className="footer-column links-column">
-            <h3 className="column-heading">Support</h3>
-            <ul className="links-list">
-              <li><a href="/contact"><ChevronRight size={14} className="bullet-arrow" /> Contact us</a></li>
-              <li><a href="/about"><ChevronRight size={14} className="bullet-arrow" /> About us</a></li>
-              <li><a href="/careers"><ChevronRight size={14} className="bullet-arrow" /> Careers</a></li>
-              <li><a href="/refunds"><ChevronRight size={14} className="bullet-arrow" /> Refunds</a></li>
-              <li><a href="/deliveries"><ChevronRight size={14} className="bullet-arrow" /> Deliveries</a></li>
-            </ul>
-          </div>
-
-          {/* COLUMN 4: Information Links */}
-          <div className="footer-column links-column">
-            <h3 className="column-heading">Information</h3>
-            <ul className="links-list">
-              <li><a href="/search-terms"><ChevronRight size={14} className="bullet-arrow" /> Search Terms</a></li>
-              <li><a href="/advanced-search"><ChevronRight size={14} className="bullet-arrow" /> Advanced Search</a></li>
-              <li><a href="/faq"><ChevronRight size={14} className="bullet-arrow" /> Help & Faq's</a></li>
-              <li><a href="/store-location"><ChevronRight size={14} className="bullet-arrow" /> Store Location</a></li>
-              <li><a href="/returns"><ChevronRight size={14} className="bullet-arrow" /> Orders & Returns</a></li>
-            </ul>
-          </div>
-
-          {/* COLUMN 5: Contact Us Info */}
-          <div className="footer-column contact-column">
-            <h3 className="column-heading">Contact us</h3>
-            <ul className="contact-info-list">
-              <li>
-                <MapPin size={16} className="contact-icon" />
-                <span>11244 Niki Lauda 455 New Zealand</span>
-              </li>
-              <li>
-                <Phone size={16} className="contact-icon" />
-                <span>0000 - 123 - 456789</span>
-              </li>
-              <li>
-                <Clock size={16} className="contact-icon" />
-                <span>9.30AM - 7.30PM</span>
-              </li>
-              <li>
-                <Mail size={16} className="contact-icon" />
-                <a href="mailto:mail@example.com">mail@example.com</a>
-              </li>
-            </ul>
-            
-            {/* Payment Badges Placement */}
-            <div className="payment-gateways-row">
-              <span className="payment-card visa">VISA</span>
-              <span className="payment-card mastercard">MC</span>
-              <span className="payment-card amex">AMEX</span>
-              <span className="payment-card paypal">PayPal</span>
-              <span className="payment-card discover">DISCOVER</span>
-            </div>
-          </div>
-
-        </div>
+    <footer className="FooterMain">
+      {/* Decorative Assets */}
+      <div className="FooterAlmondDecoration" aria-hidden="true">
+        <img src={FooterAlmond} alt="" />
       </div>
 
-      {/* FOOTER BOTTOM BAR */}
-      <div className="footer-bottom-bar">
-        <div className="bottom-bar-container">
-          <p className="copyright-text">
-            © 2026  Developed by PR WEBSTOCK
-          </p>
-          <div className="bottom-navigation-links">
-            <a href="/">Home page</a>
-            <span className="divider">|</span>
-            <a href="/privacy">Privacy Policy</a>
-            <span className="divider">|</span>
-            <a href="/search">Search</a>
+      <div className="FooterTomatoDecoration" aria-hidden="true">
+        <img src={FooterTomato} alt="" />
+      </div>
+
+      <div className="FooterContainer">
+        <div className="FooterTop">
+          {/* COLUMN 1: CONTACT */}
+          <div className="FooterColumn FooterContactColumn">
+            <div className="FooterLogoWrapper">
+              <a href="/" className="FooterLogoLink" aria-label="Foodigo Home">
+                <img
+                  src={FooterLogo}
+                  alt="Foodigo"
+                  className="FooterLogo"
+                />
+              </a>
+            </div>
+
+            <h3 className="FooterTitle">CONTACT</h3>
+
+            {/* Address */}
+            <a
+              href="https://www.google.com/maps/search/?api=1&query=Patiramjote+Matigara+Siliguri+Darjeeling+West+Bengal+India"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="FooterContactItem"
+              aria-label="Find us on Google Maps"
+            >
+              <span className="FooterContactIcon">
+                <FooterLocationIcon />
+              </span>
+              <span className="FooterContactText">
+                Patiramjote Matigara Siliguri,
+                <br />
+                Darjeeling, West Bengal, India
+              </span>
+            </a>
+
+            {/* Phone */}
+            <a
+              href="tel:+919007252221"
+              className="FooterContactItem"
+              aria-label="Call +91 90072 52221"
+            >
+              <span className="FooterContactIcon">
+                <FooterPhoneIcon />
+              </span>
+              <span className="FooterContactText FooterPhoneText">
+                +91 90072 52221
+              </span>
+            </a>
+
+            {/* Email */}
+            <a
+              href="mailto:gsmarketing507@gmail.com"
+              className="FooterContactItem"
+              aria-label="Send email to gsmarketing507@gmail.com"
+            >
+              <span className="FooterContactIcon">
+                <FooterMailIcon />
+              </span>
+              <span className="FooterContactText FooterEmailText">
+                gsmarketing507@gmail.com
+              </span>
+            </a>
+          </div>
+
+          {/* COLUMN 2: OUR LINKS */}
+          <div className="FooterColumn">
+            <h3 className="FooterTitle">OUR LINKS</h3>
+            {renderLinkList(footerLinks)}
+          </div>
+
+          {/* COLUMN 3: SERVICES */}
+          <div className="FooterColumn">
+            <h3 className="FooterTitle">OUR SERVICES</h3>
+            {renderLinkList(serviceLinks)}
+          </div>
+
+          {/* COLUMN 4: HELP CENTER */}
+          <div className="FooterColumn">
+            <h3 className="FooterTitle">HELP CENTER</h3>
+            {renderLinkList(helpLinks)}
           </div>
         </div>
-        
-        {/* Scroll back to top circle button */}
-        <button className="scroll-top-btn" onClick={scrollToTop} aria-label="Scroll to top">
-          <ArrowUp size={18} />
-        </button>
+
+        {/* FOOTER BOTTOM */}
+        <div className="FooterBottom">
+          <p className="FooterCopyright">
+            Copyright {new Date().getFullYear()} All rights reserved.
+          </p>
+
+          <p className="FooterCreated">
+            Crafted With
+            <span className="FooterHeart">
+              <FooterHeartIcon />
+            </span>
+            by{" "}
+            <a
+              href="https://prwebstock.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="FooterBrand"
+            >
+              PR WEBSTOCK
+            </a>
+          </p>
+        </div>
       </div>
     </footer>
   );

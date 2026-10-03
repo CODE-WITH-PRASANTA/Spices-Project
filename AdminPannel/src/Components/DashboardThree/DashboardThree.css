@@ -1,0 +1,494 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+
+/* Prevent any parent leakage of scroll */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+/* Main Container: Clamps width strictly inside viewport without overflow */
+.dashboard-three-wrapper {
+  width: 100%;
+  max-width: 100%;
+  margin: 0;
+  padding: 16px 20px 24px 20px;
+  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  color: #0f172a;
+  overflow-x: clip; /* Eliminates horizontal scrollbar */
+}
+
+/* Proportional Grid with min-width: 0 on all children so flex/grid never blowout */
+.dashboard-three-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
+  gap: 20px;
+  width: 100%;
+  min-width: 0;
+  align-items: stretch;
+}
+
+/* Card Styling */
+.dashboard-three-card {
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 22px 22px;
+  border: 1px solid #edf2f7;
+  box-shadow: 0 2px 14px rgba(0, 0, 0, 0.03);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  min-width: 0; /* CRITICAL: Prevents children from expanding past column width */
+  overflow: hidden;
+  transition: box-shadow 0.2s ease;
+}
+
+.dashboard-three-card:hover {
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
+}
+
+/* Header Elements */
+.dashboard-three-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 18px;
+  gap: 10px;
+  min-width: 0;
+}
+
+.dashboard-three-title-wrap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+.dashboard-three-header-icon {
+  width: 20px;
+  height: 20px;
+  color: #0f172a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.dashboard-three-header-icon svg {
+  width: 19px;
+  height: 19px;
+}
+
+.dashboard-three-card-title {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0;
+  letter-spacing: -0.02em;
+  white-space: nowrap;
+}
+
+/* Button */
+.dashboard-three-action-pill-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #ffffff;
+  border: 1.5px solid #16a34a;
+  color: #16a34a;
+  font-size: 0.8rem;
+  font-weight: 700;
+  padding: 6px 12px;
+  border-radius: 9px;
+  cursor: pointer;
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition: all 0.2s ease;
+}
+
+.dashboard-three-action-pill-btn:hover {
+  background: #16a34a;
+  color: #ffffff;
+  box-shadow: 0 4px 12px rgba(22, 163, 74, 0.25);
+  transform: translateY(-1px);
+}
+
+.dashboard-three-arrow-icon {
+  width: 14px;
+  height: 14px;
+  transition: transform 0.2s ease;
+}
+
+.dashboard-three-action-pill-btn:hover .dashboard-three-arrow-icon {
+  transform: translateX(3px);
+}
+
+/* ========================================================
+   TABLE SECTION (CLEAN ZERO-OVERFLOW)
+======================================================== */
+.dashboard-three-table-responsive {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none; /* Firefox: hides horizontal scrollbar */
+}
+
+/* Chrome, Safari, Edge: hides horizontal scrollbar inside the table */
+.dashboard-three-table-responsive::-webkit-scrollbar {
+  display: none;
+}
+
+.dashboard-three-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.dashboard-three-th {
+  background-color: #f8fafc;
+  color: #64748b;
+  font-size: 0.78rem;
+  font-weight: 600;
+  padding: 10px 10px;
+  border-bottom: 1px solid #f1f5f9;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+}
+
+.dashboard-three-th.th-col-id {
+  border-top-left-radius: 8px;
+  border-bottom-left-radius: 8px;
+  width: 48px;
+}
+
+.dashboard-three-th.th-col-action {
+  border-top-right-radius: 8px;
+  border-bottom-right-radius: 8px;
+  text-align: center;
+  width: 44px;
+}
+
+.dashboard-three-tr {
+  transition: background-color 0.15s ease;
+}
+
+.dashboard-three-tr:hover {
+  background-color: #fbfcfe;
+}
+
+.dashboard-three-td {
+  padding: 12px 10px;
+  font-size: 0.83rem;
+  color: #334155;
+  border-bottom: 1px solid #f8fafc;
+  vertical-align: middle;
+}
+
+.dashboard-three-tr:last-child .dashboard-three-td {
+  border-bottom: none;
+}
+
+.td-id {
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.dashboard-three-customer-flex {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.dashboard-three-customer-avatar {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.dashboard-three-customer-name {
+  font-weight: 600;
+  color: #0f172a;
+  white-space: nowrap;
+}
+
+.td-items {
+  color: #475569;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.td-amount {
+  font-weight: 700;
+  color: #0f172a;
+  white-space: nowrap;
+}
+
+.td-date {
+  color: #64748b;
+  font-size: 0.8rem;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+/* Status Badges */
+.dashboard-three-badge {
+  display: inline-block;
+  padding: 3px 9px;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.dashboard-three-status--delivered {
+  background-color: #e8f9ed;
+  color: #16a34a;
+}
+
+.dashboard-three-status--preparing {
+  background-color: #fff2e7;
+  color: #f97316;
+}
+
+.dashboard-three-status--pending {
+  background-color: #fef8e7;
+  color: #f59e0b;
+}
+
+.dashboard-three-status--cancelled {
+  background-color: #feecec;
+  color: #ef4444;
+}
+
+/* Action Menu */
+.td-action {
+  text-align: center;
+  position: relative;
+}
+
+.dashboard-three-action-menu-wrap {
+  position: relative;
+  display: inline-block;
+}
+
+.dashboard-three-dots-btn {
+  background: none;
+  border: none;
+  color: #64748b;
+  font-size: 1.05rem;
+  cursor: pointer;
+  padding: 2px 4px;
+  border-radius: 4px;
+  letter-spacing: 2px;
+  line-height: 1;
+  transition: all 0.15s ease;
+}
+
+.dashboard-three-dots-btn:hover {
+  background-color: #f1f5f9;
+  color: #0f172a;
+}
+
+.dashboard-three-dropdown-popup {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  min-width: 130px;
+  z-index: 50;
+  overflow: hidden;
+}
+
+.dashboard-three-dropdown-row {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: none;
+  padding: 8px 12px;
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: #334155;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.dashboard-three-dropdown-row:hover {
+  background: #f8fafc;
+  color: #0f172a;
+}
+
+.dashboard-three-dropdown-row.text-danger {
+  color: #ef4444;
+}
+
+.dashboard-three-dropdown-row.text-danger:hover {
+  background: #fef2f2;
+}
+
+/* ========================================================
+   REVIEWS SECTION
+======================================================== */
+.dashboard-three-reviews-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+  min-width: 0;
+}
+
+.dashboard-three-review-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 10px 0;
+  border-bottom: 1px solid #f8fafc;
+  min-width: 0;
+}
+
+.dashboard-three-review-card:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.dashboard-three-avatar-badge {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 0.9rem;
+  flex-shrink: 0;
+}
+
+.dashboard-three-review-body {
+  flex: 1;
+  min-width: 0;
+}
+
+.dashboard-three-review-headline {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 3px;
+  gap: 6px;
+  min-width: 0;
+}
+
+.dashboard-three-author-rating {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+}
+
+.dashboard-three-author-text {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: #0f172a;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.dashboard-three-stars-row {
+  display: inline-flex;
+  gap: 1.5px;
+  flex-shrink: 0;
+}
+
+.dashboard-three-star {
+  font-size: 0.88rem;
+  line-height: 1;
+}
+
+.dashboard-three-star--filled {
+  color: #f59e0b;
+}
+
+.dashboard-three-star--empty {
+  color: #e2e8f0;
+}
+
+.dashboard-three-timestamp {
+  font-size: 0.74rem;
+  color: #94a3b8;
+  font-weight: 500;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.dashboard-three-comment-text {
+  margin: 0;
+  font-size: 0.82rem;
+  color: #475569;
+  line-height: 1.4;
+  font-weight: 450;
+  word-break: break-word;
+}
+
+/* ========================================================
+   RESPONSIVENESS (ALL SCREEN SIZES)
+======================================================== */
+
+/* Laptops / Screens with open sidebar (<= 1240px) */
+@media (max-width: 1240px) {
+  .dashboard-three-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+}
+
+/* Tablets (<= 900px) */
+@media (max-width: 900px) {
+  .dashboard-three-wrapper {
+    padding: 12px 14px;
+  }
+
+  .dashboard-three-card {
+    padding: 18px;
+  }
+}
+
+/* Mobile Screens (<= 600px) */
+@media (max-width: 600px) {
+  .dashboard-three-wrapper {
+    padding: 8px;
+  }
+
+  .dashboard-three-card {
+    padding: 14px 12px;
+    border-radius: 16px;
+  }
+
+  .dashboard-three-card-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .dashboard-three-card-title {
+    font-size: 1.02rem;
+  }
+
+  .dashboard-three-action-pill-btn {
+    padding: 5px 10px;
+    font-size: 0.75rem;
+  }
+
+  .dashboard-three-review-headline {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2px;
+  }
+
+  .dashboard-three-timestamp {
+    font-size: 0.7rem;
+  }
+}

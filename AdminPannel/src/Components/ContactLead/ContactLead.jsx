@@ -1,859 +1,1652 @@
-import React, { useState, useMemo } from 'react';
-import './ContactLead.css';
-
-const INITIAL_LEADS = [
-  {
-    id: 1,
-    name: 'Rahul Sharma',
-    email: 'rahul.sharma@gmail.com',
-    phone: '+91 98765 43210',
-    message: 'Interested in bulk purchase of turmeric powder.',
-    source: 'Website',
-    status: 'New',
-    date: '12 Nov 2024',
-    time: '10:32 AM',
-    color: '#d97706'
-  },
-  {
-    id: 2,
-    name: 'Priya Mehta',
-    email: 'priya.mehta@outlook.com',
-    phone: '+91 87654 32109',
-    message: 'Need pricing details for red chilli powder.',
-    source: 'Instagram',
-    status: 'Contacted',
-    date: '11 Nov 2024',
-    time: '04:18 PM',
-    color: '#4f46e5'
-  },
-  {
-    id: 3,
-    name: 'Amit Verma',
-    email: 'amit.verma@gmail.com',
-    phone: '+91 99887 66554',
-    message: 'Looking for wholesale distributor opportunities.',
-    source: 'Referral',
-    status: 'Converted',
-    date: '10 Nov 2024',
-    time: '11:05 AM',
-    color: '#16a34a'
-  },
-  {
-    id: 4,
-    name: 'Sneha Kapoor',
-    email: 'sneha.kapoor@yahoo.com',
-    phone: '+91 91234 56789',
-    message: 'Would like to know about your masala range.',
-    source: 'Website',
-    status: 'New',
-    date: '09 Nov 2024',
-    time: '02:47 PM',
-    color: '#db2777'
-  },
-  {
-    id: 5,
-    name: 'Vikram Singh',
-    email: 'vikram.singh@icloud.com',
-    phone: '+91 90011 22334',
-    message: 'Interested in private labeling options.',
-    source: 'Facebook',
-    status: 'Contacted',
-    date: '08 Nov 2024',
-    time: '09:14 AM',
-    color: '#2563eb'
-  },
-  {
-    id: 6,
-    name: 'Neha Patel',
-    email: 'neha.patel@gmail.com',
-    phone: '+91 78787 34343',
-    message: 'Need samples of garam masala and cumin powder.',
-    source: 'Website',
-    status: 'New',
-    date: '07 Nov 2024',
-    time: '05:26 PM',
-    color: '#9333ea'
-  },
-  {
-    id: 7,
-    name: 'Rohit Jain',
-    email: 'rohit.jain@outlook.com',
-    phone: '+91 96655 77889',
-    message: 'Can you share your product catalogue?',
-    source: 'Google',
-    status: 'Contacted',
-    date: '06 Nov 2024',
-    time: '12:11 PM',
-    color: '#0891b2'
-  },
-  {
-    id: 8,
-    name: 'Kavita Desai',
-    email: 'kavita.desai@gmail.com',
-    phone: '+91 94567 82341',
-    message: 'Interested in online reseller partnership.',
-    source: 'Instagram',
-    status: 'Converted',
-    date: '05 Nov 2024',
-    time: '03:36 PM',
-    color: '#e11d48'
-  }
-];
-
-const getInitials = (name) => {
-  return name
-    .split(' ')
-    .map((n) => n[0])
-    .join('')
-    .substring(0, 2)
-    .toUpperCase();
-};
+import React, { useEffect, useMemo, useState } from "react";
+import Swal from "sweetalert2";
+import API from "../../api/axios";
+import "./ContactLead.css";
 
 const ContactLead = () => {
-  const [leads, setLeads] = useState(INITIAL_LEADS);
-  const [searchQuery, setSearchQuery] = useState('');
-  const [selectedStatus, setSelectedStatus] = useState('All Status');
-  const [selectedSource, setSelectedSource] = useState('All Source');
-  const [dateRange, setDateRange] = useState({ start: '', end: '' });
-  const [showDatePicker, setShowDatePicker] = useState(false);
-  const [selectedLeadIds, setSelectedLeadIds] = useState([]);
+  // ======================================================
+  // STATES
+  // ======================================================
 
-  // Pagination states
+  const [leads, setLeads] = useState([]);
+
+  const [loading, setLoading] = useState(true);
+  const [refreshing, setRefreshing] = useState(false);
+
+  const [search, setSearch] = useState("");
+  const [statusFilter, setStatusFilter] =
+    useState("All Status");
+
+  const [fromDate, setFromDate] = useState("");
+  const [toDate, setToDate] = useState("");
+
+  const [selectedIds, setSelectedIds] = useState([]);
+
   const [currentPage, setCurrentPage] = useState(1);
-  const totalPages = 8;
 
-  // Modal States
-  const [modalType, setModalType] = useState(null); // 'add' | 'edit' | 'view' | 'delete'
-  const [currentLead, setCurrentLead] = useState(null);
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    phone: '',
-    message: '',
-    source: 'Website',
-    status: 'New'
+  const [viewLead, setViewLead] = useState(null);
+  const [editLead, setEditLead] = useState(null);
+  const [deleteLead, setDeleteLead] = useState(null);
+
+  const [showBulkDelete, setShowBulkDelete] =
+    useState(false);
+
+  const [editForm, setEditForm] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    address: "",
+    message: "",
+    status: "New",
   });
 
-  const stats = useMemo(() => {
-    return { total: 42, newCount: 12, contacted: 18, converted: 8 };
-  }, []);
+  const ITEMS_PER_PAGE = 6;
 
-  // Filtered Leads
-  const filteredLeads = useMemo(() => {
-    return leads.filter((lead) => {
-      const matchSearch =
-        lead.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        lead.email.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        lead.phone.includes(searchQuery);
+  // ======================================================
+  // FETCH LEADS
+  // ======================================================
 
-      const matchStatus =
-        selectedStatus === 'All Status' || lead.status === selectedStatus;
+  const fetchLeads = async (showLoader = true, showError = true) => {
+    try {
+      if (showLoader) {
+        setLoading(true);
+      } else {
+        setRefreshing(true);
+      }
 
-      const matchSource =
-        selectedSource === 'All Source' || lead.source === selectedSource;
+      const response = await API.get("/cold-leads");
 
-      return matchSearch && matchStatus && matchSource;
-    });
-  }, [leads, searchQuery, selectedStatus, selectedSource]);
+      if (response.data?.success) {
+        setLeads(response.data.data || []);
+      } else {
+        throw new Error(
+          response.data?.message ||
+            "Failed to fetch leads."
+        );
+      }
+    } catch (error) {
+      console.error("Fetch leads error:", error);
 
-  const handleSelectAll = (e) => {
-    if (e.target.checked) {
-      setSelectedLeadIds(filteredLeads.map((l) => l.id));
-    } else {
-      setSelectedLeadIds([]);
+      if (showError) {
+        Swal.fire({
+          icon: "error",
+          title: "Unable to Load Leads",
+          text:
+            error?.response?.data?.message ||
+            "Please check your backend server.",
+        });
+      }
+    } finally {
+      setLoading(false);
+      setRefreshing(false);
     }
   };
 
-  const handleSelectOne = (id) => {
-    setSelectedLeadIds((prev) =>
-      prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id]
+ useEffect(() => {
+  fetchLeads(true, true);
+}, []);
+
+  // ======================================================
+  // STATISTICS
+  // ======================================================
+
+  const totalLeads = leads.length;
+
+  const newLeads = leads.filter(
+    (lead) => lead.status === "New"
+  ).length;
+
+  const repliedLeads = leads.filter(
+    (lead) => lead.status === "Replied"
+  ).length;
+
+  const pendingLeads = leads.filter(
+    (lead) => lead.status === "Pending"
+  ).length;
+
+  // ======================================================
+  // FORMAT DATE
+  // ======================================================
+
+  const formatDate = (value) => {
+    if (!value) return "";
+
+    const date = new Date(value);
+
+    if (Number.isNaN(date.getTime())) {
+      return "";
+    }
+
+    return date.toLocaleDateString("en-IN", {
+      day: "2-digit",
+      month: "short",
+      year: "numeric",
+    });
+  };
+
+  const getDateOnly = (value) => {
+    if (!value) return "";
+
+    const date = new Date(value);
+
+    if (Number.isNaN(date.getTime())) {
+      return "";
+    }
+
+    return date.toISOString().split("T")[0];
+  };
+
+  // ======================================================
+  // FILTER
+  // ======================================================
+
+  const filteredLeads = useMemo(() => {
+    const searchText = search.toLowerCase().trim();
+
+    return leads.filter((lead) => {
+      const matchesSearch =
+        !searchText ||
+        lead.name
+          ?.toLowerCase()
+          .includes(searchText) ||
+        lead.email
+          ?.toLowerCase()
+          .includes(searchText) ||
+        lead.phone
+          ?.toLowerCase()
+          .includes(searchText) ||
+        lead.address
+          ?.toLowerCase()
+          .includes(searchText) ||
+        lead.message
+          ?.toLowerCase()
+          .includes(searchText);
+
+      const matchesStatus =
+        statusFilter === "All Status" ||
+        lead.status === statusFilter;
+
+      const leadDate = getDateOnly(lead.createdAt);
+
+      const matchesFrom =
+        !fromDate || leadDate >= fromDate;
+
+      const matchesTo =
+        !toDate || leadDate <= toDate;
+
+      return (
+        matchesSearch &&
+        matchesStatus &&
+        matchesFrom &&
+        matchesTo
+      );
+    });
+  }, [
+    leads,
+    search,
+    statusFilter,
+    fromDate,
+    toDate,
+  ]);
+
+  // ======================================================
+  // PAGINATION
+  // ======================================================
+
+  const totalPages = Math.max(
+    1,
+    Math.ceil(
+      filteredLeads.length / ITEMS_PER_PAGE
+    )
+  );
+
+  const startIndex =
+    (currentPage - 1) * ITEMS_PER_PAGE;
+
+  const currentLeads = filteredLeads.slice(
+    startIndex,
+    startIndex + ITEMS_PER_PAGE
+  );
+
+  useEffect(() => {
+    if (currentPage > totalPages) {
+      setCurrentPage(totalPages);
+    }
+  }, [currentPage, totalPages]);
+
+  // ======================================================
+  // SELECT
+  // ======================================================
+
+  const currentIds = currentLeads.map(
+    (lead) => lead._id
+  );
+
+  const allCurrentSelected =
+    currentIds.length > 0 &&
+    currentIds.every((id) =>
+      selectedIds.includes(id)
+    );
+
+  const handleSelectAll = () => {
+    if (allCurrentSelected) {
+      setSelectedIds((prev) =>
+        prev.filter(
+          (id) => !currentIds.includes(id)
+        )
+      );
+    } else {
+      setSelectedIds((prev) => [
+        ...new Set([...prev, ...currentIds]),
+      ]);
+    }
+  };
+
+  const handleSelectSingle = (id) => {
+    setSelectedIds((prev) =>
+      prev.includes(id)
+        ? prev.filter((item) => item !== id)
+        : [...prev, id]
     );
   };
 
-  const handleOpenAdd = () => {
-    setFormData({
-      name: '',
-      email: '',
-      phone: '',
-      message: '',
-      source: 'Website',
-      status: 'New'
+  // ======================================================
+  // RESET
+  // ======================================================
+
+  const handleReset = () => {
+    setSearch("");
+    setStatusFilter("All Status");
+    setFromDate("");
+    setToDate("");
+    setSelectedIds([]);
+    setCurrentPage(1);
+  };
+
+  // ======================================================
+  // REFRESH
+  // ======================================================
+
+  const handleRefresh = async () => {
+    setSelectedIds([]);
+    setCurrentPage(1);
+
+    await fetchLeads(false, true);
+  };
+
+  // ======================================================
+  // VIEW
+  // ======================================================
+
+  const handleView = (lead) => {
+    setViewLead(lead);
+  };
+
+  // ======================================================
+  // OPEN EDIT
+  // ======================================================
+
+  const openEdit = (lead) => {
+    setEditLead(lead);
+
+    setEditForm({
+      name: lead.name || "",
+      email: lead.email || "",
+      phone: lead.phone || "",
+      address: lead.address || "",
+      message: lead.message || "",
+      status: lead.status || "New",
     });
-    setModalType('add');
   };
 
-  const handleOpenView = (lead) => {
-    setCurrentLead(lead);
-    setModalType('view');
+  // ======================================================
+  // EDIT CHANGE
+  // ======================================================
+
+  const handleEditChange = (field, value) => {
+    setEditForm((prev) => ({
+      ...prev,
+      [field]: value,
+    }));
   };
 
-  const handleOpenEdit = (lead) => {
-    setCurrentLead(lead);
-    setFormData({
-      name: lead.name,
-      email: lead.email,
-      phone: lead.phone,
-      message: lead.message,
-      source: lead.source,
-      status: lead.status
+  // ======================================================
+  // SAVE EDIT
+  // ======================================================
+
+  const handleSaveEdit = async () => {
+    if (!editLead) return;
+
+    try {
+      const response = await API.put(
+        `/cold-leads/${editLead._id}`,
+        editForm
+      );
+
+      if (!response.data?.success) {
+        throw new Error(
+          response.data?.message ||
+            "Failed to update lead."
+        );
+      }
+
+      setLeads((prev) =>
+        prev.map((lead) =>
+          lead._id === editLead._id
+            ? response.data.data
+            : lead
+        )
+      );
+
+      setEditLead(null);
+
+      Swal.fire({
+        icon: "success",
+        title: "Updated!",
+        text: "Lead updated successfully.",
+        timer: 1400,
+        showConfirmButton: false,
+      });
+    } catch (error) {
+      console.error(error);
+
+      Swal.fire({
+        icon: "error",
+        title: "Update Failed",
+        text:
+          error?.response?.data?.message ||
+          error.message,
+      });
+    }
+  };
+
+  // ======================================================
+  // DELETE SINGLE
+  // ======================================================
+
+  const confirmDelete = async () => {
+    if (!deleteLead) return;
+
+    try {
+      const response = await API.delete(
+        `/cold-leads/${deleteLead._id}`
+      );
+
+      if (!response.data?.success) {
+        throw new Error(
+          response.data?.message ||
+            "Delete failed."
+        );
+      }
+
+      setLeads((prev) =>
+        prev.filter(
+          (lead) => lead._id !== deleteLead._id
+        )
+      );
+
+      setSelectedIds((prev) =>
+        prev.filter(
+          (id) => id !== deleteLead._id
+        )
+      );
+
+      setDeleteLead(null);
+
+      Swal.fire({
+        icon: "success",
+        title: "Deleted!",
+        text: "Lead deleted successfully.",
+        timer: 1400,
+        showConfirmButton: false,
+      });
+    } catch (error) {
+      Swal.fire({
+        icon: "error",
+        title: "Delete Failed",
+        text:
+          error?.response?.data?.message ||
+          error.message,
+      });
+    }
+  };
+
+  // ======================================================
+  // BULK DELETE
+  // ======================================================
+
+  const confirmBulkDelete = async () => {
+    if (selectedIds.length === 0) return;
+
+    try {
+      const response = await API.delete(
+        "/cold-leads/bulk",
+        {
+          data: {
+            ids: selectedIds,
+          },
+        }
+      );
+
+      if (!response.data?.success) {
+        throw new Error(
+          response.data?.message ||
+            "Bulk delete failed."
+        );
+      }
+
+      setLeads((prev) =>
+        prev.filter(
+          (lead) =>
+            !selectedIds.includes(lead._id)
+        )
+      );
+
+      setSelectedIds([]);
+      setShowBulkDelete(false);
+
+      Swal.fire({
+        icon: "success",
+        title: "Deleted!",
+        text: response.data.message,
+        timer: 1500,
+        showConfirmButton: false,
+      });
+    } catch (error) {
+      Swal.fire({
+        icon: "error",
+        title: "Delete Failed",
+        text:
+          error?.response?.data?.message ||
+          error.message,
+      });
+    }
+  };
+
+  // ======================================================
+  // EXPORT CSV
+  // ======================================================
+
+  const handleExportCSV = () => {
+    if (filteredLeads.length === 0) {
+      Swal.fire({
+        icon: "info",
+        title: "No Data",
+        text: "There are no leads to export.",
+      });
+
+      return;
+    }
+
+    const headers = [
+      "Name",
+      "Email",
+      "Phone",
+      "Address",
+      "Message",
+      "Date",
+      "Status",
+    ];
+
+    const escapeCSV = (value) => {
+      return `"${String(value ?? "").replace(
+        /"/g,
+        '""'
+      )}"`;
+    };
+
+    const rows = filteredLeads.map((lead) => [
+      escapeCSV(lead.name),
+      escapeCSV(lead.email),
+      escapeCSV(lead.phone),
+      escapeCSV(lead.address),
+      escapeCSV(lead.message),
+      escapeCSV(formatDate(lead.createdAt)),
+      escapeCSV(lead.status),
+    ]);
+
+    const csvContent = [
+      headers.join(","),
+      ...rows.map((row) => row.join(",")),
+    ].join("\n");
+
+    const blob = new Blob([csvContent], {
+      type: "text/csv;charset=utf-8;",
     });
-    setModalType('edit');
+
+    const url = URL.createObjectURL(blob);
+
+    const link = document.createElement("a");
+
+    link.href = url;
+    link.download = `cold-leads-${new Date()
+      .toISOString()
+      .split("T")[0]}.csv`;
+
+    document.body.appendChild(link);
+
+    link.click();
+
+    document.body.removeChild(link);
+
+    URL.revokeObjectURL(url);
   };
 
-  const handleOpenDelete = (lead) => {
-    setCurrentLead(lead);
-    setModalType('delete');
-  };
+  // ======================================================
+  // PAGE NUMBERS
+  // ======================================================
 
-  const closeModal = () => {
-    setModalType(null);
-    setCurrentLead(null);
-  };
-
-  const handleSaveLead = (e) => {
-    e.preventDefault();
-    if (modalType === 'add') {
-      const newEntry = {
-        id: Date.now(),
-        ...formData,
-        date: new Date().toLocaleDateString('en-GB', {
-          day: '2-digit',
-          month: 'short',
-          year: 'numeric'
-        }),
-        time: new Date().toLocaleTimeString('en-US', {
-          hour: '2-digit',
-          minute: '2-digit',
-          hour12: true
-        }),
-        color: '#' + Math.floor(Math.random() * 16777215).toString(16)
-      };
-      setLeads([newEntry, ...leads]);
-    } else if (modalType === 'edit' && currentLead) {
-      setLeads(
-        leads.map((l) => (l.id === currentLead.id ? { ...l, ...formData } : l))
+  const getPageNumbers = () => {
+    if (totalPages <= 6) {
+      return Array.from(
+        { length: totalPages },
+        (_, index) => index + 1
       );
     }
-    closeModal();
+
+    if (currentPage <= 3) {
+      return [1, 2, 3, 4, "...", totalPages];
+    }
+
+    if (currentPage >= totalPages - 2) {
+      return [
+        1,
+        "...",
+        totalPages - 3,
+        totalPages - 2,
+        totalPages - 1,
+        totalPages,
+      ];
+    }
+
+    return [
+      1,
+      "...",
+      currentPage - 1,
+      currentPage,
+      currentPage + 1,
+      "...",
+      totalPages,
+    ];
   };
 
-  const confirmDelete = () => {
-    if (currentLead) {
-      setLeads(leads.filter((l) => l.id !== currentLead.id));
-      setSelectedLeadIds((prev) => prev.filter((id) => id !== currentLead.id));
-    }
-    closeModal();
+  // ======================================================
+  // ICON
+  // ======================================================
+
+  const Icon = ({ type, size = 20 }) => {
+    const common = {
+      width: size,
+      height: size,
+      viewBox: "0 0 24 24",
+      fill: "none",
+      stroke: "currentColor",
+      strokeWidth: "1.8",
+      strokeLinecap: "round",
+      strokeLinejoin: "round",
+    };
+
+    const icons = {
+      mail: (
+        <>
+          <rect x="3" y="5" width="18" height="14" rx="2" />
+          <path d="m3 7 9 6 9-6" />
+        </>
+      ),
+
+      users: (
+        <>
+          <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+          <circle cx="9" cy="7" r="4" />
+          <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
+          <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+        </>
+      ),
+
+      check: (
+        <>
+          <circle cx="12" cy="12" r="9" />
+          <path d="m8 12 2.5 2.5L16 9" />
+        </>
+      ),
+
+      clock: (
+        <>
+          <circle cx="12" cy="12" r="9" />
+          <path d="M12 7v5l3 2" />
+        </>
+      ),
+
+      search: (
+        <>
+          <circle cx="11" cy="11" r="7" />
+          <path d="m20 20-4-4" />
+        </>
+      ),
+
+      filter: <path d="M4 5h16l-6 7v6l-4 2v-8z" />,
+
+      refresh: (
+        <>
+          <path d="M20 11a8 8 0 0 0-14.7-4L3 10" />
+          <path d="M3 5v5h5" />
+          <path d="M4 13a8 8 0 0 0 14.7 4L21 14" />
+          <path d="M21 19v-5h-5" />
+        </>
+      ),
+
+      download: (
+        <>
+          <path d="M12 3v12" />
+          <path d="m7 10 5 5 5-5" />
+          <path d="M4 21h16" />
+        </>
+      ),
+
+      eye: (
+        <>
+          <path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6S2 12 2 12Z" />
+          <circle cx="12" cy="12" r="2.5" />
+        </>
+      ),
+
+      edit: (
+        <>
+          <path d="M12 20h9" />
+          <path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L8 18l-4 1 1-4Z" />
+        </>
+      ),
+
+      delete: (
+        <>
+          <path d="M4 7h16" />
+          <path d="M10 11v6M14 11v6" />
+          <path d="M6 7l1 14h10l1-14" />
+          <path d="M9 7V4h6v3" />
+        </>
+      ),
+
+      close: (
+        <>
+          <path d="M18 6 6 18M6 6l12 12" />
+        </>
+      ),
+
+      arrowLeft: <path d="m15 18-6-6 6-6" />,
+
+      arrowRight: <path d="m9 18 6-6-6-6" />,
+
+      home: (
+        <>
+          <path d="m3 10 9-7 9 7" />
+          <path d="M5 9v11h14V9" />
+          <path d="M9 20v-6h6v6" />
+        </>
+      ),
+    };
+
+    return (
+      <svg {...common}>
+        {icons[type]}
+      </svg>
+    );
   };
+
+  // ======================================================
+  // RENDER
+  // ======================================================
 
   return (
-    <div className="contact-lead-wrapper">
-      <div className="contact-lead-container">
-        {/* ================= 1. STATS METRICS ================= */}
-        <div className="contact-lead-stats-grid">
-          {/* Total Leads */}
-          <div className="contact-lead-stat-card">
-            <div className="contact-lead-stat-left">
-              <div className="contact-lead-stat-icon-badge gold-badge">
-                <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
-                  <path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5s-3 1.34-3 3 1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z" />
-                </svg>
-              </div>
-              <div className="contact-lead-stat-info">
-                <span className="contact-lead-stat-label">Total Leads</span>
-                <span className="contact-lead-stat-value">{stats.total}</span>
-              </div>
-            </div>
-            <div className="contact-lead-stat-trend">
-              <span className="contact-lead-trend-pct">▲ +12%</span>
-              <span className="contact-lead-trend-sub">this month</span>
-            </div>
+    <div className="ContactLead">
+      {/* HEADER */}
+
+      <div className="ContactLead__header">
+        <div className="ContactLead__header-left">
+          <div className="ContactLead__header-icon">
+            <Icon type="mail" size={31} />
           </div>
 
-          {/* New Leads */}
-          <div className="contact-lead-stat-card">
-            <div className="contact-lead-stat-left">
-              <div className="contact-lead-stat-icon-badge ruby-badge">
-                <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
-                  <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z" />
-                </svg>
-              </div>
-              <div className="contact-lead-stat-info">
-                <span className="contact-lead-stat-label">New Leads</span>
-                <span className="contact-lead-stat-value">{stats.newCount}</span>
-              </div>
-            </div>
-            <div className="contact-lead-stat-trend">
-              <span className="contact-lead-trend-pct">▲ +8%</span>
-              <span className="contact-lead-trend-sub">this week</span>
-            </div>
-          </div>
-
-          {/* Contacted */}
-          <div className="contact-lead-stat-card">
-            <div className="contact-lead-stat-left">
-              <div className="contact-lead-stat-icon-badge bronze-badge">
-                <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
-                  <path d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-2 12H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z" />
-                </svg>
-              </div>
-              <div className="contact-lead-stat-info">
-                <span className="contact-lead-stat-label">Contacted</span>
-                <span className="contact-lead-stat-value">{stats.contacted}</span>
-              </div>
-            </div>
-            <div className="contact-lead-stat-trend">
-              <span className="contact-lead-trend-pct">▲ +5%</span>
-              <span className="contact-lead-trend-sub">this week</span>
-            </div>
-          </div>
-
-          {/* Converted */}
-          <div className="contact-lead-stat-card">
-            <div className="contact-lead-stat-left">
-              <div className="contact-lead-stat-icon-badge green-badge">
-                <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
-                  <path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z" />
-                </svg>
-              </div>
-              <div className="contact-lead-stat-info">
-                <span className="contact-lead-stat-label">Converted</span>
-                <span className="contact-lead-stat-value">{stats.converted}</span>
-              </div>
-            </div>
-            <div className="contact-lead-stat-trend">
-              <span className="contact-lead-trend-pct">▲ +33%</span>
-              <span className="contact-lead-trend-sub">this month</span>
-            </div>
+          <div>
+            <h1>Contact Leads</h1>
+            <p>
+              Manage and view all contact form inquiries
+            </p>
           </div>
         </div>
 
-        {/* ================= 2. TOOLBAR CONTROLS ================= */}
-        <div className="contact-lead-toolbar">
-          <div className="contact-lead-toolbar-left">
-            <div className="contact-lead-search-box">
-              <svg className="contact-lead-search-icon" viewBox="0 0 24 24">
-                <path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" />
-              </svg>
-              <input
-                type="text"
-                placeholder="Search by name, email, phone..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="contact-lead-search-input"
-              />
-            </div>
+        <div className="ContactLead__breadcrumb">
+          <span>
+            <Icon type="home" size={17} />
+            Dashboard
+          </span>
 
-            {/* Status Selector */}
-            <div className="contact-lead-select-wrapper">
-              <select
-                value={selectedStatus}
-                onChange={(e) => setSelectedStatus(e.target.value)}
-                className="contact-lead-select"
-              >
-                <option value="All Status">All Status</option>
-                <option value="New">New</option>
-                <option value="Contacted">Contacted</option>
-                <option value="Converted">Converted</option>
-              </select>
-              <span className="contact-lead-select-arrow">▼</span>
-            </div>
+          <Icon type="arrowRight" size={16} />
 
-            {/* Source Selector */}
-            <div className="contact-lead-select-wrapper">
-              <select
-                value={selectedSource}
-                onChange={(e) => setSelectedSource(e.target.value)}
-                className="contact-lead-select"
-              >
-                <option value="All Source">All Source</option>
-                <option value="Website">Website</option>
-                <option value="Instagram">Instagram</option>
-                <option value="Facebook">Facebook</option>
-                <option value="Google">Google</option>
-                <option value="Referral">Referral</option>
-              </select>
-              <span className="contact-lead-select-arrow">▼</span>
-            </div>
+          <strong>Contact Leads</strong>
+        </div>
+      </div>
 
-            {/* Embossed Gold Calendar */}
-            <div className="contact-lead-calendar-wrapper">
+      {/* STATISTICS */}
+
+      <div className="ContactLead__stats">
+        <div className="ContactLead__stat-card">
+          <div className="ContactLead__stat-icon ContactLead__stat-icon--blue">
+            <Icon type="users" size={28} />
+          </div>
+
+          <div className="ContactLead__stat-content">
+            <span>Total Leads</span>
+            <div className="ContactLead__stat-value-row">
+              <strong>{totalLeads}</strong>
+            </div>
+            <p>All time inquiries</p>
+          </div>
+        </div>
+
+        <div className="ContactLead__stat-card">
+          <div className="ContactLead__stat-icon ContactLead__stat-icon--green">
+            <Icon type="mail" size={28} />
+          </div>
+
+          <div className="ContactLead__stat-content">
+            <span>New Leads</span>
+            <div className="ContactLead__stat-value-row">
+              <strong>{newLeads}</strong>
+            </div>
+            <p>Awaiting response</p>
+          </div>
+        </div>
+
+        <div className="ContactLead__stat-card">
+          <div className="ContactLead__stat-icon ContactLead__stat-icon--orange">
+            <Icon type="check" size={28} />
+          </div>
+
+          <div className="ContactLead__stat-content">
+            <span>Replied</span>
+            <div className="ContactLead__stat-value-row">
+              <strong>{repliedLeads}</strong>
+            </div>
+            <p>Total responded</p>
+          </div>
+        </div>
+
+        <div className="ContactLead__stat-card">
+          <div className="ContactLead__stat-icon ContactLead__stat-icon--red">
+            <Icon type="clock" size={28} />
+          </div>
+
+          <div className="ContactLead__stat-content">
+            <span>Pending</span>
+            <div className="ContactLead__stat-value-row">
+              <strong>{pendingLeads}</strong>
+            </div>
+            <p>Awaiting response</p>
+          </div>
+        </div>
+      </div>
+
+      {/* FILTER */}
+
+      <div className="ContactLead__filter-card">
+        <div className="ContactLead__filter-field ContactLead__search-field">
+          <label>Search</label>
+
+          <div className="ContactLead__input-wrapper">
+            <Icon type="search" size={19} />
+
+            <input
+              type="text"
+              placeholder="Search by name, email, phone or address..."
+              value={search}
+              onChange={(e) => {
+                setSearch(e.target.value);
+                setCurrentPage(1);
+              }}
+              aria-label="Search contact leads"
+            />
+            {search && (
               <button
                 type="button"
-                className="contact-lead-calendar-btn"
-                onClick={() => setShowDatePicker(!showDatePicker)}
+                className="ContactLead__search-clear"
+                onClick={() => {
+                  setSearch("");
+                  setCurrentPage(1);
+                }}
+                title="Clear search"
+                aria-label="Clear search"
               >
-                <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
-                  <path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V9h14v11zM7 11h5v5H7z" />
-                </svg>
-                <span>
-                  {dateRange.start && dateRange.end
-                    ? `${dateRange.start} - ${dateRange.end}`
-                    : 'Select Date Range'}
-                </span>
+                <Icon type="close" size={15} />
               </button>
-
-              {showDatePicker && (
-                <div className="contact-lead-calendar-popover">
-                  <div className="contact-lead-popover-header">
-                    <span>Select Date Range</span>
-                    <button
-                      type="button"
-                      className="contact-lead-popover-close"
-                      onClick={() => setShowDatePicker(false)}
-                    >
-                      ✕
-                    </button>
-                  </div>
-                  <div className="contact-lead-popover-body">
-                    <label>Start Date</label>
-                    <input
-                      type="date"
-                      value={dateRange.start}
-                      onChange={(e) =>
-                        setDateRange({ ...dateRange, start: e.target.value })
-                      }
-                      className="contact-lead-date-field"
-                    />
-                    <label>End Date</label>
-                    <input
-                      type="date"
-                      value={dateRange.end}
-                      onChange={(e) =>
-                        setDateRange({ ...dateRange, end: e.target.value })
-                      }
-                      className="contact-lead-date-field"
-                    />
-                  </div>
-                  <div className="contact-lead-popover-footer">
-                    <button
-                      type="button"
-                      className="contact-lead-popover-reset"
-                      onClick={() => setDateRange({ start: '', end: '' })}
-                    >
-                      Reset
-                    </button>
-                    <button
-                      type="button"
-                      className="contact-lead-popover-apply"
-                      onClick={() => setShowDatePicker(false)}
-                    >
-                      Apply Range
-                    </button>
-                  </div>
-                </div>
-              )}
-            </div>
+            )}
           </div>
         </div>
 
-        {/* ================= 3. LEADS TABLE ================= */}
-        <div className="contact-lead-table-container">
-          <table className="contact-lead-table">
-            <thead>
-              <tr>
-                <th className="contact-lead-th-checkbox">
-                  <label className="contact-lead-checkbox-container">
-                    <input
-                      type="checkbox"
-                      checked={
-                        filteredLeads.length > 0 &&
-                        selectedLeadIds.length === filteredLeads.length
-                      }
-                      onChange={handleSelectAll}
-                    />
-                    <span className="contact-lead-checkmark"></span>
-                  </label>
-                </th>
-                <th className="contact-lead-th-num">#</th>
-                <th className="contact-lead-th-name">Name</th>
-                <th className="contact-lead-th-contact">Contact</th>
-                <th className="contact-lead-th-msg">Message</th>
-                <th className="contact-lead-th-source">Source</th>
-                <th className="contact-lead-th-status">Status</th>
-                <th className="contact-lead-th-date">Date</th>
-                <th className="contact-lead-th-actions">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {filteredLeads.length === 0 ? (
+        <div className="ContactLead__filter-field">
+          <label>Status</label>
+
+          <select
+            value={statusFilter}
+            onChange={(e) => {
+              setStatusFilter(e.target.value);
+              setCurrentPage(1);
+            }}
+          >
+            <option>All Status</option>
+            <option>New</option>
+            <option>Pending</option>
+            <option>Replied</option>
+          </select>
+        </div>
+
+        <div className="ContactLead__filter-field">
+          <label>From Date</label>
+
+          <input
+            type="date"
+            value={fromDate}
+            onChange={(e) => {
+              setFromDate(e.target.value);
+              setCurrentPage(1);
+            }}
+          />
+        </div>
+
+        <div className="ContactLead__filter-field">
+          <label>To Date</label>
+
+          <input
+            type="date"
+            value={toDate}
+            onChange={(e) => {
+              setToDate(e.target.value);
+              setCurrentPage(1);
+            }}
+          />
+        </div>
+
+        <div className="ContactLead__filter-buttons">
+          <button
+            type="button"
+            className="ContactLead__filter-button"
+            onClick={() => setCurrentPage(1)}
+          >
+            <Icon type="filter" size={18} />
+            Filter
+          </button>
+
+          <button
+            type="button"
+            className="ContactLead__reset-button"
+            onClick={handleReset}
+          >
+            <Icon type="refresh" size={17} />
+            Reset
+          </button>
+        </div>
+      </div>
+
+      {/* LIST */}
+
+      <div className="ContactLead__list-card">
+        <div className="ContactLead__list-header">
+          <div className="ContactLead__list-title">
+            <div className="ContactLead__list-title-icon">
+              <Icon type="users" size={25} />
+            </div>
+
+            <div>
+              <h2>Cold Leads List</h2>
+              <span className="ContactLead__live-indicator">
+                <span className="ContactLead__live-dot" />
+                Live sync
+              </span>
+            </div>
+          </div>
+
+          <div className="ContactLead__list-actions">
+            <button
+              type="button"
+              className="ContactLead__export-button"
+              onClick={handleExportCSV}
+            >
+              <Icon type="download" size={18} />
+              Export CSV
+            </button>
+
+            <button
+              type="button"
+              className="ContactLead__delete-selected-button"
+              disabled={selectedIds.length === 0}
+              onClick={() =>
+                setShowBulkDelete(true)
+              }
+            >
+              <Icon type="delete" size={18} />
+              Delete Selected
+            </button>
+
+            <button
+              type="button"
+              className={`ContactLead__refresh-button ${
+                refreshing ? "ContactLead__refresh-button--loading" : ""
+              }`}
+              onClick={handleRefresh}
+              disabled={refreshing}
+              title="Refresh"
+            >
+              <Icon type="refresh" size={19} />
+            </button>
+          </div>
+        </div>
+
+        {/* TABLE */}
+
+        <div className="ContactLead__table-wrapper">
+          {loading ? (
+            <div className="ContactLead__empty">
+              <div className="ContactLead__empty-content">
+                <div className="ContactLead__empty-icon">
+                  <Icon type="refresh" size={30} />
+                </div>
+
+                <h3>Loading Leads...</h3>
+
+                <p>
+                  Fetching the latest cold leads.
+                </p>
+              </div>
+            </div>
+          ) : (
+            <table className="ContactLead__table">
+              <thead>
                 <tr>
-                  <td colSpan="9" className="contact-lead-empty-cell">
-                    No leads found matching your criteria.
-                  </td>
+                  <th className="ContactLead__checkbox-column">
+                    <label className="ContactLead__checkbox">
+                      <input
+                        type="checkbox"
+                        checked={allCurrentSelected}
+                        onChange={handleSelectAll}
+                      />
+                      <span />
+                    </label>
+                  </th>
+
+                  <th>#</th>
+                  <th>Name</th>
+                  <th>Email</th>
+                  <th>Phone</th>
+                  <th>Address</th>
+                  <th>Message</th>
+                  <th>Date</th>
+                  <th>Status</th>
+                  <th>Actions</th>
                 </tr>
-              ) : (
-                filteredLeads.map((lead, index) => {
-                  const isChecked = selectedLeadIds.includes(lead.id);
-                  return (
-                    <tr
-                      key={lead.id}
-                      className={`contact-lead-row ${isChecked ? 'row-selected' : ''}`}
-                    >
-                      {/* Checkbox */}
-                      <td className="contact-lead-td-checkbox">
-                        <label className="contact-lead-checkbox-container">
+              </thead>
+
+              <tbody>
+                {currentLeads.length > 0 ? (
+                  currentLeads.map((lead, index) => (
+                    <tr key={lead._id}>
+                      <td>
+                        <label className="ContactLead__checkbox">
                           <input
                             type="checkbox"
-                            checked={isChecked}
-                            onChange={() => handleSelectOne(lead.id)}
+                            checked={selectedIds.includes(
+                              lead._id
+                            )}
+                            onChange={() =>
+                              handleSelectSingle(
+                                lead._id
+                              )
+                            }
                           />
-                          <span className="contact-lead-checkmark"></span>
+                          <span />
                         </label>
                       </td>
 
-                      {/* Number */}
-                      <td className="contact-lead-td-num">{index + 1}</td>
+                      <td>
+                        {startIndex + index + 1}
+                      </td>
 
-                      {/* Avatar & Name */}
-                      <td className="contact-lead-td-name">
-                        <div className="contact-lead-name-cell">
-                          <div
-                            className="contact-lead-avatar"
-                            style={{ backgroundColor: lead.color }}
-                          >
-                            {getInitials(lead.name)}
-                          </div>
-                          <span className="contact-lead-name-text">
-                            {lead.name}
-                          </span>
+                      <td>
+                        <div className="ContactLead__name">
+                          {lead.name}
                         </div>
                       </td>
 
-                      {/* Contact */}
-                      <td className="contact-lead-td-contact">
-                        <div className="contact-lead-contact-block">
-                          <span className="contact-lead-email">{lead.email}</span>
-                          <span className="contact-lead-phone">{lead.phone}</span>
-                        </div>
-                      </td>
-
-                      {/* Message */}
-                      <td className="contact-lead-td-msg">
-                        <p className="contact-lead-msg-text" title={lead.message}>
-                          {lead.message}
-                        </p>
-                      </td>
-
-                      {/* Source */}
-                      <td className="contact-lead-td-source">
-                        <span
-                          className={`contact-lead-source-tag source-${lead.source.toLowerCase()}`}
-                        >
-                          {lead.source}
+                      <td>
+                        <span className="ContactLead__email">
+                          {lead.email}
                         </span>
                       </td>
 
-                      {/* Status */}
-                      <td className="contact-lead-td-status">
+                      <td>
+                        <span className="ContactLead__phone">
+                          {lead.phone}
+                        </span>
+                      </td>
+
+                      <td>
+                        <span className="ContactLead__city">
+                          {lead.address}
+                        </span>
+                      </td>
+
+                      <td>
+                        <div
+                          className="ContactLead__message"
+                          title={
+                            lead.message || "No message"
+                          }
+                        >
+                          {lead.message || "—"}
+                        </div>
+                      </td>
+
+                      <td>
+                        <span className="ContactLead__date">
+                          {formatDate(
+                            lead.createdAt
+                          )}
+                        </span>
+                      </td>
+
+                      <td>
                         <span
-                          className={`contact-lead-status-pill status-${lead.status.toLowerCase()}`}
+                          className={`ContactLead__status ContactLead__status--${String(lead.status || "New").toLowerCase()}`}
                         >
                           {lead.status}
                         </span>
                       </td>
 
-                      {/* Date */}
-                      <td className="contact-lead-td-date">
-                        <div className="contact-lead-date-block">
-                          <span className="contact-lead-date">{lead.date}</span>
-                          <span className="contact-lead-time">{lead.time}</span>
-                        </div>
-                      </td>
-
-                      {/* Action buttons */}
-                      <td className="contact-lead-td-actions">
-                        <div className="contact-lead-action-btns">
+                      <td>
+                        <div className="ContactLead__row-actions">
                           <button
                             type="button"
-                            title="View Lead"
-                            className="contact-lead-action-btn view"
-                            onClick={() => handleOpenView(lead)}
+                            className="ContactLead__row-action ContactLead__row-action--view"
+                            title="View"
+                             aria-label={`View ${lead.name || "lead"}`}
+                             onClick={() =>
+                              handleView(lead)
+                            }
                           >
-                            <svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor">
-                              <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z" />
-                            </svg>
+                            <Icon
+                              type="eye"
+                              size={17}
+                            />
                           </button>
 
                           <button
                             type="button"
-                            title="Edit Lead"
-                            className="contact-lead-action-btn edit"
-                            onClick={() => handleOpenEdit(lead)}
+                            className="ContactLead__row-action ContactLead__row-action--edit"
+                            title="Edit"
+                             aria-label={`Edit ${lead.name || "lead"}`}
+                             onClick={() =>
+                              openEdit(lead)
+                            }
                           >
-                            <svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor">
-                              <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z" />
-                            </svg>
+                            <Icon
+                              type="edit"
+                              size={17}
+                            />
                           </button>
 
                           <button
                             type="button"
-                            title="Delete Lead"
-                            className="contact-lead-action-btn delete"
-                            onClick={() => handleOpenDelete(lead)}
+                            className="ContactLead__row-action ContactLead__row-action--delete"
+                            title="Delete"
+                             aria-label={`Delete ${lead.name || "lead"}`}
+                             onClick={() =>
+                              setDeleteLead(lead)
+                            }
                           >
-                            <svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor">
-                              <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z" />
-                            </svg>
+                            <Icon
+                              type="delete"
+                              size={17}
+                            />
                           </button>
                         </div>
                       </td>
                     </tr>
-                  );
-                })
-              )}
-            </tbody>
-          </table>
+                  ))
+                ) : (
+                  <tr>
+                    <td
+                      colSpan="10"
+                      className="ContactLead__empty"
+                    >
+                      <div className="ContactLead__empty-content">
+                        <div className="ContactLead__empty-icon">
+                          <Icon
+                            type="mail"
+                            size={30}
+                          />
+                        </div>
+
+                        <h3>
+                          No contact leads found
+                        </h3>
+
+                        <p>
+                          Submit a form or change your
+                          filters.
+                        </p>
+                      </div>
+                    </td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
+          )}
         </div>
 
-        {/* ================= 4. PAGINATION ================= */}
-        <div className="contact-lead-pagination-container">
-          <div className="contact-lead-pagination-info">
-            Showing 1 to {filteredLeads.length} of {stats.total} leads
+        {/* PAGINATION */}
+
+        {!loading && (
+          <div className="ContactLead__pagination-wrapper">
+            <div className="ContactLead__pagination-info">
+              Showing{" "}
+              <strong>
+                {filteredLeads.length === 0
+                  ? 0
+                  : startIndex + 1}
+              </strong>{" "}
+              to{" "}
+              <strong>
+                {Math.min(
+                  startIndex + ITEMS_PER_PAGE,
+                  filteredLeads.length
+                )}
+              </strong>{" "}
+              of{" "}
+              <strong>
+                {filteredLeads.length}
+              </strong>{" "}
+              entries
+            </div>
+
+            {totalPages > 1 && (
+              <div className="ContactLead__pagination">
+                <button
+                  type="button"
+                  disabled={currentPage === 1}
+                  className="ContactLead__page-button ContactLead__page-button--arrow"
+                  onClick={() =>
+                    setCurrentPage(
+                      (prev) => prev - 1
+                    )
+                  }
+                >
+                  <Icon
+                    type="arrowLeft"
+                    size={17}
+                  />
+                </button>
+
+                {getPageNumbers().map(
+                  (page, index) => {
+                    if (page === "...") {
+                      return (
+                        <span
+                          key={`dots-${index}`}
+                          className="ContactLead__pagination-dots"
+                        >
+                          ...
+                        </span>
+                      );
+                    }
+
+                    return (
+                      <button
+                        type="button"
+                        key={page}
+                        className={`ContactLead__page-button ${
+                          currentPage === page
+                            ? "ContactLead__page-button--active"
+                            : ""
+                        }`}
+                        onClick={() =>
+                          setCurrentPage(page)
+                        }
+                      >
+                        {page}
+                      </button>
+                    );
+                  }
+                )}
+
+                <button
+                  type="button"
+                  disabled={
+                    currentPage === totalPages
+                  }
+                  className="ContactLead__page-button ContactLead__page-button--arrow"
+                  onClick={() =>
+                    setCurrentPage(
+                      (prev) => prev + 1
+                    )
+                  }
+                >
+                  <Icon
+                    type="arrowRight"
+                    size={17}
+                  />
+                </button>
+              </div>
+            )}
           </div>
-
-          <div className="contact-lead-pagination-controls">
-            <button
-              type="button"
-              className="contact-lead-page-nav"
-              disabled={currentPage === 1}
-              onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
-            >
-              ❮
-            </button>
-
-            {Array.from({ length: totalPages }, (_, i) => i + 1).map((pageNum) => (
-              <button
-                key={pageNum}
-                type="button"
-                className={`contact-lead-page-btn ${
-                  currentPage === pageNum ? 'active' : ''
-                }`}
-                onClick={() => setCurrentPage(pageNum)}
-              >
-                {pageNum}
-              </button>
-            ))}
-
-            <button
-              type="button"
-              className="contact-lead-page-nav"
-              disabled={currentPage === totalPages}
-              onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
-            >
-              ❯
-            </button>
-          </div>
-        </div>
+        )}
       </div>
 
-      {/* ================= 5. POPUP MODALS ================= */}
-      {modalType && (
-        <div className="contact-lead-modal-backdrop" onClick={closeModal}>
+      {/* ====================================================
+          VIEW MODAL
+      ==================================================== */}
+
+      {viewLead && (
+        <div
+          className="ContactLead__modal-overlay"
+          onClick={() => setViewLead(null)}
+        >
           <div
-            className="contact-lead-modal-dialog"
-            onClick={(e) => e.stopPropagation()}
+            className="ContactLead__view-modal"
+            onClick={(e) =>
+              e.stopPropagation()
+            }
           >
-            {/* View Lead Details */}
-            {modalType === 'view' && currentLead && (
-              <div className="contact-lead-modal-content">
-                <div className="contact-lead-modal-header">
-                  <h3 className="modal-title-view">Lead Details</h3>
-                  <button className="contact-lead-close-btn" onClick={closeModal}>
-                    ✕
-                  </button>
-                </div>
-                <div className="contact-lead-modal-body details-view">
-                  <div className="contact-lead-detail-row">
-                    <span className="detail-label">Name:</span>
-                    <span className="detail-value">{currentLead.name}</span>
-                  </div>
-                  <div className="contact-lead-detail-row">
-                    <span className="detail-label">Email:</span>
-                    <span className="detail-value">{currentLead.email}</span>
-                  </div>
-                  <div className="contact-lead-detail-row">
-                    <span className="detail-label">Phone:</span>
-                    <span className="detail-value">{currentLead.phone}</span>
-                  </div>
-                  <div className="contact-lead-detail-row">
-                    <span className="detail-label">Source:</span>
-                    <span className="detail-value">{currentLead.source}</span>
-                  </div>
-                  <div className="contact-lead-detail-row">
-                    <span className="detail-label">Status:</span>
-                    <span className="detail-value">{currentLead.status}</span>
-                  </div>
-                  <div className="contact-lead-detail-row">
-                    <span className="detail-label">Date & Time:</span>
-                    <span className="detail-value">
-                      {currentLead.date} at {currentLead.time}
-                    </span>
-                  </div>
-                  <div className="contact-lead-detail-row column">
-                    <span className="detail-label">Message:</span>
-                    <p className="detail-message-box">{currentLead.message}</p>
-                  </div>
-                </div>
-                <div className="contact-lead-modal-footer">
-                  <button
-                    type="button"
-                    className="contact-lead-btn-close"
-                    onClick={closeModal}
-                  >
-                    Close
-                  </button>
-                </div>
-              </div>
-            )}
+            <button
+              type="button"
+              className="ContactLead__modal-close"
+              onClick={() =>
+                setViewLead(null)
+              }
+            >
+              <Icon type="close" size={18} />
+            </button>
 
-            {/* Add / Edit Form Modal */}
-            {(modalType === 'add' || modalType === 'edit') && (
-              <form onSubmit={handleSaveLead} className="contact-lead-modal-content">
-                <div className="contact-lead-modal-header">
-                  <h3 className="modal-title-view">
-                    {modalType === 'add' ? 'Add New Lead' : 'Edit Lead'}
-                  </h3>
-                  <button
-                    type="button"
-                    className="contact-lead-close-btn"
-                    onClick={closeModal}
-                  >
-                    ✕
-                  </button>
-                </div>
-                <div className="contact-lead-modal-body">
-                  <div className="contact-lead-form-group">
-                    <label>Full Name</label>
-                    <input
-                      type="text"
-                      required
-                      placeholder="e.g. Rahul Sharma"
-                      value={formData.name}
-                      onChange={(e) =>
-                        setFormData({ ...formData, name: e.target.value })
-                      }
-                    />
-                  </div>
-                  <div className="contact-lead-form-grid">
-                    <div className="contact-lead-form-group">
-                      <label>Email Address</label>
-                      <input
-                        type="email"
-                        required
-                        placeholder="e.g. rahul@example.com"
-                        value={formData.email}
-                        onChange={(e) =>
-                          setFormData({ ...formData, email: e.target.value })
-                        }
-                      />
-                    </div>
-                    <div className="contact-lead-form-group">
-                      <label>Phone Number</label>
-                      <input
-                        type="text"
-                        required
-                        placeholder="e.g. +91 98765 43210"
-                        value={formData.phone}
-                        onChange={(e) =>
-                          setFormData({ ...formData, phone: e.target.value })
-                        }
-                      />
-                    </div>
-                  </div>
-                  <div className="contact-lead-form-grid">
-                    <div className="contact-lead-form-group">
-                      <label>Source</label>
-                      <select
-                        value={formData.source}
-                        onChange={(e) =>
-                          setFormData({ ...formData, source: e.target.value })
-                        }
-                      >
-                        <option value="Website">Website</option>
-                        <option value="Instagram">Instagram</option>
-                        <option value="Facebook">Facebook</option>
-                        <option value="Google">Google</option>
-                        <option value="Referral">Referral</option>
-                      </select>
-                    </div>
-                    <div className="contact-lead-form-group">
-                      <label>Status</label>
-                      <select
-                        value={formData.status}
-                        onChange={(e) =>
-                          setFormData({ ...formData, status: e.target.value })
-                        }
-                      >
-                        <option value="New">New</option>
-                        <option value="Contacted">Contacted</option>
-                        <option value="Converted">Converted</option>
-                      </select>
-                    </div>
-                  </div>
-                  <div className="contact-lead-form-group">
-                    <label>Message / Inquiries</label>
-                    <textarea
-                      rows="3"
-                      required
-                      placeholder="Enter lead message or customer requirements..."
-                      value={formData.message}
-                      onChange={(e) =>
-                        setFormData({ ...formData, message: e.target.value })
-                      }
-                    />
-                  </div>
-                </div>
-                <div className="contact-lead-modal-footer">
-                  <button
-                    type="button"
-                    className="contact-lead-btn-cancel"
-                    onClick={closeModal}
-                  >
-                    Cancel
-                  </button>
-                  <button type="submit" className="contact-lead-btn-submit">
-                    {modalType === 'add' ? 'Save Lead' : 'Update Lead'}
-                  </button>
-                </div>
-              </form>
-            )}
-
-            {/* Delete Modal */}
-            {modalType === 'delete' && currentLead && (
-              <div className="contact-lead-modal-content">
-                <div className="contact-lead-modal-header danger-header">
-                  <h3 className="modal-title-danger">Delete Lead</h3>
-                  <button className="contact-lead-close-btn" onClick={closeModal}>
-                    ✕
-                  </button>
-                </div>
-                <div className="contact-lead-modal-body">
-                  <p className="delete-alert-text">
-                    Are you sure you want to permanently delete lead for{' '}
-                    <strong>{currentLead.name}</strong>?
-                  </p>
-                  <span className="delete-sub-text">
-                    This action cannot be undone.
-                  </span>
-                </div>
-                <div className="contact-lead-modal-footer">
-                  <button
-                    type="button"
-                    className="contact-lead-btn-cancel"
-                    onClick={closeModal}
-                  >
-                    Cancel
-                  </button>
-                  <button
-                    type="button"
-                    className="contact-lead-btn-danger"
-                    onClick={confirmDelete}
-                  >
-                    Confirm Delete
-                  </button>
-                </div>
+            <div className="ContactLead__modal-heading">
+              <div className="ContactLead__modal-icon ContactLead__modal-icon--blue">
+                <Icon type="eye" size={25} />
               </div>
-            )}
+
+              <div>
+                <h3>Lead Details</h3>
+                <p>
+                  Complete contact inquiry
+                  information
+                </p>
+              </div>
+            </div>
+
+            <div className="ContactLead__view-grid">
+              <div className="ContactLead__view-item">
+                <span>Name</span>
+                <strong>
+                  {viewLead.name}
+                </strong>
+              </div>
+
+              <div className="ContactLead__view-item">
+                <span>Email</span>
+                <strong>
+                  {viewLead.email}
+                </strong>
+              </div>
+
+              <div className="ContactLead__view-item">
+                <span>Phone</span>
+                <strong>
+                  {viewLead.phone}
+                </strong>
+              </div>
+
+              <div className="ContactLead__view-item">
+                <span>Address</span>
+                <strong>
+                  {viewLead.address}
+                </strong>
+              </div>
+
+              <div className="ContactLead__view-item">
+                <span>Date</span>
+                <strong>
+                  {formatDate(
+                    viewLead.createdAt
+                  )}
+                </strong>
+              </div>
+
+              <div className="ContactLead__view-item">
+                <span>Status</span>
+
+                <span
+                  className={`ContactLead__status ContactLead__status--${String(viewLead.status || "New").toLowerCase()}`}
+                >
+                  {viewLead.status}
+                </span>
+              </div>
+            </div>
+
+            <div className="ContactLead__message-box">
+              <span>Message</span>
+
+              <p>
+                {viewLead.message ||
+                  "No message provided."}
+              </p>
+            </div>
+
+            <div className="ContactLead__view-footer">
+              <button
+                type="button"
+                className="ContactLead__modal-secondary"
+                onClick={() =>
+                  setViewLead(null)
+                }
+              >
+                Close
+              </button>
+
+              <button
+                type="button"
+                className="ContactLead__modal-primary"
+                onClick={() => {
+                  setViewLead(null);
+                  openEdit(viewLead);
+                }}
+              >
+                <Icon type="edit" size={17} />
+                Edit Lead
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ====================================================
+          EDIT MODAL
+      ==================================================== */}
+
+      {editLead && (
+        <div
+          className="ContactLead__modal-overlay"
+          onClick={() => setEditLead(null)}
+        >
+          <div
+            className="ContactLead__edit-modal"
+            onClick={(e) =>
+              e.stopPropagation()
+            }
+          >
+            <button
+              type="button"
+              className="ContactLead__modal-close"
+              onClick={() =>
+                setEditLead(null)
+              }
+            >
+              <Icon type="close" size={18} />
+            </button>
+
+            <div className="ContactLead__modal-heading">
+              <div className="ContactLead__modal-icon ContactLead__modal-icon--green">
+                <Icon type="edit" size={25} />
+              </div>
+
+              <div>
+                <h3>Edit Contact Lead</h3>
+                <p>
+                  Update the lead information
+                </p>
+              </div>
+            </div>
+
+            <div className="ContactLead__edit-grid">
+              <div className="ContactLead__edit-field">
+                <label>Name</label>
+
+                <input
+                  type="text"
+                  value={editForm.name}
+                  onChange={(e) =>
+                    handleEditChange(
+                      "name",
+                      e.target.value
+                    )
+                  }
+                />
+              </div>
+
+              <div className="ContactLead__edit-field">
+                <label>Email</label>
+
+                <input
+                  type="email"
+                  value={editForm.email}
+                  onChange={(e) =>
+                    handleEditChange(
+                      "email",
+                      e.target.value
+                    )
+                  }
+                />
+              </div>
+
+              <div className="ContactLead__edit-field">
+                <label>Phone</label>
+
+                <input
+                  type="text"
+                  value={editForm.phone}
+                  onChange={(e) =>
+                    handleEditChange(
+                      "phone",
+                      e.target.value
+                    )
+                  }
+                />
+              </div>
+
+              <div className="ContactLead__edit-field">
+                <label>Address</label>
+
+                <input
+                  type="text"
+                  value={editForm.address}
+                  onChange={(e) =>
+                    handleEditChange(
+                      "address",
+                      e.target.value
+                    )
+                  }
+                />
+              </div>
+
+              <div className="ContactLead__edit-field ContactLead__edit-field--full">
+                <label>Status</label>
+
+                <select
+                  value={editForm.status}
+                  onChange={(e) =>
+                    handleEditChange(
+                      "status",
+                      e.target.value
+                    )
+                  }
+                >
+                  <option>New</option>
+                  <option>Pending</option>
+                  <option>Replied</option>
+                </select>
+              </div>
+
+              <div className="ContactLead__edit-field ContactLead__edit-field--full">
+                <label>Message</label>
+
+                <textarea
+                  rows="5"
+                  value={editForm.message}
+                  onChange={(e) =>
+                    handleEditChange(
+                      "message",
+                      e.target.value
+                    )
+                  }
+                />
+              </div>
+            </div>
+
+            <div className="ContactLead__view-footer">
+              <button
+                type="button"
+                className="ContactLead__modal-secondary"
+                onClick={() =>
+                  setEditLead(null)
+                }
+              >
+                Cancel
+              </button>
+
+              <button
+                type="button"
+                className="ContactLead__modal-primary"
+                onClick={handleSaveEdit}
+              >
+                Save Changes
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ====================================================
+          DELETE MODAL
+      ==================================================== */}
+
+      {deleteLead && (
+        <div
+          className="ContactLead__modal-overlay"
+          onClick={() => setDeleteLead(null)}
+        >
+          <div
+            className="ContactLead__delete-modal"
+            onClick={(e) =>
+              e.stopPropagation()
+            }
+          >
+            <button
+              type="button"
+              className="ContactLead__modal-close"
+              onClick={() =>
+                setDeleteLead(null)
+              }
+            >
+              <Icon type="close" size={18} />
+            </button>
+
+            <div className="ContactLead__delete-icon">
+              <Icon type="delete" size={31} />
+            </div>
+
+            <h3>Delete Contact Lead?</h3>
+
+            <p>
+              Are you sure you want to delete{" "}
+              <strong>{deleteLead.name}</strong>'s
+              contact inquiry?
+            </p>
+
+            <div className="ContactLead__delete-actions">
+              <button
+                type="button"
+                className="ContactLead__cancel-delete"
+                onClick={() =>
+                  setDeleteLead(null)
+                }
+              >
+                Cancel
+              </button>
+
+              <button
+                type="button"
+                className="ContactLead__confirm-delete"
+                onClick={confirmDelete}
+              >
+                <Icon
+                  type="delete"
+                  size={17}
+                />
+                Delete Lead
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ====================================================
+          BULK DELETE
+      ==================================================== */}
+
+      {showBulkDelete && (
+        <div
+          className="ContactLead__modal-overlay"
+          onClick={() =>
+            setShowBulkDelete(false)
+          }
+        >
+          <div
+            className="ContactLead__delete-modal"
+            onClick={(e) =>
+              e.stopPropagation()
+            }
+          >
+            <button
+              type="button"
+              className="ContactLead__modal-close"
+              onClick={() =>
+                setShowBulkDelete(false)
+              }
+            >
+              <Icon type="close" size={18} />
+            </button>
+
+            <div className="ContactLead__delete-icon">
+              <Icon type="delete" size={31} />
+            </div>
+
+            <h3>Delete Selected Leads?</h3>
+
+            <p>
+              You have selected{" "}
+              <strong>
+                {selectedIds.length}
+              </strong>{" "}
+              contact leads.
+            </p>
+
+            <div className="ContactLead__delete-actions">
+              <button
+                type="button"
+                className="ContactLead__cancel-delete"
+                onClick={() =>
+                  setShowBulkDelete(false)
+                }
+              >
+                Cancel
+              </button>
+
+              <button
+                type="button"
+                className="ContactLead__confirm-delete"
+                onClick={confirmBulkDelete}
+              >
+                <Icon
+                  type="delete"
+                  size={17}
+                />
+                Delete Selected
+              </button>
+            </div>
           </div>
         </div>
       )}

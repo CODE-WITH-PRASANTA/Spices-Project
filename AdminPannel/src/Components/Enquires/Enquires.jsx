@@ -1,892 +1,1388 @@
-import React, { useState, useMemo } from 'react';
-import './Enquires.css';
+import React, { useEffect, useMemo, useRef, useState } from "react";
 
-const INITIAL_ENQUIRES = [
+import {
+  Users,
+  FileText,
+  Clock3,
+  MessageCircle,
+  CheckCircle2,
+  Hourglass,
+  Search,
+  ChevronDown,
+  ChevronLeft,
+  ChevronRight,
+  Download,
+  Plus,
+  Trash2,
+  Eye,
+  X,
+  Phone,
+  Mail,
+  CalendarDays,
+  Package,
+  Check,
+  ListChecks,
+  UserRound,
+  Minus,
+} from "lucide-react";
+
+import "./Enquires.css";
+
+/* =========================================================
+   PRODUCT / ENQUIRY TYPES
+   (same options as the website enquiry popup)
+========================================================= */
+
+const PRODUCT_OPTIONS = [
+  "Besan",
+  "Sattu",
+  "Sabudana",
+  "Sooji & Daliya",
+  "Rice Flour",
+  "Corn Flour",
+  "Dal & Pulses",
+  "Wholesale / Bulk Order",
+  "Dealership / Distributor",
+  "General Enquiry",
+];
+
+/* =========================================================
+   STATUS CONFIG
+========================================================= */
+
+const STATUS_LIST = ["New", "Pending", "In Progress", "Replied", "Closed"];
+
+const STATUS_CLASS = {
+  New: "Enquires-status-new",
+  Pending: "Enquires-status-pending",
+  "In Progress": "Enquires-status-progress",
+  Replied: "Enquires-status-replied",
+  Closed: "Enquires-status-closed",
+};
+
+/* =========================================================
+   DUMMY DATA
+========================================================= */
+
+const INITIAL_ENQUIRIES = [
   {
     id: 1,
-    name: 'Rahul Sharma',
-    email: 'rahul.sharma@gmail.com',
-    phone: '+91 98765 43210',
-    subject: 'Product Inquiry',
-    message: 'Interested in bulk purchase of turmeric powd...',
-    status: 'New',
-    date: '12 Nov 2024',
-    time: '10:32 AM',
-    color: '#d97706'
+    name: "Rahul Sharma",
+    email: "rahul.sharma@gmail.com",
+    phone: "+91 98765 43210",
+    product: "Besan",
+    message: "Need 500 kg chana besan monthly for my sweet shop. Please share best price.",
+    status: "New",
+    date: "2026-10-02",
   },
   {
     id: 2,
-    name: 'Priya Mehta',
-    email: 'priya.mehta@outlook.com',
-    phone: '+91 87654 32109',
-    subject: 'Order Inquiry',
-    message: 'Need pricing details for red chilli powder.',
-    status: 'In Progress',
-    date: '11 Nov 2024',
-    time: '04:18 PM',
-    color: '#4f46e5'
+    name: "Maa Tara Traders",
+    email: "",
+    phone: "+91 91234 56789",
+    product: "Dealership / Distributor",
+    message: "Interested in becoming a distributor for Siliguri and Jalpaiguri area.",
+    status: "Pending",
+    date: "2026-10-01",
   },
   {
     id: 3,
-    name: 'Amit Verma',
-    email: 'amit.verma@gmail.com',
-    phone: '+91 99887 66554',
-    subject: 'Product Availability',
-    message: 'Looking for wholesale distributor opportuniti...',
-    status: 'Resolved',
-    date: '10 Nov 2024',
-    time: '11:05 AM',
-    color: '#16a34a'
+    name: "Amit Kumar",
+    email: "amit.kumar@gmail.com",
+    phone: "+91 99887 66554",
+    product: "Sattu",
+    message: "Please send sample and wholesale rate for 200g and 500g packs.",
+    status: "Replied",
+    date: "2026-09-30",
   },
   {
     id: 4,
-    name: 'Sneha Kapoor',
-    email: 'sneha.kapoor@yahoo.com',
-    phone: '+91 91234 56789',
-    subject: 'Franchise Inquiry',
-    message: 'Would like to know about your masala range.',
-    status: 'New',
-    date: '09 Nov 2024',
-    time: '02:47 PM',
-    color: '#db2777'
+    name: "Sneha Patel",
+    email: "sneha.patel@gmail.com",
+    phone: "+91 90123 45678",
+    product: "Sabudana",
+    message: "Looking for sabudana for festival season, around 100 kg.",
+    status: "Closed",
+    date: "2026-09-29",
   },
   {
     id: 5,
-    name: 'Vikram Singh',
-    email: 'vikram.singh@icloud.com',
-    phone: '+91 90011 22334',
-    subject: 'General Inquiry',
-    message: 'Interested in private labeling options.',
-    status: 'In Progress',
-    date: '08 Nov 2024',
-    time: '09:14 AM',
-    color: '#2563eb'
+    name: "Singh General Store",
+    email: "singhstore@gmail.com",
+    phone: "+91 93456 78123",
+    product: "Wholesale / Bulk Order",
+    message: "Need regular supply of sooji, besan and rice flour for my store.",
+    status: "New",
+    date: "2026-09-28",
   },
   {
     id: 6,
-    name: 'Neha Patel',
-    email: 'neha.patel@gmail.com',
-    phone: '+91 78787 34343',
-    subject: 'Return/Exchange',
-    message: 'Need samples of garam masala and cumin powder.',
-    status: 'Resolved',
-    date: '07 Nov 2024',
-    time: '05:26 PM',
-    color: '#9333ea'
+    name: "Neha Mohanty",
+    email: "",
+    phone: "+91 87654 32109",
+    product: "Rice Flour",
+    message: "Do you have 1 kg rice flour packs? Need delivery in Gangtok.",
+    status: "In Progress",
+    date: "2026-09-27",
   },
   {
     id: 7,
-    name: 'Rohit Jain',
-    email: 'rohit.jain@outlook.com',
-    phone: '+91 96655 77889',
-    subject: 'Corporate Order',
-    message: 'We need monthly supply for our restaurant chain...',
-    status: 'In Progress',
-    date: '06 Nov 2024',
-    time: '12:11 PM',
-    color: '#0891b2'
+    name: "Rakesh Verma",
+    email: "rakesh.verma@gmail.com",
+    phone: "+91 88990 11223",
+    product: "Sooji & Daliya",
+    message: "Need quotation for sooji and daliya, 50 kg bags.",
+    status: "Replied",
+    date: "2026-09-26",
   },
   {
     id: 8,
-    name: 'Kavita Desai',
-    email: 'kavita.desai@gmail.com',
-    phone: '+91 94567 82341',
-    subject: 'Product Suggestion',
-    message: 'Can you suggest the best masala for biryani?',
-    status: 'New',
-    date: '05 Nov 2024',
-    time: '03:36 PM',
-    color: '#e11d48'
+    name: "Ananya Roy",
+    email: "ananya.roy@gmail.com",
+    phone: "+91 76543 21098",
+    product: "Dal & Pulses",
+    message: "Interested in moong and masoor dal for a restaurant.",
+    status: "New",
+    date: "2026-09-25",
   },
   {
     id: 9,
-    name: 'Arjun Tiwari',
-    email: 'arjun.tiwari@gmail.com',
-    phone: '+91 81234 56790',
-    subject: 'Price Inquiry',
-    message: 'What is the price of 500g red chilli powder?',
-    status: 'Resolved',
-    date: '04 Nov 2024',
-    time: '11:20 AM',
-    color: '#ea580c'
+    name: "Sourav Bakery & Sweets",
+    email: "sourav.sweets@gmail.com",
+    phone: "+91 98712 34567",
+    product: "Besan",
+    message: "Monthly besan requirement for laddoo production. Please call.",
+    status: "Pending",
+    date: "2026-09-24",
   },
   {
     id: 10,
-    name: 'Sunita Panda',
-    email: 'sunita.panda@gmail.com',
-    phone: '+91 78456 32987',
-    subject: 'Delivery Inquiry',
-    message: 'Please confirm if COD is available for my location.',
-    status: 'In Progress',
-    date: '03 Nov 2024',
-    time: '04:05 PM',
-    color: '#7c3aed'
-  }
+    name: "Pooja Nair",
+    email: "",
+    phone: "+91 92345 67890",
+    product: "Corn Flour",
+    message: "Need corn flour for a small food business. Please share price list.",
+    status: "New",
+    date: "2026-09-23",
+  },
+  {
+    id: 11,
+    name: "Manish Gupta",
+    email: "manish.gupta@gmail.com",
+    phone: "+91 95678 12345",
+    product: "General Enquiry",
+    message: "Please send your full product catalogue and trade margins.",
+    status: "In Progress",
+    date: "2026-09-22",
+  },
+  {
+    id: 12,
+    name: "Kavita Rout",
+    email: "kavita.rout@gmail.com",
+    phone: "+91 88991 23456",
+    product: "Sattu",
+    message: "Want to buy sattu for home use. How can I order online?",
+    status: "Replied",
+    date: "2026-09-21",
+  },
 ];
 
-const getInitials = (name) => {
-  return name
-    .split(' ')
-    .map((n) => n[0])
-    .join('')
-    .substring(0, 2)
-    .toUpperCase();
+/* =========================================================
+   HELPERS
+========================================================= */
+
+const EMPTY_FORM = {
+  name: "",
+  phone: "",
+  email: "",
+  product: "",
+  status: "New",
+  message: "",
 };
 
-const getSubjectClassName = (subj) => {
-  const map = {
-    'Product Inquiry': 'subj-product',
-    'Order Inquiry': 'subj-order',
-    'Product Availability': 'subj-avail',
-    'Franchise Inquiry': 'subj-franchise',
-    'General Inquiry': 'subj-general',
-    'Return/Exchange': 'subj-return',
-    'Corporate Order': 'subj-corporate',
-    'Product Suggestion': 'subj-suggestion',
-    'Price Inquiry': 'subj-price',
-    'Delivery Inquiry': 'subj-delivery'
-  };
-  return map[subj] || 'subj-default';
+const ITEMS_PER_PAGE = 6;
+
+const formatDate = (date) => {
+  if (!date) return "-";
+
+  return new Date(`${date}T00:00:00`).toLocaleDateString("en-IN", {
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+  });
 };
+
+// 9876543210 -> +91 98765 43210
+const formatPhone = (digits) =>
+  `+91 ${digits.slice(0, 5)} ${digits.slice(5, 10)}`;
+
+/* =========================================================
+   CHECKBOX (custom, supports "some selected" state)
+========================================================= */
+
+const CheckBox = ({ checked, indeterminate = false, onChange, label }) => (
+  <button
+    type="button"
+    role="checkbox"
+    aria-checked={indeterminate ? "mixed" : checked}
+    aria-label={label}
+    className={`Enquires-checkbox ${checked ? "is-checked" : ""} ${
+      indeterminate ? "is-mixed" : ""
+    }`}
+    onClick={onChange}
+  >
+    {indeterminate ? (
+      <Minus size={14} strokeWidth={3.2} />
+    ) : checked ? (
+      <Check size={14} strokeWidth={3.2} />
+    ) : null}
+  </button>
+);
+
+/* =========================================================
+   COMPONENT
+========================================================= */
 
 const Enquires = () => {
-  const [enquires, setEnquires] = useState(INITIAL_ENQUIRES);
-  const [searchQuery, setSearchQuery] = useState('');
-  const [selectedStatus, setSelectedStatus] = useState('All Status');
-  const [selectedSubject, setSelectedSubject] = useState('All Subject');
-  const [dateRange, setDateRange] = useState({ start: '', end: '' });
-  const [showDatePicker, setShowDatePicker] = useState(false);
-  const [selectedIds, setSelectedIds] = useState([]);
-
-  // Pagination State
+  const [enquiries, setEnquiries] = useState(INITIAL_ENQUIRIES);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [statusFilter, setStatusFilter] = useState("All Status");
   const [currentPage, setCurrentPage] = useState(1);
-  const totalPages = 4;
+  const [viewEnquiry, setViewEnquiry] = useState(null);
+  const [showNewModal, setShowNewModal] = useState(false);
+  const [deleteId, setDeleteId] = useState(null);
+  const [newEnquiry, setNewEnquiry] = useState(EMPTY_FORM);
+  const [statusMenu, setStatusMenu] = useState(null);
+  const [toast, setToast] = useState("");
+  const [selectedIds, setSelectedIds] = useState([]);
+  const [showBulkDelete, setShowBulkDelete] = useState(false);
 
-  // Modal State
-  const [modalType, setModalType] = useState(null); // 'view' | 'edit' | 'delete'
-  const [activeItem, setActiveItem] = useState(null);
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    phone: '',
-    subject: 'Product Inquiry',
-    message: '',
-    status: 'New'
-  });
+  const toastTimer = useRef(null);
 
-  const stats = useMemo(() => {
-    return {
-      total: 36,
-      newCount: 10,
-      inProgress: 14,
-      resolved: 12
-    };
-  }, []);
+  /* ---------------------------------------------------------
+     TOAST
+  --------------------------------------------------------- */
 
-  const filteredEnquires = useMemo(() => {
-    return enquires.filter((item) => {
-      const matchSearch =
-        item.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        item.email.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        item.phone.includes(searchQuery) ||
-        item.subject.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        item.message.toLowerCase().includes(searchQuery.toLowerCase());
-
-      const matchStatus =
-        selectedStatus === 'All Status' || item.status === selectedStatus;
-
-      const matchSubject =
-        selectedSubject === 'All Subject' || item.subject === selectedSubject;
-
-      return matchSearch && matchStatus && matchSubject;
-    });
-  }, [enquires, searchQuery, selectedStatus, selectedSubject]);
-
-  // Checkbox Select Handlers
-  const handleSelectAll = (e) => {
-    if (e.target.checked) {
-      setSelectedIds(filteredEnquires.map((item) => item.id));
-    } else {
-      setSelectedIds([]);
-    }
+  const showToast = (message) => {
+    clearTimeout(toastTimer.current);
+    setToast(message);
+    toastTimer.current = setTimeout(() => setToast(""), 2600);
   };
 
-  const handleSelectOne = (id) => {
+  useEffect(() => () => clearTimeout(toastTimer.current), []);
+
+  /* ---------------------------------------------------------
+     FILTER
+  --------------------------------------------------------- */
+
+  const filteredEnquiries = useMemo(() => {
+    const search = searchTerm.trim().toLowerCase();
+
+    return enquiries.filter((item) => {
+      const matchesSearch =
+        !search ||
+        [item.name, item.email, item.phone, item.product, item.message]
+          .join(" ")
+          .toLowerCase()
+          .includes(search);
+
+      const matchesStatus =
+        statusFilter === "All Status" || item.status === statusFilter;
+
+      return matchesSearch && matchesStatus;
+    });
+  }, [enquiries, searchTerm, statusFilter]);
+
+  /* ---------------------------------------------------------
+     PAGINATION
+  --------------------------------------------------------- */
+
+  const totalPages = Math.max(
+    1,
+    Math.ceil(filteredEnquiries.length / ITEMS_PER_PAGE)
+  );
+
+  const safeCurrentPage = Math.min(currentPage, totalPages);
+  const startIndex = (safeCurrentPage - 1) * ITEMS_PER_PAGE;
+
+  const currentItems = filteredEnquiries.slice(
+    startIndex,
+    startIndex + ITEMS_PER_PAGE
+  );
+
+  const pageNumbers = Array.from({ length: totalPages }, (_, i) => i + 1);
+
+  const changePage = (page) => {
+    if (page < 1 || page > totalPages) return;
+
+    setCurrentPage(page);
+    setStatusMenu(null);
+  };
+
+  /* ---------------------------------------------------------
+     SELECTION
+  --------------------------------------------------------- */
+
+  const currentPageIds = currentItems.map((item) => item.id);
+
+  const selectedOnPage = currentPageIds.filter((id) =>
+    selectedIds.includes(id)
+  ).length;
+
+  const allCurrentSelected =
+    currentPageIds.length > 0 && selectedOnPage === currentPageIds.length;
+
+  const someCurrentSelected = selectedOnPage > 0 && !allCurrentSelected;
+
+  const toggleSelect = (id) => {
     setSelectedIds((prev) =>
-      prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id]
+      prev.includes(id) ? prev.filter((itemId) => itemId !== id) : [...prev, id]
     );
   };
 
-  // Modals
-  const handleOpenView = (item) => {
-    setActiveItem(item);
-    setModalType('view');
+  const toggleSelectAll = () => {
+    if (allCurrentSelected) {
+      setSelectedIds((prev) => prev.filter((id) => !currentPageIds.includes(id)));
+    } else {
+      setSelectedIds((prev) => [...new Set([...prev, ...currentPageIds])]);
+    }
   };
 
-  const handleOpenEdit = (item) => {
-    setActiveItem(item);
-    setFormData({
-      name: item.name,
-      email: item.email,
-      phone: item.phone,
-      subject: item.subject,
-      message: item.message,
-      status: item.status
+  const clearSelection = () => setSelectedIds([]);
+
+  /* ---------------------------------------------------------
+     STATS
+  --------------------------------------------------------- */
+
+  const countBy = (status) =>
+    enquiries.filter((item) => item.status === status).length;
+
+  const stats = [
+    {
+      label: "TOTAL ENQUIRIES",
+      value: enquiries.length,
+      text: "All customer requests",
+      icon: Users,
+      tone: "blue",
+    },
+    {
+      label: "NEW",
+      value: countBy("New"),
+      text: "Needs attention",
+      icon: FileText,
+      tone: "purple",
+    },
+    {
+      label: "PENDING",
+      value: countBy("Pending"),
+      text: "Waiting for action",
+      icon: Hourglass,
+      tone: "rose",
+    },
+    {
+      label: "IN PROGRESS",
+      value: countBy("In Progress"),
+      text: "Currently processing",
+      icon: Clock3,
+      tone: "orange",
+    },
+    {
+      label: "REPLIED",
+      value: countBy("Replied"),
+      text: "Customer contacted",
+      icon: MessageCircle,
+      tone: "green",
+    },
+    {
+      label: "CLOSED",
+      value: countBy("Closed"),
+      text: "Completed enquiries",
+      icon: CheckCircle2,
+      tone: "gray",
+    },
+  ];
+
+  /* ---------------------------------------------------------
+     SEARCH / FILTER
+  --------------------------------------------------------- */
+
+  const handleSearch = (value) => {
+    setSearchTerm(value);
+    setCurrentPage(1);
+  };
+
+  const handleStatusFilter = (value) => {
+    setStatusFilter(value);
+    setCurrentPage(1);
+  };
+
+  /* ---------------------------------------------------------
+     STATUS MENU (per row, opens next to the button)
+  --------------------------------------------------------- */
+
+  const openStatusMenu = (event, id) => {
+    event.stopPropagation();
+
+    if (statusMenu?.id === id) {
+      setStatusMenu(null);
+      return;
+    }
+
+    const rect = event.currentTarget.getBoundingClientRect();
+    const menuWidth = 212;
+    const menuHeight = 290;
+
+    const left = Math.min(
+      Math.max(8, rect.right - menuWidth),
+      window.innerWidth - menuWidth - 8
+    );
+
+    const openUp =
+      window.innerHeight - rect.bottom < menuHeight && rect.top > menuHeight;
+
+    setStatusMenu({
+      id,
+      left,
+      ...(openUp
+        ? { bottom: window.innerHeight - rect.top + 8 }
+        : { top: rect.bottom + 8 }),
     });
-    setModalType('edit');
   };
 
-  const handleOpenDelete = (item) => {
-    setActiveItem(item);
-    setModalType('delete');
+  // close menu on outside click, scroll, resize, Escape
+  useEffect(() => {
+    if (!statusMenu) return undefined;
+
+    const close = () => setStatusMenu(null);
+
+    const handleMouseDown = (event) => {
+      if (
+        !event.target.closest(".Enquires-status-menu") &&
+        !event.target.closest(".Enquires-status-trigger")
+      ) {
+        close();
+      }
+    };
+
+    const handleKey = (event) => {
+      if (event.key === "Escape") close();
+    };
+
+    document.addEventListener("mousedown", handleMouseDown);
+    document.addEventListener("keydown", handleKey);
+    window.addEventListener("scroll", close, true);
+    window.addEventListener("resize", close);
+
+    return () => {
+      document.removeEventListener("mousedown", handleMouseDown);
+      document.removeEventListener("keydown", handleKey);
+      window.removeEventListener("scroll", close, true);
+      window.removeEventListener("resize", close);
+    };
+  }, [statusMenu]);
+
+  const changeStatus = (id, status) => {
+    setEnquiries((prev) =>
+      prev.map((item) => (item.id === id ? { ...item, status } : item))
+    );
+
+    setViewEnquiry((prev) => (prev && prev.id === id ? { ...prev, status } : prev));
+
+    setStatusMenu(null);
+
+    showToast(`Status changed to ${status}`);
   };
 
-  const closeModal = () => {
-    setModalType(null);
-    setActiveItem(null);
-  };
+  const menuEnquiry = statusMenu
+    ? enquiries.find((item) => item.id === statusMenu.id)
+    : null;
 
-  const handleSaveForm = (e) => {
-    e.preventDefault();
-    if (modalType === 'edit' && activeItem) {
-      setEnquires(
-        enquires.map((item) =>
-          item.id === activeItem.id ? { ...item, ...formData } : item
-        )
-      );
+  /* ---------------------------------------------------------
+     DELETE
+  --------------------------------------------------------- */
+
+  const confirmDelete = () => {
+    if (!deleteId) return;
+
+    setEnquiries((prev) => prev.filter((item) => item.id !== deleteId));
+
+    setSelectedIds((prev) => prev.filter((id) => id !== deleteId));
+
+    setDeleteId(null);
+
+    if (currentItems.length === 1 && safeCurrentPage > 1) {
+      setCurrentPage(safeCurrentPage - 1);
     }
-    closeModal();
+
+    showToast("Enquiry deleted");
   };
 
-  const handleConfirmDelete = () => {
-    if (activeItem) {
-      setEnquires(enquires.filter((item) => item.id !== activeItem.id));
-      setSelectedIds((prev) => prev.filter((id) => id !== activeItem.id));
-    }
-    closeModal();
+  /* ---------------------------------------------------------
+     BULK DELETE
+  --------------------------------------------------------- */
+
+  const confirmBulkDelete = () => {
+    const count = selectedIds.length;
+
+    setEnquiries((prev) => prev.filter((item) => !selectedIds.includes(item.id)));
+
+    setSelectedIds([]);
+    setShowBulkDelete(false);
+    setCurrentPage(1);
+
+    showToast(`${count} enquir${count === 1 ? "y" : "ies"} deleted`);
   };
+
+  /* ---------------------------------------------------------
+     EXPORT CSV
+  --------------------------------------------------------- */
+
+  const exportData = () => {
+    // export selected rows if any, otherwise everything in the current filter
+    const exportItems =
+      selectedIds.length > 0
+        ? enquiries.filter((item) => selectedIds.includes(item.id))
+        : filteredEnquiries;
+
+    if (!exportItems.length) {
+      showToast("No enquiries available to export");
+      return;
+    }
+
+    const headers = [
+      "Name",
+      "Email",
+      "Phone",
+      "Product",
+      "Requirement",
+      "Status",
+      "Date",
+    ];
+
+    const rows = exportItems.map((item) => [
+      item.name,
+      item.email,
+      item.phone,
+      item.product,
+      item.message,
+      item.status,
+      item.date,
+    ]);
+
+    const csv = [headers, ...rows]
+      .map((row) =>
+        row.map((value) => `"${String(value ?? "").replace(/"/g, '""')}"`).join(",")
+      )
+      .join("\n");
+
+    const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+
+    link.href = url;
+    link.download = "foodigo-enquiries.csv";
+
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+
+    URL.revokeObjectURL(url);
+  };
+
+  /* ---------------------------------------------------------
+     NEW ENQUIRY
+  --------------------------------------------------------- */
+
+  const handleNewInput = (event) => {
+    const { name, value } = event.target;
+
+    if (name === "phone") {
+      setNewEnquiry((prev) => ({
+        ...prev,
+        phone: value.replace(/\D/g, "").slice(0, 10),
+      }));
+
+      return;
+    }
+
+    setNewEnquiry((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleAddEnquiry = (event) => {
+    event.preventDefault();
+
+    if (newEnquiry.phone.length !== 10) {
+      showToast("Please enter a valid 10 digit mobile number");
+      return;
+    }
+
+    const newItem = {
+      id: enquiries.length ? Math.max(...enquiries.map((i) => i.id)) + 1 : 1,
+      name: newEnquiry.name.trim(),
+      email: newEnquiry.email.trim(),
+      phone: formatPhone(newEnquiry.phone),
+      product: newEnquiry.product,
+      message: newEnquiry.message.trim(),
+      status: newEnquiry.status,
+      date: new Date().toISOString().split("T")[0],
+    };
+
+    setEnquiries((prev) => [newItem, ...prev]);
+    setNewEnquiry(EMPTY_FORM);
+    setShowNewModal(false);
+    setCurrentPage(1);
+
+    showToast("Enquiry created successfully");
+  };
+
+  /* ---------------------------------------------------------
+     JSX
+  --------------------------------------------------------- */
 
   return (
-    <div className="enquires-wrapper">
-      <div className="enquires-container">
-        {/* ================= 1. STATS OVERVIEW ================= */}
-        <div className="enquires-stats-grid">
-          {/* Total Enquires */}
-          <div className="enquires-stat-card">
-            <div className="enquires-stat-left">
-              <div className="enquires-stat-badge gold-badge">
-                <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
-                  <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z" />
-                </svg>
-              </div>
-              <div className="enquires-stat-info">
-                <span className="enquires-stat-label">Total Enquires</span>
-                <span className="enquires-stat-value">{stats.total}</span>
-              </div>
+    <div className="Enquires-page">
+      {/* STATISTICS */}
+
+      <div className="Enquires-stats-grid">
+        {stats.map(({ label, value, text, icon: Icon, tone }) => (
+          <div className="Enquires-stat-card" key={label}>
+            <div className={`Enquires-stat-icon Enquires-stat-icon-${tone}`}>
+              <Icon size={22} />
             </div>
-            <div className="enquires-stat-trend">
-              <span className="enquires-trend-pct">▲ +12%</span>
-              <span className="enquires-trend-sub">this month</span>
+
+            <div className="Enquires-stat-content">
+              <span className="Enquires-stat-label">{label}</span>
+              <strong className="Enquires-stat-number">{value}</strong>
+              <span className="Enquires-stat-description">{text}</span>
+            </div>
+
+            <span className="Enquires-stat-glow" />
+          </div>
+        ))}
+      </div>
+
+      {/* MAIN TABLE CARD */}
+
+      <section className="Enquires-table-card">
+        <div className="Enquires-table-header">
+          <div className="Enquires-heading-left">
+            <div className="Enquires-heading-icon">
+              <FileText size={22} />
+            </div>
+
+            <div>
+              <h2 className="Enquires-section-title">Enquiries List</h2>
+
+              <p className="Enquires-section-subtitle">
+                View and manage all incoming product enquiries
+              </p>
             </div>
           </div>
 
-          {/* New Enquires */}
-          <div className="enquires-stat-card">
-            <div className="enquires-stat-left">
-              <div className="enquires-stat-badge red-badge">
-                <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
-                  <path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z" />
-                </svg>
-              </div>
-              <div className="enquires-stat-info">
-                <span className="enquires-stat-label">New Enquires</span>
-                <span className="enquires-stat-value">{stats.newCount}</span>
-              </div>
-            </div>
-            <div className="enquires-stat-trend">
-              <span className="enquires-trend-pct">▲ +25%</span>
-              <span className="enquires-trend-sub">this week</span>
-            </div>
-          </div>
+          <div className="Enquires-heading-actions">
+            <button
+              type="button"
+              className="Enquires-export-button"
+              onClick={exportData}
+            >
+              <Download size={17} />
+              <span>Export</span>
+            </button>
 
-          {/* In Progress */}
-          <div className="enquires-stat-card">
-            <div className="enquires-stat-left">
-              <div className="enquires-stat-badge blue-badge">
-                <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
-                  <path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z" />
-                </svg>
-              </div>
-              <div className="enquires-stat-info">
-                <span className="enquires-stat-label">In Progress</span>
-                <span className="enquires-stat-value">{stats.inProgress}</span>
-              </div>
-            </div>
-            <div className="enquires-stat-trend">
-              <span className="enquires-trend-pct">▲ +8%</span>
-              <span className="enquires-trend-sub">this week</span>
-            </div>
-          </div>
-
-          {/* Resolved */}
-          <div className="enquires-stat-card">
-            <div className="enquires-stat-left">
-              <div className="enquires-stat-badge green-badge">
-                <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
-                  <path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z" />
-                </svg>
-              </div>
-              <div className="enquires-stat-info">
-                <span className="enquires-stat-label">Resolved</span>
-                <span className="enquires-stat-value">{stats.resolved}</span>
-              </div>
-            </div>
-            <div className="enquires-stat-trend">
-              <span className="enquires-trend-pct">▲ +50%</span>
-              <span className="enquires-trend-sub">this month</span>
-            </div>
+            <button
+              type="button"
+              className="Enquires-new-button"
+              onClick={() => setShowNewModal(true)}
+            >
+              <Plus size={18} />
+              <span>New Enquiry</span>
+            </button>
           </div>
         </div>
 
-        {/* ================= 2. TOOLBAR (NO ADD BUTTON) ================= */}
-        <div className="enquires-toolbar">
-          <div className="enquires-toolbar-left">
-            {/* Search Box */}
-            <div className="enquires-search-box">
-              <svg className="enquires-search-icon" viewBox="0 0 24 24">
-                <path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" />
-              </svg>
+        {/* FILTER BAR */}
+
+        <div className="Enquires-filter-bar">
+          <div className="Enquires-filter-left">
+            <div className="Enquires-status-filter">
+              <select
+                value={statusFilter}
+                onChange={(e) => handleStatusFilter(e.target.value)}
+                aria-label="Filter by status"
+              >
+                <option>All Status</option>
+
+                {STATUS_LIST.map((status) => (
+                  <option key={status}>{status}</option>
+                ))}
+              </select>
+
+              <ChevronDown size={17} className="Enquires-select-arrow" />
+            </div>
+
+            <div className="Enquires-search">
+              <Search size={19} />
+
               <input
                 type="text"
-                placeholder="Search by name, email, phone..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="enquires-search-input"
+                value={searchTerm}
+                onChange={(e) => handleSearch(e.target.value)}
+                placeholder="Search name, phone, product..."
               />
-            </div>
 
-            {/* Status Select */}
-            <div className="enquires-select-wrapper">
-              <select
-                value={selectedStatus}
-                onChange={(e) => setSelectedStatus(e.target.value)}
-                className="enquires-select"
-              >
-                <option value="All Status">All Status</option>
-                <option value="New">New</option>
-                <option value="In Progress">In Progress</option>
-                <option value="Resolved">Resolved</option>
-              </select>
-              <span className="enquires-select-arrow">▼</span>
-            </div>
-
-            {/* Subject Select */}
-            <div className="enquires-select-wrapper">
-              <select
-                value={selectedSubject}
-                onChange={(e) => setSelectedSubject(e.target.value)}
-                className="enquires-select"
-              >
-                <option value="All Subject">All Subject</option>
-                <option value="Product Inquiry">Product Inquiry</option>
-                <option value="Order Inquiry">Order Inquiry</option>
-                <option value="Product Availability">Product Availability</option>
-                <option value="Franchise Inquiry">Franchise Inquiry</option>
-                <option value="General Inquiry">General Inquiry</option>
-                <option value="Return/Exchange">Return/Exchange</option>
-                <option value="Corporate Order">Corporate Order</option>
-                <option value="Product Suggestion">Product Suggestion</option>
-                <option value="Price Inquiry">Price Inquiry</option>
-                <option value="Delivery Inquiry">Delivery Inquiry</option>
-              </select>
-              <span className="enquires-select-arrow">▼</span>
-            </div>
-
-            {/* Embossed Calendar Range Selector */}
-            <div className="enquires-calendar-wrapper">
-              <button
-                type="button"
-                className="enquires-calendar-btn"
-                onClick={() => setShowDatePicker(!showDatePicker)}
-              >
-                <svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor">
-                  <path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V9h14v11zM7 11h5v5H7z" />
-                </svg>
-                <span>
-                  {dateRange.start && dateRange.end
-                    ? `${dateRange.start} - ${dateRange.end}`
-                    : 'Select Date Range'}
-                </span>
-              </button>
-
-              {showDatePicker && (
-                <div className="enquires-calendar-popover">
-                  <div className="enquires-popover-header">
-                    <span>Choose Date Range</span>
-                    <button
-                      type="button"
-                      className="enquires-popover-close"
-                      onClick={() => setShowDatePicker(false)}
-                    >
-                      ✕
-                    </button>
-                  </div>
-                  <div className="enquires-popover-body">
-                    <label>From:</label>
-                    <input
-                      type="date"
-                      value={dateRange.start}
-                      onChange={(e) =>
-                        setDateRange({ ...dateRange, start: e.target.value })
-                      }
-                      className="enquires-date-field"
-                    />
-                    <label>To:</label>
-                    <input
-                      type="date"
-                      value={dateRange.end}
-                      onChange={(e) =>
-                        setDateRange({ ...dateRange, end: e.target.value })
-                      }
-                      className="enquires-date-field"
-                    />
-                  </div>
-                  <div className="enquires-popover-footer">
-                    <button
-                      type="button"
-                      className="enquires-popover-reset"
-                      onClick={() => setDateRange({ start: '', end: '' })}
-                    >
-                      Clear
-                    </button>
-                    <button
-                      type="button"
-                      className="enquires-popover-apply"
-                      onClick={() => setShowDatePicker(false)}
-                    >
-                      Apply
-                    </button>
-                  </div>
-                </div>
+              {searchTerm && (
+                <button
+                  type="button"
+                  className="Enquires-search-clear"
+                  onClick={() => handleSearch("")}
+                  aria-label="Clear search"
+                >
+                  <X size={14} />
+                </button>
               )}
             </div>
           </div>
+
+          <div className="Enquires-result-count">
+            Showing <strong>{filteredEnquiries.length}</strong> results
+          </div>
         </div>
 
-        {/* ================= 3. COMPACT DATA TABLE ================= */}
-        <div className="enquires-table-container">
-          <table className="enquires-table">
+        {/* BULK ACTION BAR */}
+
+        {selectedIds.length > 0 && (
+          <div className="Enquires-bulk-bar" role="region" aria-label="Selected enquiries">
+            <div className="Enquires-bulk-info">
+              <span className="Enquires-bulk-count">{selectedIds.length}</span>
+
+              <span>
+                {selectedIds.length === 1 ? "enquiry" : "enquiries"} selected
+              </span>
+            </div>
+
+            <div className="Enquires-bulk-actions">
+              <button
+                type="button"
+                className="Enquires-bulk-button"
+                onClick={exportData}
+              >
+                <Download size={16} />
+                <span>Export Selected</span>
+              </button>
+
+              <button
+                type="button"
+                className="Enquires-bulk-button Enquires-bulk-danger"
+                onClick={() => setShowBulkDelete(true)}
+              >
+                <Trash2 size={16} />
+                <span>Delete Selected</span>
+              </button>
+
+              <button
+                type="button"
+                className="Enquires-bulk-clear"
+                onClick={clearSelection}
+              >
+                <X size={15} />
+                <span>Clear</span>
+              </button>
+            </div>
+          </div>
+        )}
+
+        {/* TABLE */}
+
+        <div className="Enquires-table-wrapper">
+          <table className="Enquires-table">
             <thead>
               <tr>
-                <th className="enquires-th-checkbox">
-                  <label className="enquires-checkbox-container">
-                    <input
-                      type="checkbox"
-                      checked={
-                        filteredEnquires.length > 0 &&
-                        selectedIds.length === filteredEnquires.length
-                      }
-                      onChange={handleSelectAll}
-                    />
-                    <span className="enquires-checkmark"></span>
-                  </label>
+                <th className="Enquires-check-column">
+                  <CheckBox
+                    checked={allCurrentSelected}
+                    indeterminate={someCurrentSelected}
+                    onChange={toggleSelectAll}
+                    label="Select all enquiries on this page"
+                  />
                 </th>
-                <th className="enquires-th-num">#</th>
-                <th className="enquires-th-name">Name</th>
-                <th className="enquires-th-contact">Contact</th>
-                <th className="enquires-th-msg">Message</th>
-                <th className="enquires-th-subject">Source</th>
-                <th className="enquires-th-status">Status</th>
-                <th className="enquires-th-date">Date</th>
-                <th className="enquires-th-actions">Actions</th>
+                <th>#</th>
+                <th>NAME</th>
+                <th>EMAIL</th>
+                <th>PHONE</th>
+                <th>PRODUCT</th>
+                <th>REQUIREMENT</th>
+                <th>STATUS</th>
+                <th>DATE</th>
+                <th>ACTION</th>
               </tr>
             </thead>
+
             <tbody>
-              {filteredEnquires.length === 0 ? (
+              {currentItems.length > 0 ? (
+                currentItems.map((item, index) => (
+                  <tr
+                    key={item.id}
+                    className={selectedIds.includes(item.id) ? "Enquires-row-selected" : ""}
+                  >
+                    <td className="Enquires-check-column">
+                      <CheckBox
+                        checked={selectedIds.includes(item.id)}
+                        onChange={() => toggleSelect(item.id)}
+                        label={`Select ${item.name}`}
+                      />
+                    </td>
+
+                    <td className="Enquires-number">{startIndex + index + 1}</td>
+
+                    {/* NAME */}
+
+                    <td>
+                      <div className="Enquires-customer">
+                        <div className="Enquires-customer-avatar">
+                          {item.name.charAt(0).toUpperCase()}
+                        </div>
+
+                        <div>
+                          <strong>{item.name}</strong>
+                          <span>ENQ-{String(item.id).padStart(3, "0")}</span>
+                        </div>
+                      </div>
+                    </td>
+
+                    {/* EMAIL */}
+
+                    <td>
+                      {item.email ? (
+                        <span className="Enquires-email">
+                          <Mail size={15} />
+                          {item.email}
+                        </span>
+                      ) : (
+                        <span className="Enquires-muted">Not provided</span>
+                      )}
+                    </td>
+
+                    {/* PHONE */}
+
+                    <td>
+                      <span className="Enquires-phone">
+                        <Phone size={15} />
+                        {item.phone}
+                      </span>
+                    </td>
+
+                    {/* PRODUCT */}
+
+                    <td>
+                      <span className="Enquires-product">
+                        <Package size={14} />
+                        {item.product}
+                      </span>
+                    </td>
+
+                    {/* REQUIREMENT */}
+
+                    <td>
+                      <span className="Enquires-requirement">
+                        {item.message || "-"}
+                      </span>
+                    </td>
+
+                    {/* STATUS */}
+
+                    <td>
+                      <span className={`Enquires-status ${STATUS_CLASS[item.status] || ""}`}>
+                        <span className="Enquires-status-dot" />
+                        {item.status}
+                      </span>
+                    </td>
+
+                    {/* DATE */}
+
+                    <td>
+                      <span className="Enquires-created-date">
+                        {formatDate(item.date)}
+                      </span>
+                    </td>
+
+                    {/* ACTION */}
+
+                    <td>
+                      <div className="Enquires-actions">
+                        <button
+                          type="button"
+                          className={`Enquires-status-trigger ${
+                            statusMenu?.id === item.id ? "is-open" : ""
+                          }`}
+                          onClick={(e) => openStatusMenu(e, item.id)}
+                          aria-haspopup="menu"
+                          aria-expanded={statusMenu?.id === item.id}
+                          title="Change status"
+                        >
+                          <ListChecks size={16} />
+                          <span>Status</span>
+                          <ChevronDown size={14} />
+                        </button>
+
+                        <button
+                          type="button"
+                          className="Enquires-view-button"
+                          title="View enquiry"
+                          aria-label="View enquiry"
+                          onClick={() => setViewEnquiry(item)}
+                        >
+                          <Eye size={17} />
+                        </button>
+
+                        <button
+                          type="button"
+                          className="Enquires-delete-button"
+                          title="Delete enquiry"
+                          aria-label="Delete enquiry"
+                          onClick={() => setDeleteId(item.id)}
+                        >
+                          <Trash2 size={17} />
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                ))
+              ) : (
                 <tr>
-                  <td colSpan="9" className="enquires-empty-cell">
-                    No enquires found matching criteria.
+                  <td colSpan="10" className="Enquires-empty-cell">
+                    <div className="Enquires-empty">
+                      <div className="Enquires-empty-icon">
+                        <FileText size={30} />
+                      </div>
+
+                      <h3>No enquiries found</h3>
+                      <p>Try changing your search or filter criteria.</p>
+                    </div>
                   </td>
                 </tr>
-              ) : (
-                filteredEnquires.map((item, index) => {
-                  const isChecked = selectedIds.includes(item.id);
-                  return (
-                    <tr
-                      key={item.id}
-                      className={`enquires-row ${isChecked ? 'row-selected' : ''}`}
-                    >
-                      {/* Checkbox */}
-                      <td className="enquires-td-checkbox">
-                        <label className="enquires-checkbox-container">
-                          <input
-                            type="checkbox"
-                            checked={isChecked}
-                            onChange={() => handleSelectOne(item.id)}
-                          />
-                          <span className="enquires-checkmark"></span>
-                        </label>
-                      </td>
-
-                      {/* Number */}
-                      <td className="enquires-td-num">{index + 1}</td>
-
-                      {/* Avatar & Name */}
-                      <td className="enquires-td-name">
-                        <div className="enquires-name-cell">
-                          <div
-                            className="enquires-avatar"
-                            style={{ backgroundColor: item.color }}
-                          >
-                            {getInitials(item.name)}
-                          </div>
-                          <span className="enquires-name-text">{item.name}</span>
-                        </div>
-                      </td>
-
-                      {/* Contact Info */}
-                      <td className="enquires-td-contact">
-                        <div className="enquires-contact-block">
-                          <span className="enquires-email">{item.email}</span>
-                          <span className="enquires-phone">{item.phone}</span>
-                        </div>
-                      </td>
-
-                      {/* Message Snippet */}
-                      <td className="enquires-td-msg">
-                        <p className="enquires-msg-text" title={item.message}>
-                          {item.message}
-                        </p>
-                      </td>
-
-                      {/* Subject (Pill Tag) */}
-                      <td className="enquires-td-subject">
-                        <span
-                          className={`enquires-subject-tag ${getSubjectClassName(
-                            item.subject
-                          )}`}
-                        >
-                          {item.subject}
-                        </span>
-                      </td>
-
-                      {/* Status Badge */}
-                      <td className="enquires-td-status">
-                        <span
-                          className={`enquires-status-pill status-${item.status
-                            .toLowerCase()
-                            .replace(/\s+/g, '-')}`}
-                        >
-                          {item.status}
-                        </span>
-                      </td>
-
-                      {/* Date & Time */}
-                      <td className="enquires-td-date">
-                        <div className="enquires-date-block">
-                          <span className="enquires-date">{item.date}</span>
-                          <span className="enquires-time">{item.time}</span>
-                        </div>
-                      </td>
-
-                      {/* Actions */}
-                      <td className="enquires-td-actions">
-                        <div className="enquires-action-btns">
-                          <button
-                            type="button"
-                            title="View Enquiry"
-                            className="enquires-action-btn view"
-                            onClick={() => handleOpenView(item)}
-                          >
-                            <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor">
-                              <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z" />
-                            </svg>
-                          </button>
-
-                          <button
-                            type="button"
-                            title="Edit Enquiry"
-                            className="enquires-action-btn edit"
-                            onClick={() => handleOpenEdit(item)}
-                          >
-                            <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor">
-                              <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z" />
-                            </svg>
-                          </button>
-
-                          <button
-                            type="button"
-                            title="Delete Enquiry"
-                            className="enquires-action-btn delete"
-                            onClick={() => handleOpenDelete(item)}
-                          >
-                            <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor">
-                              <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z" />
-                            </svg>
-                          </button>
-                        </div>
-                      </td>
-                    </tr>
-                  );
-                })
               )}
             </tbody>
           </table>
         </div>
 
-        {/* ================= 4. PAGINATION ================= */}
-        <div className="enquires-pagination-container">
-          <div className="enquires-pagination-info">
-            Showing 1 to {filteredEnquires.length} of {stats.total} enquires
+        {/* FOOTER */}
+
+        <div className="Enquires-table-footer">
+          <div className="Enquires-showing">
+            Showing{" "}
+            <strong>{filteredEnquiries.length === 0 ? 0 : startIndex + 1}</strong>{" "}
+            to{" "}
+            <strong>
+              {Math.min(startIndex + ITEMS_PER_PAGE, filteredEnquiries.length)}
+            </strong>{" "}
+            of <strong>{filteredEnquiries.length}</strong> entries
           </div>
 
-          <div className="enquires-pagination-controls">
+          <div className="Enquires-pagination">
             <button
               type="button"
-              className="enquires-page-nav"
-              disabled={currentPage === 1}
-              onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
+              className="Enquires-pagination-button"
+              disabled={safeCurrentPage === 1}
+              onClick={() => changePage(safeCurrentPage - 1)}
+              aria-label="Previous page"
             >
-              ❮
+              <ChevronLeft size={18} />
             </button>
 
-            {Array.from({ length: totalPages }, (_, i) => i + 1).map((pageNum) => (
+            {pageNumbers.map((page) => (
               <button
-                key={pageNum}
                 type="button"
-                className={`enquires-page-btn ${
-                  currentPage === pageNum ? 'active' : ''
+                key={page}
+                className={`Enquires-pagination-number ${
+                  safeCurrentPage === page ? "Enquires-pagination-active" : ""
                 }`}
-                onClick={() => setCurrentPage(pageNum)}
+                onClick={() => changePage(page)}
               >
-                {pageNum}
+                {page}
               </button>
             ))}
 
             <button
               type="button"
-              className="enquires-page-nav"
-              disabled={currentPage === totalPages}
-              onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
+              className="Enquires-pagination-button"
+              disabled={safeCurrentPage === totalPages}
+              onClick={() => changePage(safeCurrentPage + 1)}
+              aria-label="Next page"
             >
-              ❯
+              <ChevronRight size={18} />
             </button>
           </div>
         </div>
-      </div>
+      </section>
 
-      {/* ================= 5. POPUP MODALS ================= */}
-      {modalType && (
-        <div className="enquires-modal-backdrop" onClick={closeModal}>
+      {/* STATUS MENU (fixed, so the table never clips it) */}
+
+      {statusMenu && menuEnquiry && (
+        <div
+          className="Enquires-status-menu"
+          role="menu"
+          style={{
+            left: statusMenu.left,
+            top: statusMenu.top,
+            bottom: statusMenu.bottom,
+          }}
+        >
+          <div className="Enquires-status-menu-title">Change status</div>
+
+          {STATUS_LIST.map((status) => {
+            const active = menuEnquiry.status === status;
+
+            return (
+              <button
+                type="button"
+                role="menuitem"
+                key={status}
+                className={`Enquires-status-option ${active ? "is-active" : ""}`}
+                onClick={() => changeStatus(menuEnquiry.id, status)}
+              >
+                <span
+                  className={`Enquires-status-option-dot ${STATUS_CLASS[status]}`}
+                />
+
+                <span className="Enquires-status-option-label">{status}</span>
+
+                {active && <Check size={16} />}
+              </button>
+            );
+          })}
+        </div>
+      )}
+
+      {/* VIEW MODAL */}
+
+      {viewEnquiry && (
+        <div
+          className="Enquires-modal-overlay"
+          onMouseDown={() => setViewEnquiry(null)}
+        >
           <div
-            className="enquires-modal-dialog"
-            onClick={(e) => e.stopPropagation()}
+            className="Enquires-view-modal"
+            onMouseDown={(e) => e.stopPropagation()}
           >
-            {/* View Modal */}
-            {modalType === 'view' && activeItem && (
-              <div className="enquires-modal-content">
-                <div className="enquires-modal-header">
-                  <h3 className="modal-title-view">Enquiry Details</h3>
-                  <button className="enquires-close-btn" onClick={closeModal}>
-                    ✕
-                  </button>
-                </div>
-                <div className="enquires-modal-body details-view">
-                  <div className="enquires-detail-row">
-                    <span className="detail-label">Name:</span>
-                    <span className="detail-value">{activeItem.name}</span>
-                  </div>
-                  <div className="enquires-detail-row">
-                    <span className="detail-label">Email:</span>
-                    <span className="detail-value">{activeItem.email}</span>
-                  </div>
-                  <div className="enquires-detail-row">
-                    <span className="detail-label">Phone:</span>
-                    <span className="detail-value">{activeItem.phone}</span>
-                  </div>
-                  <div className="enquires-detail-row">
-                    <span className="detail-label">Subject:</span>
-                    <span className="detail-value">{activeItem.subject}</span>
-                  </div>
-                  <div className="enquires-detail-row">
-                    <span className="detail-label">Status:</span>
-                    <span className="detail-value">{activeItem.status}</span>
-                  </div>
-                  <div className="enquires-detail-row">
-                    <span className="detail-label">Date & Time:</span>
-                    <span className="detail-value">
-                      {activeItem.date} at {activeItem.time}
-                    </span>
-                  </div>
-                  <div className="enquires-detail-row column">
-                    <span className="detail-label">Message:</span>
-                    <p className="detail-message-box">{activeItem.message}</p>
+            <div className="Enquires-modal-header">
+              <div>
+                <span className="Enquires-modal-eyebrow">
+                  ENQ-{String(viewEnquiry.id).padStart(3, "0")} · PRODUCT ENQUIRY
+                </span>
+
+                <h2>{viewEnquiry.name}</h2>
+              </div>
+
+              <button
+                type="button"
+                className="Enquires-modal-close"
+                onClick={() => setViewEnquiry(null)}
+                aria-label="Close"
+              >
+                <X size={20} />
+              </button>
+            </div>
+
+            <div className="Enquires-modal-body">
+              <div className="Enquires-detail-grid">
+                <div className="Enquires-detail-item">
+                  <UserRound size={19} />
+                  <div>
+                    <span>Name / Firm</span>
+                    <strong>{viewEnquiry.name}</strong>
                   </div>
                 </div>
-                <div className="enquires-modal-footer">
-                  <button
-                    type="button"
-                    className="enquires-btn-close"
-                    onClick={closeModal}
-                  >
-                    Close
-                  </button>
+
+                <div className="Enquires-detail-item">
+                  <Phone size={19} />
+                  <div>
+                    <span>Mobile</span>
+                    <strong>{viewEnquiry.phone}</strong>
+                  </div>
+                </div>
+
+                <div className="Enquires-detail-item">
+                  <Mail size={19} />
+                  <div>
+                    <span>Email</span>
+                    <strong>{viewEnquiry.email || "Not provided"}</strong>
+                  </div>
+                </div>
+
+                <div className="Enquires-detail-item">
+                  <Package size={19} />
+                  <div>
+                    <span>Product / Enquiry Type</span>
+                    <strong>{viewEnquiry.product}</strong>
+                  </div>
+                </div>
+
+                <div className="Enquires-detail-item">
+                  <CalendarDays size={19} />
+                  <div>
+                    <span>Enquiry Date</span>
+                    <strong>{formatDate(viewEnquiry.date)}</strong>
+                  </div>
                 </div>
               </div>
-            )}
 
-            {/* Edit Modal */}
-            {modalType === 'edit' && activeItem && (
-              <form onSubmit={handleSaveForm} className="enquires-modal-content">
-                <div className="enquires-modal-header">
-                  <h3 className="modal-title-view">Edit Enquiry</h3>
-                  <button
-                    type="button"
-                    className="enquires-close-btn"
-                    onClick={closeModal}
-                  >
-                    ✕
-                  </button>
-                </div>
-                <div className="enquires-modal-body">
-                  <div className="enquires-form-group">
-                    <label>Full Name</label>
-                    <input
-                      type="text"
-                      required
-                      placeholder="e.g. Rahul Sharma"
-                      value={formData.name}
-                      onChange={(e) =>
-                        setFormData({ ...formData, name: e.target.value })
-                      }
-                    />
-                  </div>
-                  <div className="enquires-form-grid">
-                    <div className="enquires-form-group">
-                      <label>Email Address</label>
-                      <input
-                        type="email"
-                        required
-                        placeholder="e.g. rahul@example.com"
-                        value={formData.email}
-                        onChange={(e) =>
-                          setFormData({ ...formData, email: e.target.value })
-                        }
-                      />
-                    </div>
-                    <div className="enquires-form-group">
-                      <label>Phone Number</label>
-                      <input
-                        type="text"
-                        required
-                        placeholder="e.g. +91 98765 43210"
-                        value={formData.phone}
-                        onChange={(e) =>
-                          setFormData({ ...formData, phone: e.target.value })
-                        }
-                      />
-                    </div>
-                  </div>
-                  <div className="enquires-form-grid">
-                    <div className="enquires-form-group">
-                      <label>Subject</label>
-                      <select
-                        value={formData.subject}
-                        onChange={(e) =>
-                          setFormData({ ...formData, subject: e.target.value })
-                        }
-                      >
-                        <option value="Product Inquiry">Product Inquiry</option>
-                        <option value="Order Inquiry">Order Inquiry</option>
-                        <option value="Product Availability">Product Availability</option>
-                        <option value="Franchise Inquiry">Franchise Inquiry</option>
-                        <option value="General Inquiry">General Inquiry</option>
-                        <option value="Return/Exchange">Return/Exchange</option>
-                        <option value="Corporate Order">Corporate Order</option>
-                        <option value="Product Suggestion">Product Suggestion</option>
-                        <option value="Price Inquiry">Price Inquiry</option>
-                        <option value="Delivery Inquiry">Delivery Inquiry</option>
-                      </select>
-                    </div>
-                    <div className="enquires-form-group">
-                      <label>Status</label>
-                      <select
-                        value={formData.status}
-                        onChange={(e) =>
-                          setFormData({ ...formData, status: e.target.value })
-                        }
-                      >
-                        <option value="New">New</option>
-                        <option value="In Progress">In Progress</option>
-                        <option value="Resolved">Resolved</option>
-                      </select>
-                    </div>
-                  </div>
-                  <div className="enquires-form-group">
-                    <label>Enquiry Message</label>
-                    <textarea
-                      rows="3"
-                      required
-                      placeholder="Enter customer enquiry text or requirements..."
-                      value={formData.message}
-                      onChange={(e) =>
-                        setFormData({ ...formData, message: e.target.value })
-                      }
-                    />
-                  </div>
-                </div>
-                <div className="enquires-modal-footer">
-                  <button
-                    type="button"
-                    className="enquires-btn-cancel"
-                    onClick={closeModal}
-                  >
-                    Cancel
-                  </button>
-                  <button type="submit" className="enquires-btn-submit">
-                    Update Enquiry
-                  </button>
-                </div>
-              </form>
-            )}
-
-            {/* Delete Modal */}
-            {modalType === 'delete' && activeItem && (
-              <div className="enquires-modal-content">
-                <div className="enquires-modal-header danger-header">
-                  <h3 className="modal-title-danger">Delete Enquiry</h3>
-                  <button className="enquires-close-btn" onClick={closeModal}>
-                    ✕
-                  </button>
-                </div>
-                <div className="enquires-modal-body">
-                  <p className="delete-alert-text">
-                    Are you sure you want to permanently delete the enquiry for{' '}
-                    <strong>{activeItem.name}</strong>?
-                  </p>
-                  <span className="delete-sub-text">
-                    This action cannot be undone.
-                  </span>
-                </div>
-                <div className="enquires-modal-footer">
-                  <button
-                    type="button"
-                    className="enquires-btn-cancel"
-                    onClick={closeModal}
-                  >
-                    Cancel
-                  </button>
-                  <button
-                    type="button"
-                    className="enquires-btn-danger"
-                    onClick={handleConfirmDelete}
-                  >
-                    Confirm Delete
-                  </button>
-                </div>
+              <div className="Enquires-detail-message">
+                <span>Specific Requirement</span>
+                <p>{viewEnquiry.message || "No requirement mentioned."}</p>
               </div>
-            )}
+            </div>
+
+            <div className="Enquires-modal-footer">
+              <span
+                className={`Enquires-status ${STATUS_CLASS[viewEnquiry.status] || ""}`}
+              >
+                <span className="Enquires-status-dot" />
+                {viewEnquiry.status}
+              </span>
+
+              <button
+                type="button"
+                className="Enquires-modal-done"
+                onClick={() => setViewEnquiry(null)}
+              >
+                Close
+              </button>
+            </div>
           </div>
+        </div>
+      )}
+
+      {/* DELETE MODAL */}
+
+      {deleteId && (
+        <div
+          className="Enquires-modal-overlay"
+          onMouseDown={() => setDeleteId(null)}
+        >
+          <div
+            className="Enquires-delete-modal"
+            onMouseDown={(e) => e.stopPropagation()}
+          >
+            <div className="Enquires-delete-icon">
+              <Trash2 size={25} />
+            </div>
+
+            <h2>Delete Enquiry?</h2>
+
+            <p>
+              Are you sure you want to delete this enquiry? This action cannot
+              be undone.
+            </p>
+
+            <div className="Enquires-delete-actions">
+              <button
+                type="button"
+                className="Enquires-cancel-button"
+                onClick={() => setDeleteId(null)}
+              >
+                Cancel
+              </button>
+
+              <button
+                type="button"
+                className="Enquires-confirm-delete"
+                onClick={confirmDelete}
+              >
+                Delete Enquiry
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* BULK DELETE MODAL */}
+
+      {showBulkDelete && (
+        <div
+          className="Enquires-modal-overlay"
+          onMouseDown={() => setShowBulkDelete(false)}
+        >
+          <div
+            className="Enquires-delete-modal"
+            onMouseDown={(e) => e.stopPropagation()}
+          >
+            <div className="Enquires-delete-icon">
+              <Trash2 size={25} />
+            </div>
+
+            <h2>
+              Delete {selectedIds.length} Enquir
+              {selectedIds.length === 1 ? "y" : "ies"}?
+            </h2>
+
+            <p>
+              The selected enquiries will be permanently deleted. This action
+              cannot be undone.
+            </p>
+
+            <div className="Enquires-delete-actions">
+              <button
+                type="button"
+                className="Enquires-cancel-button"
+                onClick={() => setShowBulkDelete(false)}
+              >
+                Cancel
+              </button>
+
+              <button
+                type="button"
+                className="Enquires-confirm-delete"
+                onClick={confirmBulkDelete}
+              >
+                Delete Selected
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* NEW ENQUIRY MODAL */}
+
+      {showNewModal && (
+        <div
+          className="Enquires-modal-overlay"
+          onMouseDown={() => setShowNewModal(false)}
+        >
+          <div
+            className="Enquires-new-modal"
+            onMouseDown={(e) => e.stopPropagation()}
+          >
+            <div className="Enquires-modal-header">
+              <div>
+                <span className="Enquires-modal-eyebrow">
+                  QUICK PRODUCT ENQUIRY
+                </span>
+
+                <h2>New Enquiry</h2>
+              </div>
+
+              <button
+                type="button"
+                className="Enquires-modal-close"
+                onClick={() => setShowNewModal(false)}
+                aria-label="Close"
+              >
+                <X size={20} />
+              </button>
+            </div>
+
+            <form className="Enquires-new-form" onSubmit={handleAddEnquiry}>
+              <div className="Enquires-form-grid">
+                <div className="Enquires-form-group">
+                  <label>Full Name / Firm Name</label>
+
+                  <input
+                    name="name"
+                    value={newEnquiry.name}
+                    onChange={handleNewInput}
+                    placeholder="Enter name or business name"
+                    required
+                  />
+                </div>
+
+                <div className="Enquires-form-group">
+                  <label>Mobile Number</label>
+
+                  <div className="Enquires-phone-input">
+                    <span>+91</span>
+
+                    <input
+                      name="phone"
+                      value={newEnquiry.phone}
+                      onChange={handleNewInput}
+                      placeholder="10 digit mobile number"
+                      inputMode="numeric"
+                      required
+                    />
+                  </div>
+                </div>
+
+                <div className="Enquires-form-group">
+                  <label>Email Address (Optional)</label>
+
+                  <input
+                    type="email"
+                    name="email"
+                    value={newEnquiry.email}
+                    onChange={handleNewInput}
+                    placeholder="e.g. name@example.com"
+                  />
+                </div>
+
+                <div className="Enquires-form-group">
+                  <label>Product Category / Enquiry Type</label>
+
+                  <select
+                    name="product"
+                    value={newEnquiry.product}
+                    onChange={handleNewInput}
+                    required
+                  >
+                    <option value="">Select your interest</option>
+
+                    {PRODUCT_OPTIONS.map((option) => (
+                      <option key={option}>{option}</option>
+                    ))}
+                  </select>
+                </div>
+
+                <div className="Enquires-form-group">
+                  <label>Status</label>
+
+                  <select
+                    name="status"
+                    value={newEnquiry.status}
+                    onChange={handleNewInput}
+                  >
+                    {STATUS_LIST.map((status) => (
+                      <option key={status}>{status}</option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+
+              <div className="Enquires-form-group Enquires-message-group">
+                <label>Specific Requirement (Optional)</label>
+
+                <textarea
+                  name="message"
+                  rows="4"
+                  value={newEnquiry.message}
+                  onChange={handleNewInput}
+                  placeholder="Quantity, location, or remarks"
+                />
+              </div>
+
+              <div className="Enquires-form-actions">
+                <button
+                  type="button"
+                  className="Enquires-cancel-button"
+                  onClick={() => setShowNewModal(false)}
+                >
+                  Cancel
+                </button>
+
+                <button type="submit" className="Enquires-submit-button">
+                  <Check size={18} />
+                  Create Enquiry
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* TOAST */}
+
+      {toast && (
+        <div className="Enquires-toast" role="status">
+          <CheckCircle2 size={18} />
+          <span>{toast}</span>
         </div>
       )}
     </div>
