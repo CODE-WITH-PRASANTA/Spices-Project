@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import {
-  FiMail,
+  FiUser,
   FiLock,
   FiEye,
   FiEyeOff,
@@ -10,19 +10,35 @@ import {
   FiArrowRight,
   FiShoppingBag,
   FiShield,
+  FiStar,
 } from "react-icons/fi";
 
 import { FaLeaf } from "react-icons/fa";
 
 import "./Login.css";
-import foodigoImage from "../../assets/login.png";
+
+// =====================================================
+// PALASH ESSENTIAL LOGIN IMAGE
+// Make sure this file exists:
+// src/assets/palash-login.png
+// =====================================================
+
+import palashLoginImage from "../../assets/main-1.jpeg";
 
 const Login = () => {
+  // =====================================================
+  // FORM STATE
+  // =====================================================
+
   const [formData, setFormData] = useState({
     identifier: "",
     password: "",
     rememberMe: true,
   });
+
+  // =====================================================
+  // UI STATE
+  // =====================================================
 
   const [showPassword, setShowPassword] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
@@ -31,15 +47,23 @@ const Login = () => {
   const navigate = useNavigate();
 
   // =====================================================
-  // INPUT CHANGE
+  // HANDLE INPUT CHANGE
   // =====================================================
 
   const handleChange = (e) => {
-    const { name, value, type, checked } = e.target;
+    const {
+      name,
+      value,
+      type,
+      checked,
+    } = e.target;
 
     setFormData((prev) => ({
       ...prev,
-      [name]: type === "checkbox" ? checked : value,
+      [name]:
+        type === "checkbox"
+          ? checked
+          : value,
     }));
 
     if (errorMessage) {
@@ -48,26 +72,51 @@ const Login = () => {
   };
 
   // =====================================================
-  // LOGIN
+  // LOGIN SUBMIT
   // =====================================================
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (
-      formData.identifier === "foodigo" &&
-      formData.password === "12345"
-    ) {
-      sessionStorage.setItem("isAdminAuthenticated", "true");
+    const enteredId =
+      formData.identifier.trim();
 
+    const enteredPassword =
+      formData.password;
+
+    // ===================================================
+    // PALASH ESSENTIAL ADMIN CREDENTIALS
+    // ===================================================
+
+    if (
+      enteredId === "palash" &&
+      enteredPassword === "12345"
+    ) {
+      // Store authentication status
+      sessionStorage.setItem(
+        "isAdminAuthenticated",
+        "true"
+      );
+
+      // Store admin name
+      sessionStorage.setItem(
+        "adminName",
+        "Palash Essential"
+      );
+
+      // Clear previous error
+      setErrorMessage("");
+
+      // Show success screen
       setIsSuccess(true);
 
+      // Navigate to dashboard
       setTimeout(() => {
         navigate("/");
       }, 2500);
     } else {
       setErrorMessage(
-        "Invalid credentials. Please check your login details."
+        "Invalid credentials. Please check your admin ID and password."
       );
     }
   };
@@ -84,29 +133,45 @@ const Login = () => {
 
           <div className="Login-success-card">
 
+            {/* SUCCESS ICON */}
+
             <div className="Login-success-icon-wrapper">
+
               <FiCheckCircle
                 size={76}
                 className="Login-success-icon"
               />
+
             </div>
 
+            {/* SECURITY BADGE */}
+
             <span className="Login-success-badge">
+
               <FiShield size={14} />
+
               Secure Login
+
             </span>
+
+            {/* SUCCESS TITLE */}
 
             <h1 className="Login-success-title">
               LOGIN SUCCESSFUL
             </h1>
 
+            {/* SUCCESS MESSAGE */}
+
             <p className="Login-success-subtitle">
-              Welcome to the Foodigo Admin Portal
+              Welcome to Palash Essential
             </p>
 
             <p className="Login-success-text">
-              Preparing your dashboard...
+              Preparing your administration
+              dashboard...
             </p>
+
+            {/* LOADER */}
 
             <div className="Login-success-loader">
               <span />
@@ -123,12 +188,14 @@ const Login = () => {
 
       <div
         className={`Login-card-wrapper ${
-          isSuccess ? "Login-blur" : ""
+          isSuccess
+            ? "Login-blur"
+            : ""
         }`}
       >
 
         {/* =================================================
-            LEFT BRAND / PRODUCT SECTION
+            LEFT BRAND SECTION
         ================================================= */}
 
         <div
@@ -137,19 +204,32 @@ const Login = () => {
             backgroundImage: `
               linear-gradient(
                 135deg,
-                rgba(5, 38, 24, 0.70),
-                rgba(8, 54, 31, 0.45),
-                rgba(0, 0, 0, 0.35)
+                rgba(0, 0, 0, 0.90),
+                rgba(5, 5, 5, 0.72),
+                rgba(0, 0, 0, 0.48)
               ),
-              url(${foodigoImage})
+              url(${palashLoginImage})
             `,
           }}
         >
 
-          {/* Decorative elements */}
+          {/* =================================================
+              DECORATIVE GLOW
+          ================================================= */}
 
-          <div className="Login-brand-glow Login-brand-glow-one" />
-          <div className="Login-brand-glow Login-brand-glow-two" />
+          <div
+            className="
+              Login-brand-glow
+              Login-brand-glow-one
+            "
+          />
+
+          <div
+            className="
+              Login-brand-glow
+              Login-brand-glow-two
+            "
+          />
 
           {/* =================================================
               BRAND HEADER
@@ -159,22 +239,30 @@ const Login = () => {
 
             <div className="Login-logo-container">
 
+              {/* LOGO */}
+
               <div className="Login-logo-badge">
-                <FaLeaf className="Login-logo-leaf" />
+
+                <FaLeaf
+                  className="Login-logo-leaf"
+                />
+
               </div>
+
+              {/* BRAND TEXT */}
 
               <div className="Login-logo-text-group">
 
                 <h2 className="Login-brand-title">
-                  Foodigo
+                  PALASH
                 </h2>
 
                 <span className="Login-brand-subtitle">
-                  FOOD PRODUCTS
+                  ESSENTIAL
                 </span>
 
                 <p className="Login-brand-tagline">
-                  Pure • Fresh • Trusted
+                  Pure • Natural • Premium
                 </p>
 
               </div>
@@ -189,50 +277,121 @@ const Login = () => {
 
           <div className="Login-hero-content">
 
+            {/* HERO BADGE */}
+
             <span className="Login-hero-badge">
-              <FiShoppingBag size={14} />
-              Foodigo Admin Portal
+
+              <FiShoppingBag
+                size={14}
+              />
+
+              PALASH ESSENTIAL ADMIN
+
             </span>
 
+            {/* HERO HEADING */}
+
             <h1 className="Login-hero-heading">
-              Good Food.
+
+              Pure Spices.
+
               <br />
 
               <span className="Login-hero-highlight">
-                Better Living.
+                Rich Flavours.
               </span>
+
             </h1>
 
+            {/* DESCRIPTION */}
+
             <p className="Login-hero-description">
-              Manage your Foodigo products, orders, customers,
-              enquiries and daily business operations from one
-              secure administration panel.
+
+              Manage your Palash Essential
+              products, orders, customers,
+              enquiries and daily business
+              operations from one secure
+              administration panel.
+
             </p>
 
-            {/* PRODUCT VALUES */}
+            {/* =================================================
+                PRODUCT VALUES
+            ================================================= */}
 
             <div className="Login-values">
 
+              {/* VALUE 1 */}
+
               <div className="Login-value-item">
+
                 <span className="Login-value-icon">
+
                   <FaLeaf />
+
                 </span>
 
                 <div>
-                  <strong>Pure Products</strong>
-                  <small>Quality you can trust</small>
+
+                  <strong>
+                    100% Natural
+                  </strong>
+
+                  <small>
+                    Pure ingredients &
+                    products
+                  </small>
+
                 </div>
+
               </div>
 
+              {/* VALUE 2 */}
+
               <div className="Login-value-item">
+
                 <span className="Login-value-icon">
-                  <FiShield />
+
+                  <FiStar />
+
                 </span>
 
                 <div>
-                  <strong>Secure Management</strong>
-                  <small>Protected admin access</small>
+
+                  <strong>
+                    Premium Quality
+                  </strong>
+
+                  <small>
+                    Quality you can trust
+                  </small>
+
                 </div>
+
+              </div>
+
+              {/* VALUE 3 */}
+
+              <div className="Login-value-item">
+
+                <span className="Login-value-icon">
+
+                  <FiShield />
+
+                </span>
+
+                <div>
+
+                  <strong>
+                    Secure Management
+                  </strong>
+
+                  <small>
+                    Protected admin access
+                  </small>
+
+                </div>
+
               </div>
 
             </div>
@@ -248,10 +407,17 @@ const Login = () => {
             <div className="Login-footer-line" />
 
             <p className="Login-handwritten">
-              From Quality
+
+              Pure Spices
+
               <br />
-              To Your Kitchen
-              <FaLeaf className="Login-footer-leaf" />
+
+              Better Tomorrow
+
+              <FaLeaf
+                className="Login-footer-leaf"
+              />
+
             </p>
 
           </div>
@@ -264,25 +430,41 @@ const Login = () => {
 
         <div className="Login-form-section">
 
-          {/* TOP BRAND MARK */}
+          {/* =================================================
+              MOBILE BRAND
+          ================================================= */}
 
           <div className="Login-mobile-brand">
 
             <div className="Login-mobile-logo">
+
               <FaLeaf />
+
             </div>
 
-            <span>Foodigo</span>
+            <div className="Login-mobile-brand-text">
+
+              <strong>
+                PALASH
+              </strong>
+
+              <span>
+                ESSENTIAL
+              </span>
+
+            </div>
 
           </div>
 
-          {/* USER ICON */}
+          {/* =================================================
+              USER ICON
+          ================================================= */}
 
           <div className="Login-avatar-container">
 
             <div className="Login-avatar-3d">
 
-              <FiShoppingBag
+              <FiUser
                 size={25}
               />
 
@@ -290,7 +472,9 @@ const Login = () => {
 
           </div>
 
-          {/* FORM HEADER */}
+          {/* =================================================
+              FORM HEADER
+          ================================================= */}
 
           <div className="Login-form-header">
 
@@ -303,17 +487,21 @@ const Login = () => {
             </h2>
 
             <p>
-              Login to your Foodigo admin account
-              and manage your food business.
+              Login to your Palash Essential
+              administration account.
             </p>
 
           </div>
 
-          {/* ERROR */}
+          {/* =================================================
+              ERROR MESSAGE
+          ================================================= */}
 
           {errorMessage && (
             <div className="Login-error-badge">
+
               {errorMessage}
+
             </div>
           )}
 
@@ -326,7 +514,9 @@ const Login = () => {
             className="Login-form"
           >
 
-            {/* IDENTIFIER */}
+            {/* =================================================
+                ADMIN ID
+            ================================================= */}
 
             <div className="Login-input-wrapper">
 
@@ -334,12 +524,12 @@ const Login = () => {
                 htmlFor="identifier"
                 className="Login-input-label"
               >
-                Email or Mobile Number
+                Admin ID
               </label>
 
               <div className="Login-input-group">
 
-                <FiMail
+                <FiUser
                   className="Login-input-icon"
                   size={18}
                 />
@@ -348,7 +538,7 @@ const Login = () => {
                   id="identifier"
                   type="text"
                   name="identifier"
-                  placeholder="Enter email or mobile number"
+                  placeholder="Enter admin ID"
                   value={formData.identifier}
                   onChange={handleChange}
                   autoComplete="username"
@@ -359,7 +549,9 @@ const Login = () => {
 
             </div>
 
-            {/* PASSWORD */}
+            {/* =================================================
+                PASSWORD
+            ================================================= */}
 
             <div className="Login-input-wrapper">
 
@@ -392,11 +584,15 @@ const Login = () => {
                   required
                 />
 
+                {/* PASSWORD SHOW/HIDE */}
+
                 <button
                   type="button"
                   className="Login-password-toggle"
                   onClick={() =>
-                    setShowPassword(!showPassword)
+                    setShowPassword(
+                      !showPassword
+                    )
                   }
                   aria-label={
                     showPassword
@@ -404,18 +600,22 @@ const Login = () => {
                       : "Show password"
                   }
                 >
+
                   {showPassword ? (
                     <FiEyeOff size={18} />
                   ) : (
                     <FiEye size={18} />
                   )}
+
                 </button>
 
               </div>
 
             </div>
 
-            {/* OPTIONS */}
+            {/* =================================================
+                FORM OPTIONS
+            ================================================= */}
 
             <div className="Login-form-options">
 
@@ -424,7 +624,9 @@ const Login = () => {
                 <input
                   type="checkbox"
                   name="rememberMe"
-                  checked={formData.rememberMe}
+                  checked={
+                    formData.rememberMe
+                  }
                   onChange={handleChange}
                 />
 
@@ -434,16 +636,15 @@ const Login = () => {
 
               </label>
 
-              <a
-                href="#forgot"
-                className="Login-forgot-link"
-              >
-                Forgot Password?
-              </a>
+              <span className="Login-forgot-link">
+                Secure Access
+              </span>
 
             </div>
 
-            {/* LOGIN BUTTON */}
+            {/* =================================================
+                LOGIN BUTTON
+            ================================================= */}
 
             <button
               type="submit"
@@ -462,7 +663,12 @@ const Login = () => {
 
           </form>
 
-          {/* SECURITY INFO */}
+          {/* =================================================
+              SECURITY INFO
+              
+              IMPORTANT:
+              No ID or password is displayed here.
+          ================================================= */}
 
           <div className="Login-security-note">
 
@@ -475,11 +681,18 @@ const Login = () => {
 
           </div>
 
-          {/* COPYRIGHT */}
+          {/* =================================================
+              COPYRIGHT
+          ================================================= */}
 
           <div className="Login-copyright">
-            © {new Date().getFullYear()} Foodigo.
+
+            © {new Date().getFullYear()}
+            {" "}
+            Palash Essential.
+            {" "}
             All rights reserved.
+
           </div>
 
         </div>

@@ -1,34 +1,46 @@
 /* =========================================================
-   HEALTHY HEAVEN - PREMIUM TOPBAR THEME
+   PALASH ESSENTIAL - PREMIUM BLACK & GOLD TOPBAR
 ========================================================= */
 
 :root {
-  --topbar-bg: rgba(255, 255, 255, 0.94);
-  --topbar-border: #e5eee8;
+  --topbar-bg: rgba(5, 5, 5, 0.96);
+  --topbar-bg-soft: #0b0b0a;
+  --topbar-border: rgba(201, 154, 59, 0.22);
 
-  --primary-green: #08784a;
-  --primary-green-dark: #045b38;
-  --primary-green-hover: #0a9155;
-  --primary-green-light: #eaf8ef;
-  --primary-green-soft: #f4fbf6;
+  --primary-gold: #c99a3b;
+  --primary-gold-light: #e8c66a;
+  --primary-gold-bright: #f5d889;
+  --primary-gold-dark: #8e6724;
 
-  --text-main: #12372b;
-  --text-muted: #6d8278;
-  --text-soft: #91a29a;
+  --gold-gradient:
+    linear-gradient(
+      135deg,
+      #f5d889 0%,
+      #c99a3b 55%,
+      #8e6724 100%
+    );
+
+  --gold-soft: rgba(201, 154, 59, 0.10);
+  --gold-hover: rgba(201, 154, 59, 0.16);
+
+  --text-main: #ffffff;
+  --text-muted: #aaa59a;
+  --text-soft: #777269;
 
   --danger: #ef4444;
-  --success: #16a66a;
+  --success: #d8b45a;
 
   --shadow-sm:
-    0 2px 8px rgba(0, 72, 45, 0.06);
+    0 3px 12px rgba(0, 0, 0, 0.35);
 
   --shadow-md:
-    0 12px 30px rgba(0, 73, 46, 0.11),
-    0 4px 10px rgba(0, 0, 0, 0.035);
+    0 14px 35px rgba(0, 0, 0, 0.45),
+    0 4px 12px rgba(0, 0, 0, 0.28);
 
-  --shadow-green:
-    0 8px 22px rgba(8, 120, 74, 0.14);
+  --shadow-gold:
+    0 8px 25px rgba(201, 154, 59, 0.22);
 }
+
 
 /* =========================================================
    MAIN TOPBAR
@@ -40,12 +52,12 @@
   background:
     linear-gradient(
       180deg,
-      rgba(255, 255, 255, 0.98),
-      rgba(250, 253, 251, 0.96)
+      rgba(10, 10, 9, 0.98),
+      rgba(5, 5, 5, 0.96)
     );
 
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
 
   border-bottom:
     1px solid var(--topbar-border);
@@ -65,10 +77,13 @@
     all 0.25s ease;
 
   box-shadow:
-    0 3px 18px rgba(0, 67, 42, 0.035);
+    0 5px 20px rgba(0, 0, 0, 0.32);
 }
 
-/* subtle green line */
+
+/* =========================================================
+   GOLD BOTTOM LINE
+========================================================= */
 
 .Topbar::after {
   content: "";
@@ -77,6 +92,7 @@
 
   left: 0;
   right: 0;
+
   bottom: -1px;
 
   height: 1px;
@@ -85,12 +101,14 @@
     linear-gradient(
       90deg,
       transparent,
-      rgba(21, 166, 91, 0.22),
+      rgba(201, 154, 59, 0.75),
+      rgba(232, 198, 106, 0.35),
       transparent
     );
 
   pointer-events: none;
 }
+
 
 /* =========================================================
    LEFT / RIGHT
@@ -103,6 +121,7 @@
 
   gap: 14px;
 }
+
 
 /* =========================================================
    SIDEBAR TOGGLE
@@ -119,15 +138,15 @@
   background:
     linear-gradient(
       145deg,
-      #ffffff,
-      #f4faf6
+      #151513,
+      #090908
     );
 
   border:
-    1px solid #dcebe3;
+    1px solid rgba(201, 154, 59, 0.28);
 
   color:
-    var(--primary-green);
+    var(--primary-gold-light);
 
   cursor: pointer;
 
@@ -142,18 +161,18 @@
 
 .Topbar-toggle-btn:hover {
   background:
-    var(--primary-green);
+    var(--gold-gradient);
 
-  color: #ffffff;
+  color: #080706;
 
   border-color:
-    var(--primary-green);
+    var(--primary-gold-light);
 
   transform:
     translateY(-1px);
 
   box-shadow:
-    var(--shadow-green);
+    var(--shadow-gold);
 }
 
 .Topbar-toggle-btn:active {
@@ -161,6 +180,7 @@
     translateY(0)
     scale(0.97);
 }
+
 
 /* =========================================================
    BREADCRUMB
@@ -180,21 +200,21 @@
 
 .Topbar-path-parent {
   color:
-    var(--text-muted);
+    var(--primary-gold-light);
 
-  font-weight: 700;
+  font-weight: 800;
 
   font-size: 10px;
 
-  letter-spacing: 0.7px;
+  letter-spacing: 0.8px;
 
   text-transform: uppercase;
 
   background:
-    var(--primary-green-soft);
+    rgba(201, 154, 59, 0.10);
 
   border:
-    1px solid #e4f1e8;
+    1px solid rgba(201, 154, 59, 0.24);
 
   padding:
     4px 9px;
@@ -204,17 +224,18 @@
 
 .Topbar-path-separator {
   color:
-    #c4d5cc;
+    #625b4f;
 }
 
 .Topbar-path-current {
   color:
-    var(--primary-green);
+    #f0eee8;
 
   font-weight: 700;
 
   text-transform: capitalize;
 }
+
 
 /* =========================================================
    SEARCH
@@ -233,7 +254,7 @@
   left: 15px;
 
   color:
-    #89a096;
+    #827b6f;
 
   pointer-events: none;
 
@@ -248,10 +269,10 @@
   height: 40px;
 
   background:
-    #f5faf7;
+    #11110f;
 
   border:
-    1px solid #dfebe4;
+    1px solid rgba(255, 255, 255, 0.09);
 
   padding:
     8px 48px 8px 41px;
@@ -265,7 +286,7 @@
   font-weight: 500;
 
   color:
-    var(--text-main);
+    #f5f2ea;
 
   transition:
     all 0.25s ease;
@@ -275,39 +296,44 @@
 
 .Topbar-search-input::placeholder {
   color:
-    #8ca097;
+    #777269;
 }
 
 .Topbar-search-input:hover {
   background:
-    #ffffff;
+    #151512;
 
   border-color:
-    #cce0d5;
+    rgba(201, 154, 59, 0.30);
 }
 
 .Topbar-search-input:focus {
   width: 290px;
 
   background:
-    #ffffff;
+    #121210;
 
   border-color:
-    var(--primary-green);
+    var(--primary-gold);
 
   box-shadow:
     0 0 0 4px
-    rgba(8, 120, 74, 0.09);
+    rgba(201, 154, 59, 0.10);
 }
 
 .Topbar-search-box:focus-within
-  .Topbar-search-icon {
+.Topbar-search-icon {
   color:
-    var(--primary-green);
+    var(--primary-gold-light);
 
   transform:
     scale(1.05);
 }
+
+
+/* =========================================================
+   SEARCH SHORTCUT
+========================================================= */
 
 .Topbar-search-shortcut {
   position: absolute;
@@ -329,13 +355,13 @@
   font-weight: 700;
 
   color:
-    #789087;
+    #918a7d;
 
   background:
-    #ffffff;
+    #191916;
 
   border:
-    1px solid #dfeae4;
+    1px solid rgba(255, 255, 255, 0.10);
 
   padding:
     1px 5px;
@@ -345,8 +371,9 @@
   pointer-events: none;
 
   box-shadow:
-    0 1px 2px rgba(0, 0, 0, 0.03);
+    0 1px 3px rgba(0, 0, 0, 0.35);
 }
+
 
 /* =========================================================
    ACTION AREA
@@ -361,6 +388,7 @@
   position: relative;
 }
 
+
 /* =========================================================
    ACTION BUTTON
 ========================================================= */
@@ -370,13 +398,13 @@
   height: 39px;
 
   background:
-    #ffffff;
+    #11110f;
 
   border:
-    1px solid #dfebe4;
+    1px solid rgba(255, 255, 255, 0.10);
 
   color:
-    #577066;
+    #aaa398;
 
   cursor: pointer;
 
@@ -398,16 +426,16 @@
 .Topbar-action-btn:hover,
 .Topbar-action-btn.active {
   color:
-    var(--primary-green);
+    var(--primary-gold-light);
 
   background:
-    var(--primary-green-light);
+    rgba(201, 154, 59, 0.12);
 
   border-color:
-    #bfe2ce;
+    rgba(201, 154, 59, 0.40);
 
   box-shadow:
-    0 5px 15px rgba(8, 120, 74, 0.09);
+    0 5px 18px rgba(201, 154, 59, 0.12);
 
   transform:
     translateY(-1px);
@@ -417,6 +445,7 @@
   transform:
     scale(0.96);
 }
+
 
 /* =========================================================
    NOTIFICATION BADGE
@@ -431,15 +460,16 @@
   background:
     linear-gradient(
       135deg,
-      #ff5b61,
-      #dc2626
+      #f5d889,
+      #c99a3b
     );
 
-  color: #ffffff;
+  color:
+    #080706;
 
   font-size: 9px;
 
-  font-weight: 800;
+  font-weight: 900;
 
   height: 18px;
   min-width: 18px;
@@ -453,11 +483,12 @@
   border-radius: 50%;
 
   border:
-    2px solid #ffffff;
+    2px solid #070706;
 
   box-shadow:
-    0 3px 7px rgba(220, 38, 38, 0.25);
+    0 3px 8px rgba(201, 154, 59, 0.35);
 }
+
 
 /* =========================================================
    USER CARD
@@ -490,14 +521,15 @@
 .Topbar-user:hover,
 .Topbar-user.active {
   background:
-    #ffffff;
+    #11110f;
 
   border-color:
-    #deebe4;
+    rgba(201, 154, 59, 0.24);
 
   box-shadow:
     var(--shadow-sm);
 }
+
 
 /* =========================================================
    AVATAR
@@ -518,13 +550,13 @@
   object-fit: cover;
 
   border:
-    2px solid #d9f0e2;
+    2px solid var(--primary-gold);
 
   background:
-    #eaf8ef;
+    #171612;
 
   box-shadow:
-    0 3px 10px rgba(0, 78, 48, 0.08);
+    0 3px 12px rgba(201, 154, 59, 0.18);
 }
 
 .Topbar-status-indicator {
@@ -537,16 +569,17 @@
   height: 9px;
 
   background:
-    #19b86a;
+    #d8b45a;
 
   border:
-    2px solid #ffffff;
+    2px solid #080807;
 
   border-radius: 50%;
 
   box-shadow:
-    0 0 0 1px rgba(25, 184, 106, 0.1);
+    0 0 0 1px rgba(216, 180, 90, 0.18);
 }
+
 
 /* =========================================================
    USER INFORMATION
@@ -567,7 +600,7 @@
   font-weight: 700;
 
   color:
-    var(--text-main);
+    #f4f1e9;
 }
 
 .Topbar-role {
@@ -583,7 +616,7 @@
 
 .Topbar-chevron {
   color:
-    #789087;
+    #827b70;
 
   transition:
     transform 0.25s ease,
@@ -591,15 +624,16 @@
 }
 
 .Topbar-user:hover
-  .Topbar-chevron {
+.Topbar-chevron {
   color:
-    var(--primary-green);
+    var(--primary-gold-light);
 }
 
 .Topbar-chevron.open {
   transform:
     rotate(180deg);
 }
+
 
 /* =========================================================
    VERTICAL DIVIDER
@@ -612,10 +646,11 @@
   height: 27px;
 
   background:
-    #e2ece6;
+    rgba(255, 255, 255, 0.10);
 
   margin-right: 2px;
 }
+
 
 /* =========================================================
    UNIVERSAL DROPDOWN
@@ -628,16 +663,16 @@
   right: 0;
 
   background:
-    rgba(255, 255, 255, 0.98);
+    rgba(12, 12, 11, 0.98);
 
   border:
-    1px solid #dfebe4;
+    1px solid rgba(201, 154, 59, 0.24);
 
   border-radius: 14px;
 
   box-shadow:
-    0 18px 45px rgba(0, 68, 43, 0.13),
-    0 4px 12px rgba(0, 0, 0, 0.04);
+    0 20px 50px rgba(0, 0, 0, 0.55),
+    0 5px 15px rgba(201, 154, 59, 0.06);
 
   padding: 6px;
 
@@ -650,10 +685,10 @@
     topbarDropdownSlide 0.2s ease-out;
 
   backdrop-filter:
-    blur(14px);
+    blur(16px);
 
   -webkit-backdrop-filter:
-    blur(14px);
+    blur(16px);
 }
 
 @keyframes topbarDropdownSlide {
@@ -674,6 +709,7 @@
   }
 }
 
+
 /* =========================================================
    USER DROPDOWN
 ========================================================= */
@@ -689,9 +725,12 @@
   background:
     linear-gradient(
       135deg,
-      #f2fbf5,
-      #ffffff
+      rgba(201, 154, 59, 0.14),
+      rgba(255, 255, 255, 0.025)
     );
+
+  border:
+    1px solid rgba(201, 154, 59, 0.12);
 
   border-radius: 10px;
 
@@ -704,7 +743,7 @@
   font-weight: 700;
 
   color:
-    var(--text-main);
+    #ffffff;
 
   margin: 0;
 }
@@ -720,6 +759,7 @@
 
   word-break: break-all;
 }
+
 
 /* =========================================================
    DROPDOWN ITEMS
@@ -739,7 +779,7 @@
   font-weight: 600;
 
   color:
-    var(--text-main);
+    #d7d2c8;
 
   text-decoration: none;
 
@@ -749,39 +789,58 @@
     all 0.15s ease;
 }
 
+.Topbar-dropdown-item svg {
+  color:
+    #a8894d;
+
+  transition:
+    color 0.15s ease;
+}
+
 .Topbar-dropdown-item:hover {
   background:
-    var(--primary-green-light);
+    rgba(201, 154, 59, 0.12);
 
   color:
-    var(--primary-green);
+    var(--primary-gold-light);
 
   transform:
     translateX(2px);
 }
 
+.Topbar-dropdown-item:hover svg {
+  color:
+    var(--primary-gold-light);
+}
+
 .Topbar-dropdown-item.logout {
   color:
-    #ef4444;
+    #ef7777;
+}
+
+.Topbar-dropdown-item.logout svg {
+  color:
+    #ef7777;
 }
 
 .Topbar-dropdown-item.logout:hover {
   background:
-    #fff1f1;
+    rgba(239, 68, 68, 0.10);
 
   color:
-    #dc2626;
+    #ff8585;
 }
 
 .Topbar-dropdown-divider {
   height: 1px;
 
   background:
-    #edf3ef;
+    rgba(255, 255, 255, 0.08);
 
   margin:
     4px 0;
 }
+
 
 /* =========================================================
    NOTIFICATION DROPDOWN
@@ -803,7 +862,7 @@
     2px 2px 10px;
 
   border-bottom:
-    1px solid #edf3ef;
+    1px solid rgba(255, 255, 255, 0.08);
 
   margin-bottom: 7px;
 }
@@ -814,17 +873,20 @@
   font-weight: 800;
 
   color:
-    var(--text-main);
+    #ffffff;
 }
 
 .Topbar-dropdown-badge {
   font-size: 9px;
 
   background:
-    var(--primary-green-light);
+    rgba(201, 154, 59, 0.13);
 
   color:
-    var(--primary-green);
+    var(--primary-gold-light);
+
+  border:
+    1px solid rgba(201, 154, 59, 0.22);
 
   font-weight: 800;
 
@@ -833,6 +895,7 @@
 
   border-radius: 20px;
 }
+
 
 /* =========================================================
    NOTIFICATION ITEMS
@@ -853,7 +916,7 @@
 
 .Topbar-notification-item:hover {
   background:
-    #f5faf7;
+    rgba(201, 154, 59, 0.07);
 }
 
 .Topbar-notification-dot {
@@ -861,7 +924,7 @@
   height: 7px;
 
   background:
-    var(--primary-green);
+    var(--primary-gold);
 
   border-radius: 50%;
 
@@ -871,18 +934,23 @@
 
   box-shadow:
     0 0 0 3px
-    rgba(8, 120, 74, 0.08);
+    rgba(201, 154, 59, 0.10);
 }
 
 .Topbar-notification-text {
   font-size: 11.5px;
 
   color:
-    var(--text-main);
+    #e7e2d8;
 
   margin: 0;
 
   line-height: 1.45;
+}
+
+.Topbar-notification-text strong {
+  color:
+    var(--primary-gold-light);
 }
 
 .Topbar-notification-time {
@@ -895,6 +963,7 @@
 
   margin-top: 3px;
 }
+
 
 /* =========================================================
    RESPONSIVE - TABLET
@@ -919,6 +988,7 @@
     gap: 10px;
   }
 }
+
 
 /* =========================================================
    RESPONSIVE - MOBILE
@@ -981,6 +1051,7 @@
   }
 }
 
+
 /* =========================================================
    SMALL MOBILE
 ========================================================= */
@@ -1021,6 +1092,7 @@
   }
 }
 
+
 /* =========================================================
    ACCESSIBILITY
 ========================================================= */
@@ -1029,10 +1101,24 @@
 .Topbar input:focus-visible,
 .Topbar a:focus-visible {
   outline:
-    2px solid #3dc76b;
+    2px solid var(--primary-gold-light);
 
   outline-offset: 2px;
 }
+
+
+/* =========================================================
+   SELECTION
+========================================================= */
+
+.Topbar ::selection {
+  background:
+    rgba(201, 154, 59, 0.35);
+
+  color:
+    #ffffff;
+}
+
 
 /* =========================================================
    REDUCED MOTION

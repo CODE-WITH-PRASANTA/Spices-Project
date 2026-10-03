@@ -1,217 +1,546 @@
 /* =========================================================
-   HEALTHY HAVEN - BOLD EMERALD ADMIN SIDEBAR
-========================================================= */
+   PALASH ESSENTIAL
+   PREMIUM BLACK + GOLD ADMIN SIDEBAR
+   ========================================================= */
+
+
+/* =========================================================
+   ROOT VARIABLES
+   ========================================================= */
 
 :root {
   --sb-width: 280px;
   --sb-collapsed-width: 84px;
 
-  --sb-bg-darkest: #011d14;
-  --sb-bg-dark: #032b1d;
-  --sb-bg-card: rgba(255, 255, 255, 0.06);
+  --sb-black: #050505;
+  --sb-black-deep: #080807;
+  --sb-black-soft: #10100e;
+  --sb-black-card: rgba(255, 255, 255, 0.045);
 
-  --sb-accent-neon: #00e88f;
-  --sb-accent-bright: #00ffa3;
-  --sb-accent-gradient: linear-gradient(135deg, #00ffa3 0%, #00d27a 100%);
-  --sb-accent-glow: 0 8px 24px rgba(0, 255, 163, 0.35);
+  --sb-gold: #c99a3b;
+  --sb-gold-light: #e8c66a;
+  --sb-gold-bright: #f5d889;
+  --sb-gold-dark: #8f6824;
+
+  --sb-gold-gradient:
+    linear-gradient(
+      135deg,
+      #f0cd72 0%,
+      #c99a3b 55%,
+      #9b7028 100%
+    );
+
+  --sb-gold-glow:
+    0 8px 25px rgba(201, 154, 59, 0.25);
 
   --sb-text-bright: #ffffff;
-  --sb-text-medium: #c2e5d7;
-  --sb-text-muted: rgba(255, 255, 255, 0.45);
+  --sb-text-medium: #d4d0c8;
+  --sb-text-muted: rgba(255, 255, 255, 0.42);
 
-  --sb-border-light: rgba(255, 255, 255, 0.1);
-  --sb-border-glow: rgba(0, 255, 163, 0.35);
+  --sb-border:
+    rgba(255, 255, 255, 0.085);
 
-  --sb-font: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  --sb-transition: 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+  --sb-gold-border:
+    rgba(201, 154, 59, 0.35);
+
+  --sb-font:
+    "Inter",
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    sans-serif;
+
+  --sb-transition:
+    0.22s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Sidebar Shell */
+
+/* =========================================================
+   GLOBAL SIDEBAR BOX SIZING
+   ========================================================= */
+
+.HealthySidebar,
+.HealthySidebar * {
+  box-sizing: border-box;
+}
+
+
+/* =========================================================
+   SIDEBAR SHELL
+   ========================================================= */
+
 .HealthySidebar {
   position: fixed;
+
   top: 0;
   left: 0;
+
   width: var(--sb-width);
+
   height: 100vh;
   height: 100dvh;
+
   display: flex;
+
   flex-direction: column;
-  background: 
-    radial-gradient(circle at 10% 5%, rgba(0, 255, 163, 0.18), transparent 45%),
-    radial-gradient(circle at 90% 90%, rgba(0, 184, 117, 0.15), transparent 45%),
-    linear-gradient(180deg, var(--sb-bg-dark) 0%, var(--sb-bg-darkest) 100%);
-  border-right: 1px solid var(--sb-border-light);
-  box-shadow: 10px 0 35px rgba(0, 0, 0, 0.4);
-  color: var(--sb-text-bright);
-  font-family: var(--sb-font);
+
+  background:
+    radial-gradient(
+      circle at 0% 0%,
+      rgba(201, 154, 59, 0.14),
+      transparent 34%
+    ),
+    radial-gradient(
+      circle at 100% 90%,
+      rgba(201, 154, 59, 0.09),
+      transparent 38%
+    ),
+    linear-gradient(
+      180deg,
+      #11110f 0%,
+      #070706 48%,
+      #030303 100%
+    );
+
+  border-right:
+    1px solid
+    rgba(201, 154, 59, 0.18);
+
+  box-shadow:
+    12px 0 40px
+      rgba(0, 0, 0, 0.55);
+
+  color:
+    var(--sb-text-bright);
+
+  font-family:
+    var(--sb-font);
+
   overflow: hidden;
+
   z-index: 1050;
-  transition: width var(--sb-transition), transform var(--sb-transition);
+
+  transition:
+    width var(--sb-transition),
+    transform var(--sb-transition);
 }
 
-/* Ambient Glow */
+
+/* =========================================================
+   SIDEBAR TOP GOLD LINE
+   ========================================================= */
+
+.HealthySidebar::before {
+  content: "";
+
+  position: absolute;
+
+  top: 0;
+  left: 0;
+
+  width: 100%;
+  height: 2px;
+
+  z-index: 10;
+
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      var(--sb-gold),
+      var(--sb-gold-light),
+      var(--sb-gold),
+      transparent
+    );
+}
+
+
+/* =========================================================
+   AMBIENT GLOWS
+   ========================================================= */
+
 .HealthySidebar-glow {
   position: absolute;
+
   pointer-events: none;
+
   border-radius: 50%;
-  filter: blur(55px);
+
+  filter: blur(65px);
+
   z-index: 0;
 }
+
 .HealthySidebar-glow-top {
-  width: 220px;
-  height: 220px;
-  background: rgba(0, 255, 163, 0.16);
-  top: -80px;
-  right: -70px;
-}
-.HealthySidebar-glow-bottom {
-  width: 200px;
-  height: 200px;
-  background: rgba(0, 184, 117, 0.12);
-  bottom: 40px;
-  left: -60px;
+  width: 230px;
+  height: 230px;
+
+  background:
+    rgba(201, 154, 59, 0.13);
+
+  top: -100px;
+  right: -80px;
 }
 
-/* Mobile Backdrop */
+.HealthySidebar-glow-bottom {
+  width: 220px;
+  height: 220px;
+
+  background:
+    rgba(201, 154, 59, 0.07);
+
+  bottom: 20px;
+  left: -100px;
+}
+
+
+/* =========================================================
+   SUBTLE BACKGROUND PATTERN
+   ========================================================= */
+
+.HealthySidebar::after {
+  content: "";
+
+  position: absolute;
+
+  inset: 0;
+
+  z-index: 0;
+
+  pointer-events: none;
+
+  opacity: 0.035;
+
+  background-image:
+    linear-gradient(
+      45deg,
+      rgba(255, 255, 255, 0.5) 1px,
+      transparent 1px
+    );
+
+  background-size: 26px 26px;
+}
+
+
+/* =========================================================
+   MOBILE BACKDROP
+   ========================================================= */
+
 .HealthySidebar-backdrop {
   position: fixed;
+
   inset: 0;
-  background: rgba(1, 29, 20, 0.75);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
+
+  background:
+    rgba(0, 0, 0, 0.76);
+
+  backdrop-filter:
+    blur(8px);
+
+  -webkit-backdrop-filter:
+    blur(8px);
+
   z-index: 1040;
+
   opacity: 0;
+
   pointer-events: none;
-  transition: opacity var(--sb-transition);
+
+  transition:
+    opacity var(--sb-transition);
 }
+
 .HealthySidebar-backdrop.is-visible {
   opacity: 1;
+
   pointer-events: auto;
 }
 
+
 /* =========================================================
    HEADER / BRAND
-========================================================= */
+   ========================================================= */
 
 .HealthySidebar-header {
   position: relative;
+
   display: flex;
+
   align-items: center;
+
   justify-content: space-between;
-  padding: 18px 20px;
-  min-height: 80px;
-  border-bottom: 1px solid var(--sb-border-light);
+
+  padding:
+    18px 20px;
+
+  min-height: 82px;
+
+  border-bottom:
+    1px solid
+    var(--sb-border);
+
   z-index: 2;
 }
 
+
+/* =========================================================
+   BRAND
+   ========================================================= */
+
 .HealthySidebar-brand {
   display: flex;
+
   align-items: center;
-  gap: 14px;
+
+  gap: 13px;
+
   min-width: 0;
 }
 
+
+/* =========================================================
+   LOGO RING
+   ========================================================= */
+
 .HealthySidebar-logo-ring {
-  width: 48px;
-  height: 48px;
+  width: 49px;
+  height: 49px;
+
   border-radius: 50%;
-  background: #ffffff;
+
+  background:
+    #ffffff;
+
   padding: 2px;
-  box-shadow: 
-    0 4px 16px rgba(0, 0, 0, 0.35),
-    0 0 0 2px var(--sb-accent-bright);
+
+  box-shadow:
+    0 5px 18px
+      rgba(0, 0, 0, 0.45),
+    0 0 0 1.5px
+      var(--sb-gold);
+
   flex-shrink: 0;
+
   display: flex;
+
   align-items: center;
   justify-content: center;
+
   overflow: hidden;
+
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
 }
+
+.HealthySidebar-logo-ring:hover {
+  transform:
+    scale(1.04);
+
+  box-shadow:
+    0 7px 22px
+      rgba(0, 0, 0, 0.55),
+    0 0 0 2px
+      var(--sb-gold-light),
+    0 0 22px
+      rgba(201, 154, 59, 0.22);
+}
+
+
+/* =========================================================
+   LOGO
+   ========================================================= */
 
 .HealthySidebar-logo {
   width: 100%;
   height: 100%;
+
   object-fit: cover;
 }
 
+
+/* =========================================================
+   BRAND META
+   ========================================================= */
+
 .HealthySidebar-brand-meta {
   display: flex;
+
   flex-direction: column;
+
   min-width: 0;
 }
 
 .HealthySidebar-brand-meta h2 {
   margin: 0;
-  font-size: 17px;
-  font-weight: 800;
-  letter-spacing: -0.3px;
+
   color: #ffffff;
+
+  font-size: 17px;
+
+  font-weight: 900;
+
+  letter-spacing: 2px;
+
+  line-height: 1;
+
   white-space: nowrap;
 }
 
 .HealthySidebar-brand-meta span {
-  font-size: 11px;
+  margin-top: 6px;
+
+  color:
+    var(--sb-gold-light);
+
+  font-size: 9px;
+
+  font-weight: 800;
+
   text-transform: uppercase;
-  letter-spacing: 1.2px;
-  color: var(--sb-accent-neon);
-  font-weight: 700;
-  margin-top: 2px;
+
+  letter-spacing: 2.4px;
+
+  line-height: 1;
 }
+
+
+/* =========================================================
+   MOBILE CLOSE BUTTON
+   ========================================================= */
 
 .HealthySidebar-mobile-close {
   display: none;
+
   align-items: center;
   justify-content: center;
+
   width: 36px;
   height: 36px;
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid var(--sb-border-light);
+
+  padding: 0;
+
+  background:
+    rgba(255, 255, 255, 0.055);
+
+  border:
+    1px solid
+    var(--sb-border);
+
   border-radius: 10px;
+
   color: #ffffff;
+
   cursor: pointer;
-  transition: all var(--sb-transition);
+
+  transition:
+    all var(--sb-transition);
 }
 
 .HealthySidebar-mobile-close:hover {
-  background: rgba(255, 255, 255, 0.16);
-  border-color: var(--sb-border-glow);
+  color:
+    var(--sb-gold-light);
+
+  background:
+    rgba(201, 154, 59, 0.10);
+
+  border-color:
+    var(--sb-gold-border);
+
+  transform:
+    rotate(90deg);
 }
+
 
 /* =========================================================
    USER PROFILE
-========================================================= */
+   ========================================================= */
 
 .HealthySidebar-profile-card {
   position: relative;
-  margin: 16px 18px 10px;
-  padding: 12px 14px;
-  background: var(--sb-bg-card);
-  border: 1px solid var(--sb-border-light);
-  border-radius: 14px;
+
+  margin:
+    16px 17px 10px;
+
+  padding:
+    12px 13px;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.065),
+      rgba(255, 255, 255, 0.025)
+    );
+
+  border:
+    1px solid
+    var(--sb-border);
+
+  border-radius: 15px;
+
   display: flex;
+
   align-items: center;
+
   gap: 12px;
+
   text-decoration: none;
+
   cursor: pointer;
+
   z-index: 2;
-  transition: all var(--sb-transition);
+
+  transition:
+    all var(--sb-transition);
 }
 
 .HealthySidebar-profile-card:hover {
-  background: rgba(255, 255, 255, 0.1);
-  border-color: var(--sb-border-glow);
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+  background:
+    linear-gradient(
+      135deg,
+      rgba(201, 154, 59, 0.10),
+      rgba(255, 255, 255, 0.035)
+    );
+
+  border-color:
+    var(--sb-gold-border);
+
+  transform:
+    translateY(-2px);
+
+  box-shadow:
+    0 8px 24px
+      rgba(0, 0, 0, 0.30);
 }
 
 .HealthySidebar-profile-card.is-active {
-  border-color: var(--sb-accent-bright);
-  background: rgba(0, 255, 163, 0.08);
+  border-color:
+    var(--sb-gold);
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(201, 154, 59, 0.14),
+      rgba(201, 154, 59, 0.045)
+    );
+
+  box-shadow:
+    0 0 20px
+      rgba(201, 154, 59, 0.08);
 }
+
+
+/* =========================================================
+   AVATAR
+   ========================================================= */
 
 .HealthySidebar-avatar-wrap {
   position: relative;
+
   width: 42px;
   height: 42px;
+
   flex-shrink: 0;
 }
 
@@ -219,301 +548,804 @@
 .HealthySidebar-avatar-fallback {
   width: 100%;
   height: 100%;
+
   border-radius: 12px;
+
   object-fit: cover;
 }
 
 .HealthySidebar-avatar-fallback {
-  background: var(--sb-accent-gradient);
-  color: #021a12;
-  font-weight: 800;
+  background:
+    var(--sb-gold-gradient);
+
+  color:
+    #17120a;
+
+  font-weight: 900;
+
   font-size: 14px;
+
   display: flex;
+
   align-items: center;
   justify-content: center;
+
+  box-shadow:
+    0 5px 15px
+      rgba(201, 154, 59, 0.20);
 }
+
+
+/* =========================================================
+   STATUS BEACON
+   ========================================================= */
 
 .HealthySidebar-status-beacon {
   position: absolute;
+
   bottom: -2px;
   right: -2px;
+
   width: 10px;
   height: 10px;
+
   border-radius: 50%;
-  background: var(--sb-accent-bright);
-  border: 2px solid var(--sb-bg-dark);
-  box-shadow: 0 0 8px var(--sb-accent-bright);
+
+  background:
+    var(--sb-gold-light);
+
+  border:
+    2px solid
+    #11110f;
+
+  box-shadow:
+    0 0 9px
+      rgba(232, 198, 106, 0.85);
 }
+
+
+/* =========================================================
+   PROFILE DETAILS
+   ========================================================= */
 
 .HealthySidebar-profile-details {
   display: flex;
+
   flex-direction: column;
+
   min-width: 0;
 }
 
 .HealthySidebar-profile-name {
   font-size: 14px;
-  font-weight: 700;
+
+  font-weight: 750;
+
   color: #ffffff;
+
   white-space: nowrap;
+
   overflow: hidden;
+
   text-overflow: ellipsis;
 }
 
 .HealthySidebar-profile-role {
-  font-size: 11px;
+  font-size: 10px;
+
   font-weight: 600;
-  color: var(--sb-text-medium);
+
+  color:
+    var(--sb-text-muted);
+
   white-space: nowrap;
+
   overflow: hidden;
+
   text-overflow: ellipsis;
-  margin-top: 1px;
+
+  margin-top: 3px;
 }
+
 
 /* =========================================================
    NAVIGATION
-========================================================= */
+   ========================================================= */
 
 .HealthySidebar-nav {
   flex: 1;
+
   overflow-y: auto;
+
   overflow-x: hidden;
-  padding: 10px 14px 20px;
+
+  padding:
+    10px 13px 20px;
+
   z-index: 2;
 }
+
+
+/* =========================================================
+   SCROLLBAR
+   ========================================================= */
 
 .HealthySidebar-nav::-webkit-scrollbar {
   width: 4px;
 }
-.HealthySidebar-nav::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.18);
-  border-radius: 4px;
-}
-.HealthySidebar-nav::-webkit-scrollbar-thumb:hover {
-  background: var(--sb-accent-bright);
+
+.HealthySidebar-nav::-webkit-scrollbar-track {
+  background: transparent;
 }
 
+.HealthySidebar-nav::-webkit-scrollbar-thumb {
+  background:
+    rgba(201, 154, 59, 0.28);
+
+  border-radius: 10px;
+}
+
+.HealthySidebar-nav::-webkit-scrollbar-thumb:hover {
+  background:
+    var(--sb-gold);
+}
+
+
+/* =========================================================
+   NAVIGATION HEADING
+   ========================================================= */
+
 .HealthySidebar-nav-heading {
-  padding: 8px 12px;
-  font-size: 11px;
-  font-weight: 800;
-  letter-spacing: 1.2px;
-  color: var(--sb-accent-neon);
+  padding:
+    9px 12px;
+
+  color:
+    var(--sb-gold-light);
+
+  font-size: 9px;
+
+  font-weight: 850;
+
+  letter-spacing: 1.8px;
+
   text-transform: uppercase;
 }
 
+
+/* =========================================================
+   NAV LIST
+   ========================================================= */
+
 .HealthySidebar-nav-list {
   display: flex;
+
   flex-direction: column;
-  gap: 6px;
+
+  gap: 5px;
+
   margin-top: 4px;
 }
 
-/* NavLink Standard */
+
+/* =========================================================
+   NAVIGATION LINK
+   ========================================================= */
+
 .HealthySidebar-link {
   position: relative;
+
   width: 100%;
+
   display: flex;
+
   align-items: center;
-  gap: 14px;
-  padding: 12px 14px;
-  border-radius: 14px;
-  color: var(--sb-text-medium);
-  font-family: inherit;
-  font-size: 14px;
-  font-weight: 700;
+
+  gap: 13px;
+
+  padding:
+    12px 14px;
+
+  border-radius: 13px;
+
+  color:
+    var(--sb-text-medium);
+
+  font-family:
+    inherit;
+
+  font-size: 13px;
+
+  font-weight: 650;
+
   text-decoration: none;
-  background: transparent;
-  border: 1px solid transparent;
+
+  background:
+    transparent;
+
+  border:
+    1px solid transparent;
+
   cursor: pointer;
-  transition: all var(--sb-transition);
+
+  transition:
+    all var(--sb-transition);
+
   box-sizing: border-box;
 }
 
+
+/* =========================================================
+   LEFT GOLD INDICATOR
+   ========================================================= */
+
+.HealthySidebar-link::before {
+  content: "";
+
+  position: absolute;
+
+  left: -1px;
+
+  top: 50%;
+
+  width: 3px;
+  height: 0;
+
+  border-radius: 0 5px 5px 0;
+
+  background:
+    var(--sb-gold-light);
+
+  transform:
+    translateY(-50%);
+
+  opacity: 0;
+
+  transition:
+    height 0.22s ease,
+    opacity 0.22s ease;
+}
+
+
+/* =========================================================
+   HOVER
+   ========================================================= */
+
 .HealthySidebar-link:hover {
-  background: rgba(255, 255, 255, 0.08);
-  color: #ffffff;
-  transform: translateX(3px);
+  background:
+    rgba(255, 255, 255, 0.055);
+
+  color:
+    #ffffff;
+
+  border-color:
+    rgba(201, 154, 59, 0.12);
+
+  transform:
+    translateX(3px);
 }
 
-/* High-Contrast Bold Emerald Active State (Applied to Orders & Dashboard) */
+.HealthySidebar-link:hover::before {
+  height: 22px;
+
+  opacity: 1;
+}
+
+
+/* =========================================================
+   ACTIVE LINK
+   ========================================================= */
+
 .HealthySidebar-link.active {
-  background: var(--sb-accent-gradient) !important;
-  color: #012117 !important;
-  font-weight: 800 !important;
-  box-shadow: var(--sb-accent-glow) !important;
-  border-color: transparent !important;
-  transform: none;
+  background:
+    var(--sb-gold-gradient) !important;
+
+  color:
+    #17120a !important;
+
+  font-weight:
+    850 !important;
+
+  border-color:
+    transparent !important;
+
+  box-shadow:
+    var(--sb-gold-glow) !important;
+
+  transform:
+    none;
 }
 
-.HealthySidebar-link.active .HealthySidebar-icon-box {
-  color: #012117 !important;
+.HealthySidebar-link.active::before {
+  display: none;
 }
+
+
+/* =========================================================
+   ACTIVE ICON
+   ========================================================= */
+
+.HealthySidebar-link.active
+.HealthySidebar-icon-box {
+  color:
+    #17120a !important;
+}
+
+
+/* =========================================================
+   ICON BOX
+   ========================================================= */
 
 .HealthySidebar-icon-box {
   display: flex;
+
   align-items: center;
   justify-content: center;
+
   width: 22px;
   height: 22px;
+
   flex-shrink: 0;
-  color: rgba(255, 255, 255, 0.85);
-  transition: color var(--sb-transition);
+
+  color:
+    rgba(255, 255, 255, 0.76);
+
+  transition:
+    color var(--sb-transition);
 }
 
-.HealthySidebar-link:hover .HealthySidebar-icon-box {
-  color: var(--sb-accent-bright);
+.HealthySidebar-link:hover
+.HealthySidebar-icon-box {
+  color:
+    var(--sb-gold-light);
 }
+
+
+/* =========================================================
+   NAV TITLE
+   ========================================================= */
 
 .HealthySidebar-link-title {
   flex: 1;
+
   text-align: left;
+
   white-space: nowrap;
+
   overflow: hidden;
+
   text-overflow: ellipsis;
-  letter-spacing: -0.1px;
+
+  letter-spacing:
+    -0.1px;
 }
+
 
 /* =========================================================
    FOOTER
-========================================================= */
+   ========================================================= */
 
 .HealthySidebar-footer {
-  padding: 14px 16px;
-  border-top: 1px solid var(--sb-border-light);
-  background: rgba(1, 29, 20, 0.7);
-  backdrop-filter: blur(10px);
+  padding:
+    14px 16px;
+
+  border-top:
+    1px solid
+    var(--sb-border);
+
+  background:
+    rgba(0, 0, 0, 0.42);
+
+  backdrop-filter:
+    blur(12px);
+
+  -webkit-backdrop-filter:
+    blur(12px);
+
   z-index: 2;
+
   display: flex;
+
   flex-direction: column;
+
   gap: 10px;
 }
 
+
+/* =========================================================
+   LOGOUT BUTTON
+   ========================================================= */
+
 .HealthySidebar-logout-btn {
   width: 100%;
+
   display: flex;
+
   align-items: center;
-  gap: 14px;
-  padding: 10px 14px;
+
+  gap: 13px;
+
+  padding:
+    10px 14px;
+
   border-radius: 12px;
-  background: rgba(255, 87, 87, 0.08);
-  border: 1px solid rgba(255, 87, 87, 0.2);
-  color: #ff7e7e;
-  font-family: inherit;
-  font-size: 13px;
+
+  background:
+    rgba(255, 255, 255, 0.045);
+
+  border:
+    1px solid
+    rgba(255, 255, 255, 0.09);
+
+  color:
+    rgba(255, 255, 255, 0.66);
+
+  font-family:
+    inherit;
+
+  font-size: 12px;
+
   font-weight: 700;
+
   cursor: pointer;
-  transition: all var(--sb-transition);
+
+  transition:
+    all var(--sb-transition);
 }
 
 .HealthySidebar-logout-btn:hover {
-  background: rgba(255, 87, 87, 0.2);
-  color: #ffffff;
-  border-color: #ff5757;
-  transform: translateY(-1px);
-  box-shadow: 0 6px 18px rgba(255, 87, 87, 0.25);
+  background:
+    rgba(201, 154, 59, 0.10);
+
+  color:
+    var(--sb-gold-light);
+
+  border-color:
+    var(--sb-gold-border);
+
+  transform:
+    translateY(-1px);
+
+  box-shadow:
+    0 6px 18px
+      rgba(201, 154, 59, 0.10);
 }
+
+
+/* =========================================================
+   FOOTER META
+   ========================================================= */
 
 .HealthySidebar-footer-meta {
   display: flex;
+
   align-items: center;
+
   justify-content: space-between;
-  padding: 2px 4px 0;
-  font-size: 10px;
+
+  padding:
+    2px 4px 0;
+
+  font-size: 9px;
+
   font-weight: 600;
-  color: var(--sb-text-muted);
+
+  color:
+    var(--sb-text-muted);
 }
+
+
+/* =========================================================
+   BRAND COPY
+   ========================================================= */
 
 .HealthySidebar-brand-copy {
   white-space: nowrap;
 }
 
-.HealthySidebar-version-pill {
-  padding: 2px 7px;
-  background: rgba(255, 255, 255, 0.08);
-  border-radius: 10px;
-  color: var(--sb-text-medium);
-}
 
 /* =========================================================
-   COLLAPSED VIEW (DESKTOP)
-========================================================= */
+   VERSION PILL
+   ========================================================= */
+
+.HealthySidebar-version-pill {
+  padding:
+    3px 7px;
+
+  background:
+    rgba(201, 154, 59, 0.08);
+
+  border:
+    1px solid
+    rgba(201, 154, 59, 0.12);
+
+  border-radius: 10px;
+
+  color:
+    var(--sb-text-medium);
+}
+
+
+/* =========================================================
+   COLLAPSED DESKTOP
+   ========================================================= */
 
 .HealthySidebar.is-collapsed {
-  width: var(--sb-collapsed-width);
+  width:
+    var(--sb-collapsed-width);
 }
 
-.HealthySidebar.is-collapsed .HealthySidebar-brand-meta,
-.HealthySidebar.is-collapsed .HealthySidebar-profile-details,
-.HealthySidebar.is-collapsed .HealthySidebar-nav-heading,
-.HealthySidebar.is-collapsed .HealthySidebar-link-title,
-.HealthySidebar.is-collapsed .HealthySidebar-footer-meta {
-  display: none !important;
-}
-
-.HealthySidebar.is-collapsed .HealthySidebar-header {
-  padding: 16px 10px;
-  justify-content: center;
-}
-
-.HealthySidebar.is-collapsed .HealthySidebar-profile-card {
-  margin: 14px 10px;
-  padding: 8px;
-  justify-content: center;
-}
-
-.HealthySidebar.is-collapsed .HealthySidebar-link,
-.HealthySidebar.is-collapsed .HealthySidebar-logout-btn {
-  justify-content: center;
-  padding: 12px 0;
-}
 
 /* =========================================================
-   RESPONSIVE DESIGN (TABLETS & PHONES <= 992px)
-========================================================= */
+   HIDE CONTENT WHEN COLLAPSED
+   ========================================================= */
+
+.HealthySidebar.is-collapsed
+.HealthySidebar-brand-meta,
+
+.HealthySidebar.is-collapsed
+.HealthySidebar-profile-details,
+
+.HealthySidebar.is-collapsed
+.HealthySidebar-nav-heading,
+
+.HealthySidebar.is-collapsed
+.HealthySidebar-link-title,
+
+.HealthySidebar.is-collapsed
+.HealthySidebar-footer-meta {
+  display:
+    none !important;
+}
+
+
+/* =========================================================
+   COLLAPSED HEADER
+   ========================================================= */
+
+.HealthySidebar.is-collapsed
+.HealthySidebar-header {
+  padding:
+    16px 10px;
+
+  justify-content:
+    center;
+}
+
+
+/* =========================================================
+   COLLAPSED PROFILE
+   ========================================================= */
+
+.HealthySidebar.is-collapsed
+.HealthySidebar-profile-card {
+  margin:
+    14px 10px;
+
+  padding:
+    8px;
+
+  justify-content:
+    center;
+}
+
+
+/* =========================================================
+   COLLAPSED NAV LINKS
+   ========================================================= */
+
+.HealthySidebar.is-collapsed
+.HealthySidebar-link,
+
+.HealthySidebar.is-collapsed
+.HealthySidebar-logout-btn {
+  justify-content:
+    center;
+
+  padding:
+    12px 0;
+}
+
+
+/* =========================================================
+   COLLAPSED ACTIVE
+   ========================================================= */
+
+.HealthySidebar.is-collapsed
+.HealthySidebar-link.active {
+  border-radius:
+    13px;
+}
+
+
+/* =========================================================
+   MOBILE / TABLET
+   ========================================================= */
 
 @media (max-width: 992px) {
+
   .HealthySidebar {
-    transform: translateX(-105%);
-    width: 280px;
-    box-shadow: none;
+    transform:
+      translateX(-105%);
+
+    width:
+      280px;
+
+    box-shadow:
+      none;
   }
+
+
+  /* OPEN */
 
   .HealthySidebar.is-mobile-open {
-    transform: translateX(0);
-    box-shadow: 20px 0 50px rgba(0, 0, 0, 0.75);
+    transform:
+      translateX(0);
+
+    box-shadow:
+      20px 0 55px
+      rgba(0, 0, 0, 0.78);
   }
+
+
+  /* CLOSE BUTTON */
 
   .HealthySidebar-mobile-close {
-    display: flex;
+    display:
+      flex;
   }
 
-  /* Reset collapsed state on smaller screens */
+
+  /* RESET COLLAPSED */
+
   .HealthySidebar.is-collapsed {
-    width: 280px;
+    width:
+      280px;
   }
 
-  .HealthySidebar.is-collapsed .HealthySidebar-brand-meta,
-  .HealthySidebar.is-collapsed .HealthySidebar-profile-details,
-  .HealthySidebar.is-collapsed .HealthySidebar-nav-heading,
-  .HealthySidebar.is-collapsed .HealthySidebar-link-title,
-  .HealthySidebar.is-collapsed .HealthySidebar-footer-meta {
-    display: flex !important;
+
+  .HealthySidebar.is-collapsed
+  .HealthySidebar-brand-meta,
+
+  .HealthySidebar.is-collapsed
+  .HealthySidebar-profile-details,
+
+  .HealthySidebar.is-collapsed
+  .HealthySidebar-nav-heading,
+
+  .HealthySidebar.is-collapsed
+  .HealthySidebar-link-title,
+
+  .HealthySidebar.is-collapsed
+  .HealthySidebar-footer-meta {
+    display:
+      flex !important;
   }
 
-  .HealthySidebar.is-collapsed .HealthySidebar-nav-heading {
-    display: block !important;
+
+  .HealthySidebar.is-collapsed
+  .HealthySidebar-nav-heading {
+    display:
+      block !important;
   }
 
-  .HealthySidebar.is-collapsed .HealthySidebar-link {
-    justify-content: flex-start;
-    padding: 12px 14px;
+
+  .HealthySidebar.is-collapsed
+  .HealthySidebar-link {
+    justify-content:
+      flex-start;
+
+    padding:
+      12px 14px;
+  }
+
+
+  .HealthySidebar.is-collapsed
+  .HealthySidebar-profile-card {
+    margin:
+      16px 17px 10px;
+
+    padding:
+      12px 13px;
+
+    justify-content:
+      flex-start;
+  }
+
+
+  .HealthySidebar.is-collapsed
+  .HealthySidebar-header {
+    padding:
+      18px 20px;
+
+    justify-content:
+      space-between;
   }
 }
 
-/* Focus styles */
+
+/* =========================================================
+   SMALL MOBILE
+   ========================================================= */
+
+@media (max-width: 480px) {
+
+  .HealthySidebar {
+    width:
+      min(290px, 88vw);
+  }
+
+  .HealthySidebar.is-collapsed {
+    width:
+      min(290px, 88vw);
+  }
+
+  .HealthySidebar-header {
+    padding:
+      17px 16px;
+  }
+
+  .HealthySidebar-profile-card {
+    margin:
+      14px 14px 9px;
+  }
+
+  .HealthySidebar-nav {
+    padding:
+      9px 11px 18px;
+  }
+
+  .HealthySidebar-link {
+    padding:
+      12px 13px;
+  }
+}
+
+
+/* =========================================================
+   FOCUS ACCESSIBILITY
+   ========================================================= */
+
 .HealthySidebar a:focus-visible,
 .HealthySidebar button:focus-visible {
-  outline: 2px solid var(--sb-accent-bright);
-  outline-offset: 2px;
+  outline:
+    2px solid
+    var(--sb-gold-light);
+
+  outline-offset:
+    2px;
+}
+
+
+/* =========================================================
+   SELECTION
+   ========================================================= */
+
+.HealthySidebar ::selection {
+  color:
+    #17120a;
+
+  background:
+    var(--sb-gold-light);
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+  .HealthySidebar,
+  .HealthySidebar *,
+  .HealthySidebar *::before,
+  .HealthySidebar *::after {
+    animation-duration:
+      0.01ms !important;
+
+    animation-iteration-count:
+      1 !important;
+
+    transition-duration:
+      0.01ms !important;
+  }
 }

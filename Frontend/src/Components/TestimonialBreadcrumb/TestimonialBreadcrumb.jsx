@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import "./TestimonialBreadcrumb.css";
 
 // Background image
-import TestimonialBreadcrumbImage from "../../assets/breadcrumbcontact.webp";
+import TestimonialBreadcrumbImage from "../../assets/p-breadcrumb.png";
 
 const TestimonialBreadcrumb = () => {
   return (
