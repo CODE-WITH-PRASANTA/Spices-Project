@@ -1,4 +1,3 @@
-
 import React, {
   useEffect,
   useMemo,
@@ -18,6 +17,13 @@ import {
   User,
   CheckCircle2,
   Loader2,
+  Trash2,
+  ShieldCheck,
+  Truck,
+  Zap,
+  ArrowLeft,
+  Minus,
+  Plus,
 } from "lucide-react";
 
 import Swal from "sweetalert2";
@@ -68,13 +74,29 @@ const getImageUrl = (image) => {
     return image;
   }
 
-  const cleanImage = image.replace(/^\/+/, "");
+  const cleanImage = String(image).replace(
+    /^\/+/,
+    ""
+  );
 
   if (cleanImage.startsWith("uploads/")) {
     return `${IMG_URL}/${cleanImage}`;
   }
 
   return `${IMG_URL}/uploads/menu/${cleanImage}`;
+};
+
+// =====================================================
+// INR FORMAT
+// =====================================================
+
+const formatINR = (amount) => {
+  return Number(amount || 0).toLocaleString(
+    "en-IN",
+    {
+      maximumFractionDigits: 2,
+    }
+  );
 };
 
 // =====================================================
@@ -124,6 +146,22 @@ const CartDetails = () => {
   });
 
   // ===================================================
+  // LOCK BODY WHEN CHECKOUT IS OPEN
+  // ===================================================
+
+  useEffect(() => {
+    if (checkoutOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [checkoutOpen]);
+
+  // ===================================================
   // FETCH CART
   // ===================================================
 
@@ -145,7 +183,7 @@ const CartDetails = () => {
 
       if (response.data?.success) {
         setCartItems(
-          response.data.data?.items || []
+          response.data?.data?.items || []
         );
       } else {
         setCartItems([]);
@@ -185,7 +223,6 @@ const CartDetails = () => {
 
     setCustomer((prev) => ({
       ...prev,
-
       [name]:
         name === "phone"
           ? value
@@ -196,12 +233,10 @@ const CartDetails = () => {
   };
 
   // ===================================================
-  // INCREASE
+  // INCREASE QUANTITY
   // ===================================================
 
-  const handleIncreaseQty = async (
-    item
-  ) => {
+  const handleIncreaseQty = async (item) => {
     try {
       setUpdatingProductId(
         item.productId
@@ -213,8 +248,7 @@ const CartDetails = () => {
         "/cart/quantity",
         {
           cartId,
-          productId:
-            item.productId,
+          productId: item.productId,
           quantity:
             Number(item.quantity) + 1,
         }
@@ -231,11 +265,9 @@ const CartDetails = () => {
         icon: "error",
         title: "Unable to update",
         text:
-          error?.response?.data
-            ?.message ||
+          error?.response?.data?.message ||
           "Please try again.",
-        confirmButtonColor:
-          "#111827",
+        confirmButtonColor: "#d4af37",
       });
     } finally {
       setUpdatingProductId(null);
@@ -243,103 +275,95 @@ const CartDetails = () => {
   };
 
   // ===================================================
-  // DECREASE
+  // DECREASE QUANTITY
   // ===================================================
 
-  const handleDecreaseQty =
-    async (item) => {
-      if (Number(item.quantity) <= 1) {
-        return;
-      }
+  const handleDecreaseQty = async (item) => {
+    if (Number(item.quantity) <= 1) {
+      return;
+    }
 
-      try {
-        setUpdatingProductId(
-          item.productId
-        );
+    try {
+      setUpdatingProductId(
+        item.productId
+      );
 
-        const cartId = getCartId();
+      const cartId = getCartId();
 
-        await API.put(
-          "/cart/quantity",
-          {
-            cartId,
-            productId:
-              item.productId,
-            quantity:
-              Number(item.quantity) - 1,
-          }
-        );
+      await API.put(
+        "/cart/quantity",
+        {
+          cartId,
+          productId: item.productId,
+          quantity:
+            Number(item.quantity) - 1,
+        }
+      );
 
-        await fetchCart();
-      } catch (error) {
-        console.error(
-          "DECREASE QTY ERROR:",
-          error
-        );
+      await fetchCart();
+    } catch (error) {
+      console.error(
+        "DECREASE QTY ERROR:",
+        error
+      );
 
-        Swal.fire({
-          icon: "error",
-          title: "Unable to update",
-          text:
-            error?.response?.data
-              ?.message ||
-            "Please try again.",
-          confirmButtonColor:
-            "#111827",
-        });
-      } finally {
-        setUpdatingProductId(null);
-      }
-    };
+      Swal.fire({
+        icon: "error",
+        title: "Unable to update",
+        text:
+          error?.response?.data?.message ||
+          "Please try again.",
+        confirmButtonColor: "#d4af37",
+      });
+    } finally {
+      setUpdatingProductId(null);
+    }
+  };
 
   // ===================================================
   // REMOVE ITEM
   // ===================================================
 
-  const handleRemoveItem =
-    async (item) => {
-      try {
-        setUpdatingProductId(
-          item.productId
-        );
+  const handleRemoveItem = async (item) => {
+    try {
+      setUpdatingProductId(
+        item.productId
+      );
 
-        const cartId = getCartId();
+      const cartId = getCartId();
 
-        await API.delete(
-          "/cart/item",
-          {
-            data: {
-              cartId,
-              productId:
-                item.productId,
-            },
-          }
-        );
+      await API.delete(
+        "/cart/item",
+        {
+          data: {
+            cartId,
+            productId: item.productId,
+          },
+        }
+      );
 
-        await fetchCart();
-      } catch (error) {
-        console.error(
-          "REMOVE ITEM ERROR:",
-          error
-        );
+      await fetchCart();
+    } catch (error) {
+      console.error(
+        "REMOVE ITEM ERROR:",
+        error
+      );
 
-        Swal.fire({
-          icon: "error",
-          title: "Unable to remove",
-          text:
-            error?.response?.data
-              ?.message ||
-            "Please try again.",
-          confirmButtonColor:
-            "#111827",
-        });
-      } finally {
-        setUpdatingProductId(null);
-      }
-    };
+      Swal.fire({
+        icon: "error",
+        title: "Unable to remove",
+        text:
+          error?.response?.data?.message ||
+          "Please try again.",
+        confirmButtonColor: "#d4af37",
+      });
+    } finally {
+      setUpdatingProductId(null);
+    }
+  };
 
   // ===================================================
-  // COUPON
+  // APPLY COUPON
   // ===================================================
 
   const handleApplyCoupon = (e) => {
@@ -349,6 +373,10 @@ const CartDetails = () => {
       .trim()
       .toUpperCase();
 
+    if (!code) {
+      return;
+    }
+
     if (code === "HEALTHY20") {
       setCouponApplied(true);
       setDiscountAmount(30);
@@ -356,12 +384,11 @@ const CartDetails = () => {
       Swal.fire({
         icon: "success",
         title: "Coupon Applied!",
-        text:
-          "₹30 discount has been applied.",
+        text: "₹30 discount has been applied.",
         timer: 1600,
         showConfirmButton: false,
       });
-    } else if (code) {
+    } else {
       setCouponApplied(false);
       setDiscountAmount(0);
 
@@ -370,8 +397,7 @@ const CartDetails = () => {
         title: "Invalid Coupon",
         text:
           'Use coupon "HEALTHY20" for ₹30 discount.',
-        confirmButtonColor:
-          "#111827",
+        confirmButtonColor: "#d4af37",
       });
     }
   };
@@ -432,8 +458,7 @@ const CartDetails = () => {
         title: "Your cart is empty",
         text:
           "Please add products before checkout.",
-        confirmButtonColor:
-          "#111827",
+        confirmButtonColor: "#d4af37",
       });
 
       return;
@@ -447,8 +472,6 @@ const CartDetails = () => {
   // ===================================================
 
   const closeCheckout = () => {
-    // Don't allow closing while API request
-    // is currently being submitted.
     if (orderLoading) {
       return;
     }
@@ -463,7 +486,6 @@ const CartDetails = () => {
   const handlePlaceOrder = async (e) => {
     e.preventDefault();
 
-    // Prevent double submit
     if (orderLoading) {
       return;
     }
@@ -472,9 +494,9 @@ const CartDetails = () => {
     const phone = customer.phone.trim();
     const address = customer.address.trim();
 
-    // =================================================
-    // VALIDATION
-    // =================================================
+    // -----------------------------------------------
+    // NAME VALIDATION
+    // -----------------------------------------------
 
     if (!name) {
       Swal.fire({
@@ -482,12 +504,15 @@ const CartDetails = () => {
         title: "Name Required",
         text:
           "Please enter your full name.",
-        confirmButtonColor:
-          "#689f38",
+        confirmButtonColor: "#d4af37",
       });
 
       return;
     }
+
+    // -----------------------------------------------
+    // PHONE VALIDATION
+    // -----------------------------------------------
 
     if (!phone) {
       Swal.fire({
@@ -495,8 +520,7 @@ const CartDetails = () => {
         title: "Phone Number Required",
         text:
           "Please enter your phone number.",
-        confirmButtonColor:
-          "#689f38",
+        confirmButtonColor: "#d4af37",
       });
 
       return;
@@ -508,12 +532,15 @@ const CartDetails = () => {
         title: "Invalid Phone Number",
         text:
           "Please enter a valid 10-digit Indian mobile number.",
-        confirmButtonColor:
-          "#689f38",
+        confirmButtonColor: "#d4af37",
       });
 
       return;
     }
+
+    // -----------------------------------------------
+    // ADDRESS VALIDATION
+    // -----------------------------------------------
 
     if (!address) {
       Swal.fire({
@@ -521,12 +548,15 @@ const CartDetails = () => {
         title: "Address Required",
         text:
           "Please enter your complete delivery address.",
-        confirmButtonColor:
-          "#689f38",
+        confirmButtonColor: "#d4af37",
       });
 
       return;
     }
+
+    // -----------------------------------------------
+    // PAYMENT VALIDATION
+    // -----------------------------------------------
 
     if (!paymentMethod) {
       Swal.fire({
@@ -534,12 +564,15 @@ const CartDetails = () => {
         title: "Payment Method Required",
         text:
           "Please select a payment method.",
-        confirmButtonColor:
-          "#689f38",
+        confirmButtonColor: "#d4af37",
       });
 
       return;
     }
+
+    // -----------------------------------------------
+    // CART VALIDATION
+    // -----------------------------------------------
 
     if (!cartItems.length) {
       Swal.fire({
@@ -547,62 +580,43 @@ const CartDetails = () => {
         title: "Cart Empty",
         text:
           "Please add products before placing an order.",
-        confirmButtonColor:
-          "#689f38",
+        confirmButtonColor: "#d4af37",
       });
 
       return;
     }
-
-    // =================================================
-    // START ORDER
-    // =================================================
 
     try {
       setOrderLoading(true);
 
       const cartId = getCartId();
 
-      // =================================================
-      // IMPORTANT
-      // CLOSE CHECKOUT POPUP IMMEDIATELY
-      // =================================================
-
+      // Keep modal closed during order request.
       setCheckoutOpen(false);
 
-      // =================================================
-      // BACKEND CHECKOUT
-      // =================================================
+      const response = await API.post(
+        "/cart/checkout",
+        {
+          cartId,
 
-      const response =
-        await API.post(
-          "/cart/checkout",
-          {
-            cartId,
+          customer: {
+            name,
+            phone,
+            address,
+          },
 
-            customer: {
-              name,
-              phone,
-              address,
-            },
+          paymentMethod,
 
-            paymentMethod,
-
-            couponCode:
-              couponApplied
-                ? "HEALTHY20"
-                : "",
-          }
-        );
+          couponCode: couponApplied
+            ? "HEALTHY20"
+            : "",
+        }
+      );
 
       console.log(
         "CHECKOUT RESPONSE:",
         response.data
       );
-
-      // =================================================
-      // CHECK API RESPONSE
-      // =================================================
 
       if (!response.data?.success) {
         throw new Error(
@@ -614,15 +628,15 @@ const CartDetails = () => {
       const order =
         response.data?.data || {};
 
-      // =================================================
-      // CLEAR CART AFTER SUCCESS ONLY
-      // =================================================
+      // -----------------------------------------------
+      // CLEAR CART
+      // -----------------------------------------------
 
       setCartItems([]);
 
-      // =================================================
-      // RESET CUSTOMER FORM
-      // =================================================
+      // -----------------------------------------------
+      // RESET FORM
+      // -----------------------------------------------
 
       setCustomer({
         name: "",
@@ -631,38 +645,32 @@ const CartDetails = () => {
       });
 
       setPaymentMethod("upi");
-
       setCouponCode("");
       setCouponApplied(false);
       setDiscountAmount(0);
 
-      // =================================================
+      // -----------------------------------------------
       // SUCCESS
-      // =================================================
+      // -----------------------------------------------
 
       await Swal.fire({
         icon: "success",
         title: "Order Placed Successfully!",
         html: `
-          <div style="
-            font-size:14px;
-            line-height:1.7;
-            text-align:left;
-            padding:4px 8px;
-          ">
-
-            <p style="
-              margin:0 0 8px;
-            ">
+          <div
+            style="
+              font-size:14px;
+              line-height:1.7;
+              text-align:left;
+              padding:4px 8px;
+            "
+          >
+            <p style="margin:0 0 8px;">
               Thank you,
-              <strong>
-                ${name}
-              </strong>
+              <strong>${name}</strong>
             </p>
 
-            <p style="
-              margin:0 0 8px;
-            ">
+            <p style="margin:0 0 8px;">
               Order ID:
               <strong>
                 ${
@@ -673,37 +681,25 @@ const CartDetails = () => {
               </strong>
             </p>
 
-            <p style="
-              margin:0;
-            ">
+            <p style="margin:0;">
               Total:
               <strong>
                 ₹${Number(
                   order?.totalAmount ??
                     finalTotal
-                ).toLocaleString(
-                  "en-IN"
-                )}
+                ).toLocaleString("en-IN")}
               </strong>
             </p>
-
           </div>
         `,
-
         confirmButtonText:
           "Continue Shopping",
-
         confirmButtonColor:
-          "#689f38",
+          "#d4af37",
       });
 
       navigate("/menu");
-
     } catch (error) {
-      // =================================================
-      // BACKEND ERROR
-      // =================================================
-
       console.error(
         "PLACE ORDER ERROR:",
         error
@@ -719,15 +715,7 @@ const CartDetails = () => {
         error?.response?.data
       );
 
-      // =================================================
-      // KEEP POPUP CLOSED
-      // =================================================
-
       setCheckoutOpen(false);
-
-      // =================================================
-      // GET REAL BACKEND MESSAGE
-      // =================================================
 
       const backendMessage =
         error?.response?.data?.message ||
@@ -740,22 +728,20 @@ const CartDetails = () => {
         icon: "error",
         title: "Order Failed",
         html: `
-          <div style="
-            font-size:14px;
-            line-height:1.6;
-          ">
-            <p style="
-              margin:0 0 8px;
-            ">
+          <div
+            style="
+              font-size:14px;
+              line-height:1.6;
+            "
+          >
+            <p style="margin:0 0 8px;">
               ${backendMessage}
             </p>
 
             ${
               error?.response?.status
                 ? `
-                  <small style="
-                    color:#777;
-                  ">
+                  <small style="color:#777;">
                     Server status:
                     ${error.response.status}
                   </small>
@@ -764,11 +750,9 @@ const CartDetails = () => {
             }
           </div>
         `,
-
         confirmButtonColor:
-          "#689f38",
+          "#d4af37",
       });
-
     } finally {
       setOrderLoading(false);
     }
@@ -784,7 +768,7 @@ const CartDetails = () => {
         <div className="CartDetails-container">
           <div className="CartDetails-loading">
             <Loader2
-              size={28}
+              size={32}
               className="CartDetails-spin"
             />
 
@@ -805,18 +789,24 @@ const CartDetails = () => {
     <div className="CartDetails-wrapper">
       <div className="CartDetails-container">
 
-        {/* ============================================
+        {/* =========================================
             TOP BAR
-        ============================================= */}
+        ========================================== */}
 
         <div className="CartDetails-top-bar">
 
-          <h1 className="CartDetails-title">
-            Shopping Cart{" "}
-            <span className="CartDetails-count">
-              ({totalItemCount} items)
+          <div className="CartDetails-title-wrap">
+            <span className="CartDetails-title-kicker">
+              HEALTHY HEAVEN
             </span>
-          </h1>
+
+            <h1 className="CartDetails-title">
+              Shopping Cart
+              <span className="CartDetails-count">
+                ({totalItemCount} items)
+              </span>
+            </h1>
+          </div>
 
           <button
             type="button"
@@ -825,21 +815,19 @@ const CartDetails = () => {
               navigate("/menu")
             }
           >
-            ← Continue Shopping
+            <ArrowLeft size={16} />
+            Continue Shopping
           </button>
 
         </div>
 
-        {/* ============================================
+        {/* =========================================
             ERROR
-        ============================================= */}
+        ========================================== */}
 
         {error && (
           <div className="CartDetails-error">
-
-            <span>
-              {error}
-            </span>
+            <span>{error}</span>
 
             <button
               type="button"
@@ -847,42 +835,46 @@ const CartDetails = () => {
             >
               Try Again
             </button>
-
           </div>
         )}
 
-        {/* ============================================
+        {/* =========================================
             MAIN
-        ============================================= */}
+        ========================================== */}
 
         <div className="CartDetails-main-grid">
 
-          {/* ==========================================
+          {/* =======================================
               LEFT
-          =========================================== */}
+          ======================================== */}
 
           <div className="CartDetails-left-col">
 
             <div className="CartDetails-table-card">
 
               {cartItems.length === 0 ? (
-
                 <div className="CartDetails-empty-state">
 
                   <div className="CartDetails-empty-icon">
                     <ShoppingBag size={42} />
                   </div>
 
+                  <span className="CartDetails-empty-kicker">
+                    YOUR CART
+                  </span>
+
                   <h3>
                     Your shopping bag is empty
                   </h3>
 
                   <p>
-                    Check out our fresh items
-                    and delicious meals.
+                    Discover our fresh and
+                    delicious products and
+                    add your favorites here.
                   </p>
 
                   <button
+                    type="button"
                     className="CartDetails-btn-primary"
                     onClick={() =>
                       navigate("/menu")
@@ -892,9 +884,7 @@ const CartDetails = () => {
                   </button>
 
                 </div>
-
               ) : (
-
                 <>
 
                   {/* TABLE HEADER */}
@@ -917,8 +907,7 @@ const CartDetails = () => {
                       Subtotal
                     </span>
 
-                    <span className="CartDetails-th CartDetails-th-action">
-                    </span>
+                    <span className="CartDetails-th CartDetails-th-action" />
 
                   </div>
 
@@ -926,38 +915,84 @@ const CartDetails = () => {
 
                   <div className="CartDetails-table-body">
 
-                    {cartItems.map(
-                      (item) => (
+                    {cartItems.map((item) => {
 
+                      const quantity =
+                        Number(
+                          item.quantity || 0
+                        );
+
+                      const price =
+                        Number(
+                          item.price || 0
+                        );
+
+                      const itemSubtotal =
+                        price * quantity;
+
+                      const isUpdating =
+                        updatingProductId ===
+                        item.productId;
+
+                      return (
                         <div
                           key={
                             item._id ||
                             item.productId
                           }
-                          className="CartDetails-row"
+                          className={`CartDetails-row ${
+                            isUpdating
+                              ? "CartDetails-row-updating"
+                              : ""
+                          }`}
                         >
 
                           {/* PRODUCT */}
 
                           <div className="CartDetails-col-product">
 
-                            <img
-                              src={getImageUrl(
+                            <div className="CartDetails-image-wrap">
+
+                              {getImageUrl(
                                 item.image
+                              ) ? (
+                                <img
+                                  src={getImageUrl(
+                                    item.image
+                                  )}
+                                  alt={
+                                    item.name ||
+                                    "Product"
+                                  }
+                                  className="CartDetails-product-img"
+                                  onError={(e) => {
+                                    e.currentTarget.style.display =
+                                      "none";
+
+                                    const parent =
+                                      e.currentTarget
+                                        .parentElement;
+
+                                    if (parent) {
+                                      parent.classList.add(
+                                        "CartDetails-image-fallback"
+                                      );
+                                    }
+                                  }}
+                                />
+                              ) : (
+                                <ShoppingBag
+                                  size={25}
+                                />
                               )}
-                              alt={
-                                item.name ||
-                                "Product"
-                              }
-                              className="CartDetails-product-img"
-                            />
+
+                            </div>
 
                             <div className="CartDetails-product-meta">
 
                               <h4 className="CartDetails-product-name">
-                                {
-                                  item.name
-                                }
+                                {item.name ||
+                                  "Product"}
                               </h4>
 
                               <span className="CartDetails-product-variant">
@@ -967,11 +1002,7 @@ const CartDetails = () => {
 
                               <span className="CartDetails-mobile-price">
                                 ₹
-                                {Number(
-                                  item.price || 0
-                                ).toLocaleString(
-                                  "en-IN"
-                                )}
+                                {formatINR(price)}
                               </span>
 
                             </div>
@@ -981,12 +1012,7 @@ const CartDetails = () => {
                           {/* PRICE */}
 
                           <div className="CartDetails-col-price">
-                            ₹
-                            {Number(
-                              item.price || 0
-                            ).toLocaleString(
-                              "en-IN"
-                            )}
+                            ₹{formatINR(price)}
                           </div>
 
                           {/* QUANTITY */}
@@ -999,41 +1025,37 @@ const CartDetails = () => {
                                 type="button"
                                 className="CartDetails-qty-btn"
                                 disabled={
-                                  updatingProductId ===
-                                    item.productId ||
-                                  Number(
-                                    item.quantity
-                                  ) <= 1
+                                  isUpdating ||
+                                  quantity <= 1
                                 }
                                 onClick={() =>
                                   handleDecreaseQty(
                                     item
                                   )
                                 }
+                                aria-label="Decrease quantity"
                               >
-                                −
+                                <Minus size={14} />
                               </button>
 
                               <span className="CartDetails-qty-val">
-                                {
-                                  item.quantity
-                                }
+                                {quantity}
                               </span>
 
                               <button
                                 type="button"
                                 className="CartDetails-qty-btn"
                                 disabled={
-                                  updatingProductId ===
-                                  item.productId
+                                  isUpdating
                                 }
                                 onClick={() =>
                                   handleIncreaseQty(
                                     item
                                   )
                                 }
+                                aria-label="Increase quantity"
                               >
-                                +
+                                <Plus size={14} />
                               </button>
 
                             </div>
@@ -1044,15 +1066,8 @@ const CartDetails = () => {
 
                           <div className="CartDetails-col-subtotal">
                             ₹
-                            {(
-                              Number(
-                                item.price || 0
-                              ) *
-                              Number(
-                                item.quantity || 0
-                              )
-                            ).toLocaleString(
-                              "en-IN"
+                            {formatINR(
+                              itemSubtotal
                             )}
                           </div>
 
@@ -1064,8 +1079,7 @@ const CartDetails = () => {
                               type="button"
                               className="CartDetails-delete-btn"
                               disabled={
-                                updatingProductId ===
-                                item.productId
+                                isUpdating
                               }
                               onClick={() =>
                                 handleRemoveItem(
@@ -1073,71 +1087,94 @@ const CartDetails = () => {
                                 )
                               }
                               title="Remove item"
+                              aria-label="Remove item"
                             >
-                              🗑
+                              {isUpdating ? (
+                                <Loader2
+                                  size={15}
+                                  className="CartDetails-spin"
+                                />
+                              ) : (
+                                <Trash2
+                                  size={15}
+                                />
+                              )}
                             </button>
 
                           </div>
 
                         </div>
-
-                      )
-                    )}
+                      );
+                    })}
 
                   </div>
-
                 </>
-
               )}
 
             </div>
 
           </div>
 
-          {/* ==========================================
-              RIGHT
-          =========================================== */}
+          {/* =======================================
+              RIGHT SUMMARY
+          ======================================== */}
 
           <div className="CartDetails-right-col">
 
             <div className="CartDetails-summary-card">
 
-              <h2 className="CartDetails-summary-heading">
-                Order Summary
-              </h2>
+              <div className="CartDetails-summary-top">
 
-              <div className="CartDetails-summary-row">
+                <div>
+                  <span className="CartDetails-summary-kicker">
+                    YOUR ORDER
+                  </span>
 
-                <span>
-                  Subtotal (
-                  {totalItemCount} items)
-                </span>
+                  <h2 className="CartDetails-summary-heading">
+                    Order Summary
+                  </h2>
+                </div>
 
-                <span className="CartDetails-val">
-                  ₹
-                  {subtotal.toLocaleString(
-                    "en-IN"
-                  )}
-                </span>
+                <div className="CartDetails-summary-bag">
+                  <ShoppingBag size={18} />
+                </div>
 
               </div>
 
-              <div className="CartDetails-summary-row">
+              {/* SUBTOTAL */}
 
+              <div className="CartDetails-summary-row">
+                <span>
+                  Subtotal
+                  <small>
+                    {totalItemCount} items
+                  </small>
+                </span>
+
+                <span className="CartDetails-val">
+                  ₹{formatINR(subtotal)}
+                </span>
+              </div>
+
+              {/* DISCOUNT */}
+
+              <div className="CartDetails-summary-row">
                 <span>
                   Discount
                 </span>
 
                 <span className="CartDetails-val-discount">
                   {discount > 0
-                    ? `- ₹${discount}`
+                    ? `- ₹${formatINR(
+                        discount
+                      )}`
                     : "₹0"}
                 </span>
-
               </div>
 
-              <div className="CartDetails-summary-row">
+              {/* SHIPPING */}
 
+              <div className="CartDetails-summary-row">
                 <span>
                   Shipping
                 </span>
@@ -1147,10 +1184,11 @@ const CartDetails = () => {
                     ? "Free"
                     : `₹${shippingFee}`}
                 </span>
-
               </div>
 
               <div className="CartDetails-summary-divider" />
+
+              {/* TOTAL */}
 
               <div className="CartDetails-summary-total-row">
 
@@ -1159,28 +1197,28 @@ const CartDetails = () => {
                 </span>
 
                 <span className="CartDetails-total-amount">
-                  ₹
-                  {finalTotal.toLocaleString(
-                    "en-IN"
-                  )}
+                  ₹{formatINR(finalTotal)}
                 </span>
 
               </div>
 
-              {/* CHECKOUT BUTTON */}
+              {/* CHECKOUT */}
 
               <button
                 type="button"
                 className="CartDetails-checkout-btn"
                 disabled={
-                  cartItems.length ===
-                  0
+                  cartItems.length === 0
                 }
-                onClick={
-                  openCheckout
-                }
+                onClick={openCheckout}
               >
-                Proceed to Checkout →
+                <span>
+                  Proceed to Checkout
+                </span>
+
+                <span className="CartDetails-button-arrow">
+                  →
+                </span>
               </button>
 
               <button
@@ -1197,12 +1235,15 @@ const CartDetails = () => {
 
               <div className="CartDetails-coupon-block">
 
-                <label
-                  htmlFor="coupon"
-                  className="CartDetails-coupon-label"
-                >
-                  Apply Coupon Code
-                </label>
+                <div className="CartDetails-coupon-heading">
+                  <span>
+                    Have a coupon?
+                  </span>
+
+                  <small>
+                    Save more on your order
+                  </small>
+                </div>
 
                 <form
                   className="CartDetails-coupon-form"
@@ -1215,15 +1256,14 @@ const CartDetails = () => {
                     id="coupon"
                     type="text"
                     placeholder="Enter coupon code"
-                    value={
-                      couponCode
-                    }
+                    value={couponCode}
                     onChange={(e) =>
                       setCouponCode(
                         e.target.value
                       )
                     }
                     className="CartDetails-coupon-input"
+                    aria-label="Coupon code"
                   />
 
                   <button
@@ -1237,11 +1277,15 @@ const CartDetails = () => {
 
                 {couponApplied && (
                   <p className="CartDetails-coupon-success">
-                    ✓ Coupon{" "}
+                    <CheckCircle2
+                      size={14}
+                    />
+
+                    Coupon{" "}
                     <strong>
                       HEALTHY20
                     </strong>{" "}
-                    applied successfully!
+                    applied successfully.
                   </p>
                 )}
 
@@ -1252,13 +1296,11 @@ const CartDetails = () => {
               <div className="CartDetails-badges-list">
 
                 <div className="CartDetails-badge-item">
-
                   <div className="CartDetails-badge-icon">
-                    🚚
+                    <Truck size={17} />
                   </div>
 
                   <div className="CartDetails-badge-text">
-
                     <strong>
                       Free Shipping
                     </strong>
@@ -1266,51 +1308,41 @@ const CartDetails = () => {
                     <p>
                       On orders above ₹150
                     </p>
-
                   </div>
-
                 </div>
 
                 <div className="CartDetails-badge-item">
-
                   <div className="CartDetails-badge-icon">
-                    🛡️
+                    <ShieldCheck size={17} />
                   </div>
 
                   <div className="CartDetails-badge-text">
-
                     <strong>
                       100% Fresh & Hygienic
                     </strong>
 
                     <p>
-                      Prepared daily with
-                      high quality ingredients
+                      Prepared with quality
+                      ingredients
                     </p>
-
                   </div>
-
                 </div>
 
                 <div className="CartDetails-badge-item">
-
                   <div className="CartDetails-badge-icon">
-                    ⚡
+                    <Zap size={17} />
                   </div>
 
                   <div className="CartDetails-badge-text">
-
                     <strong>
                       Superfast Delivery
                     </strong>
 
                     <p>
-                      Freshly delivered right
-                      to your door
+                      Freshly delivered to
+                      your door
                     </p>
-
                   </div>
-
                 </div>
 
               </div>
@@ -1321,467 +1353,457 @@ const CartDetails = () => {
 
         </div>
 
-      </div>
+        {/* =========================================
+            CHECKOUT MODAL
+        ========================================== */}
 
-      {/* =====================================================
-          CHECKOUT MODAL
-      ===================================================== */}
-
-      {checkoutOpen && (
-
-        <div
-          className="CartDetails-checkout-overlay"
-          onMouseDown={(e) => {
-
-            if (
-              e.target ===
-              e.currentTarget
-            ) {
-              closeCheckout();
-            }
-
-          }}
-        >
-
-          <div className="CartDetails-checkout-modal">
-
-            {/* HEADER */}
-
-            <div className="CartDetails-checkout-header">
-
-              <div className="CartDetails-checkout-heading">
-
-                <span className="CartDetails-checkout-eyebrow">
-                  Checkout
-                </span>
-
-                <h2>
-                  Complete Order
-                </h2>
-
-                <p>
-                  Enter your details to
-                  place your order.
-                </p>
-
-              </div>
-
-              <button
-                type="button"
-                className="CartDetails-checkout-close"
-                onClick={
-                  closeCheckout
-                }
-                disabled={
-                  orderLoading
-                }
-                aria-label="Close checkout"
-              >
-                <X size={18} />
-              </button>
-
-            </div>
-
-            <form
-              onSubmit={
-                handlePlaceOrder
+        {checkoutOpen && (
+          <div
+            className="CartDetails-checkout-overlay"
+            onMouseDown={(e) => {
+              if (
+                e.target ===
+                e.currentTarget
+              ) {
+                closeCheckout();
               }
+            }}
+          >
+
+            <div
+              className="CartDetails-checkout-modal"
+              role="dialog"
+              aria-modal="true"
+              aria-labelledby="checkout-title"
             >
 
-              {/* CUSTOMER DETAILS */}
+              {/* CHECKOUT HEADER */}
 
-              <div className="CartDetails-checkout-section">
+              <div className="CartDetails-checkout-header">
 
-                <div className="CartDetails-section-title">
+                <div className="CartDetails-checkout-heading">
 
-                  <div className="CartDetails-section-icon">
-                    <User size={16} />
-                  </div>
+                  <span className="CartDetails-checkout-eyebrow">
+                    CHECKOUT
+                  </span>
 
-                  <div>
+                  <h2 id="checkout-title">
+                    Complete Order
+                  </h2>
 
-                    <h3>
-                      Delivery Details
-                    </h3>
-
-                    <p>
-                      All fields are required
-                    </p>
-
-                  </div>
+                  <p>
+                    Enter your details to
+                    place your order securely.
+                  </p>
 
                 </div>
-
-                <div className="CartDetails-form-grid">
-
-                  {/* NAME */}
-
-                  <div className="CartDetails-form-group">
-
-                    <label htmlFor="customer-name">
-                      Full Name
-                      <span>*</span>
-                    </label>
-
-                    <div className="CartDetails-input-wrapper">
-
-                      <User size={15} />
-
-                      <input
-                        id="customer-name"
-                        type="text"
-                        name="name"
-                        placeholder="Your full name"
-                        value={
-                          customer.name
-                        }
-                        onChange={
-                          handleCustomerChange
-                        }
-                        required
-                        autoComplete="name"
-                      />
-
-                    </div>
-
-                  </div>
-
-                  {/* PHONE */}
-
-                  <div className="CartDetails-form-group">
-
-                    <label htmlFor="customer-phone">
-                      Phone Number
-                      <span>*</span>
-                    </label>
-
-                    <div className="CartDetails-input-wrapper">
-
-                      <Phone size={15} />
-
-                      <input
-                        id="customer-phone"
-                        type="tel"
-                        name="phone"
-                        placeholder="10-digit mobile"
-                        value={
-                          customer.phone
-                        }
-                        onChange={
-                          handleCustomerChange
-                        }
-                        maxLength={10}
-                        minLength={10}
-                        pattern="[6-9][0-9]{9}"
-                        required
-                        autoComplete="tel"
-                      />
-
-                    </div>
-
-                  </div>
-
-                  {/* ADDRESS */}
-
-                  <div className="CartDetails-form-group CartDetails-form-full">
-
-                    <label htmlFor="customer-address">
-                      Delivery Address
-                      <span>*</span>
-                    </label>
-
-                    <div className="CartDetails-textarea-wrapper">
-
-                      <MapPin size={15} />
-
-                      <textarea
-                        id="customer-address"
-                        name="address"
-                        rows={2}
-                        placeholder="House / Flat, Street, Area, City, PIN Code"
-                        value={
-                          customer.address
-                        }
-                        onChange={
-                          handleCustomerChange
-                        }
-                        required
-                        minLength={5}
-                        autoComplete="street-address"
-                      />
-
-                    </div>
-
-                  </div>
-
-                </div>
-
-              </div>
-
-              {/* PAYMENT */}
-
-              <div className="CartDetails-checkout-section CartDetails-payment-section">
-
-                <div className="CartDetails-section-title">
-
-                  <div className="CartDetails-section-icon">
-                    <CreditCard size={16} />
-                  </div>
-
-                  <div>
-
-                    <h3>
-                      Payment Method
-                    </h3>
-
-                    <p>
-                      Select one option
-                    </p>
-
-                  </div>
-
-                </div>
-
-                <div className="CartDetails-payment-grid">
-
-                  {/* UPI */}
-
-                  <button
-                    type="button"
-                    className={`CartDetails-payment-option ${
-                      paymentMethod ===
-                      "upi"
-                        ? "active"
-                        : ""
-                    }`}
-                    onClick={() =>
-                      setPaymentMethod(
-                        "upi"
-                      )
-                    }
-                  >
-
-                    <div className="CartDetails-payment-icon">
-                      <Smartphone
-                        size={19}
-                      />
-                    </div>
-
-                    <div className="CartDetails-payment-content">
-
-                      <strong>
-                        UPI
-                      </strong>
-
-                      <span>
-                        GPay / PhonePe
-                      </span>
-
-                    </div>
-
-                    {paymentMethod ===
-                      "upi" && (
-                      <CheckCircle2
-                        size={17}
-                        className="CartDetails-payment-selected"
-                      />
-                    )}
-
-                  </button>
-
-                  {/* CASH */}
-
-                  <button
-                    type="button"
-                    className={`CartDetails-payment-option ${
-                      paymentMethod ===
-                      "cash"
-                        ? "active"
-                        : ""
-                    }`}
-                    onClick={() =>
-                      setPaymentMethod(
-                        "cash"
-                      )
-                    }
-                  >
-
-                    <div className="CartDetails-payment-icon">
-                      <Banknote
-                        size={19}
-                      />
-                    </div>
-
-                    <div className="CartDetails-payment-content">
-
-                      <strong>
-                        Cash
-                      </strong>
-
-                      <span>
-                        On Delivery
-                      </span>
-
-                    </div>
-
-                    {paymentMethod ===
-                      "cash" && (
-                      <CheckCircle2
-                        size={17}
-                        className="CartDetails-payment-selected"
-                      />
-                    )}
-
-                  </button>
-
-                  {/* CARD */}
-
-                  <button
-                    type="button"
-                    className={`CartDetails-payment-option ${
-                      paymentMethod ===
-                      "card"
-                        ? "active"
-                        : ""
-                    }`}
-                    onClick={() =>
-                      setPaymentMethod(
-                        "card"
-                      )
-                    }
-                  >
-
-                    <div className="CartDetails-payment-icon">
-                      <CreditCard
-                        size={19}
-                      />
-                    </div>
-
-                    <div className="CartDetails-payment-content">
-
-                      <strong>
-                        Card
-                      </strong>
-
-                      <span>
-                        Debit / Credit
-                      </span>
-
-                    </div>
-
-                    {paymentMethod ===
-                      "card" && (
-                      <CheckCircle2
-                        size={17}
-                        className="CartDetails-payment-selected"
-                      />
-                    )}
-
-                  </button>
-
-                </div>
-
-              </div>
-
-              {/* ORDER TOTAL */}
-
-              <div className="CartDetails-checkout-review">
-
-                <div className="CartDetails-review-main">
-
-                  <div>
-
-                    <span>
-                      <ShoppingBag
-                        size={15}
-                      />
-
-                      Total Amount
-                    </span>
-
-                    <small>
-                      {totalItemCount} item
-                      {totalItemCount !==
-                      1
-                        ? "s"
-                        : ""}
-                    </small>
-
-                  </div>
-
-                  <strong>
-                    ₹
-                    {finalTotal.toLocaleString(
-                      "en-IN"
-                    )}
-                  </strong>
-
-                </div>
-
-              </div>
-
-              {/* ACTIONS */}
-
-              <div className="CartDetails-checkout-actions">
 
                 <button
                   type="button"
-                  className="CartDetails-checkout-cancel"
-                  onClick={
-                    closeCheckout
-                  }
-                  disabled={
-                    orderLoading
-                  }
+                  className="CartDetails-checkout-close"
+                  onClick={closeCheckout}
+                  disabled={orderLoading}
+                  aria-label="Close checkout"
                 >
-                  Cancel
-                </button>
-
-                <button
-                  type="submit"
-                  className="CartDetails-buy-now-btn"
-                  disabled={
-                    orderLoading
-                  }
-                >
-
-                  {orderLoading ? (
-                    <>
-                      <Loader2
-                        size={17}
-                        className="CartDetails-spin"
-                      />
-
-                      Placing...
-                    </>
-                  ) : (
-                    <>
-                      <CheckCircle2
-                        size={17}
-                      />
-
-                      Buy Now ₹
-                      {finalTotal.toLocaleString(
-                        "en-IN"
-                      )}
-                    </>
-                  )}
-
+                  <X size={18} />
                 </button>
 
               </div>
 
-            </form>
+              <form
+                className="CartDetails-checkout-form"
+                onSubmit={handlePlaceOrder}
+              >
+
+                {/* DELIVERY DETAILS */}
+
+                <div className="CartDetails-checkout-section">
+
+                  <div className="CartDetails-section-title">
+
+                    <div className="CartDetails-section-icon">
+                      <User size={16} />
+                    </div>
+
+                    <div>
+                      <h3>
+                        Delivery Details
+                      </h3>
+
+                      <p>
+                        All fields are required
+                      </p>
+                    </div>
+
+                  </div>
+
+                  <div className="CartDetails-form-grid">
+
+                    {/* NAME */}
+
+                    <div className="CartDetails-form-group">
+
+                      <label htmlFor="customer-name">
+                        Full Name
+                        <span>*</span>
+                      </label>
+
+                      <div className="CartDetails-input-wrapper">
+
+                        <User size={15} />
+
+                        <input
+                          id="customer-name"
+                          type="text"
+                          name="name"
+                          placeholder="Your full name"
+                          value={customer.name}
+                          onChange={
+                            handleCustomerChange
+                          }
+                          required
+                          autoComplete="name"
+                        />
+
+                      </div>
+
+                    </div>
+
+                    {/* PHONE */}
+
+                    <div className="CartDetails-form-group">
+
+                      <label htmlFor="customer-phone">
+                        Phone Number
+                        <span>*</span>
+                      </label>
+
+                      <div className="CartDetails-input-wrapper">
+
+                        <Phone size={15} />
+
+                        <input
+                          id="customer-phone"
+                          type="tel"
+                          name="phone"
+                          placeholder="10-digit mobile"
+                          value={customer.phone}
+                          onChange={
+                            handleCustomerChange
+                          }
+                          maxLength={10}
+                          minLength={10}
+                          pattern="[6-9][0-9]{9}"
+                          required
+                          autoComplete="tel"
+                        />
+
+                      </div>
+
+                    </div>
+
+                    {/* ADDRESS */}
+
+                    <div className="CartDetails-form-group CartDetails-form-full">
+
+                      <label htmlFor="customer-address">
+                        Delivery Address
+                        <span>*</span>
+                      </label>
+
+                      <div className="CartDetails-textarea-wrapper">
+
+                        <MapPin size={15} />
+
+                        <textarea
+                          id="customer-address"
+                          name="address"
+                          rows={3}
+                          placeholder="House / Flat, Street, Area, City, PIN Code"
+                          value={
+                            customer.address
+                          }
+                          onChange={
+                            handleCustomerChange
+                          }
+                          required
+                          minLength={5}
+                          autoComplete="street-address"
+                        />
+
+                      </div>
+
+                    </div>
+
+                  </div>
+
+                </div>
+
+                {/* PAYMENT */}
+
+                <div className="CartDetails-checkout-section CartDetails-payment-section">
+
+                  <div className="CartDetails-section-title">
+
+                    <div className="CartDetails-section-icon">
+                      <CreditCard size={16} />
+                    </div>
+
+                    <div>
+                      <h3>
+                        Payment Method
+                      </h3>
+
+                      <p>
+                        Select one option
+                      </p>
+                    </div>
+
+                  </div>
+
+                  <div className="CartDetails-payment-grid">
+
+                    {/* UPI */}
+
+                    <button
+                      type="button"
+                      className={`CartDetails-payment-option ${
+                        paymentMethod ===
+                        "upi"
+                          ? "active"
+                          : ""
+                      }`}
+                      onClick={() =>
+                        setPaymentMethod(
+                          "upi"
+                        )
+                      }
+                    >
+
+                      <div className="CartDetails-payment-icon">
+                        <Smartphone
+                          size={19}
+                        />
+                      </div>
+
+                      <div className="CartDetails-payment-content">
+                        <strong>
+                          UPI
+                        </strong>
+
+                        <span>
+                          GPay / PhonePe
+                        </span>
+                      </div>
+
+                      {paymentMethod ===
+                        "upi" && (
+                        <CheckCircle2
+                          size={17}
+                          className="CartDetails-payment-selected"
+                        />
+                      )}
+
+                    </button>
+
+                    {/* CASH */}
+
+                    <button
+                      type="button"
+                      className={`CartDetails-payment-option ${
+                        paymentMethod ===
+                        "cash"
+                          ? "active"
+                          : ""
+                      }`}
+                      onClick={() =>
+                        setPaymentMethod(
+                          "cash"
+                        )
+                      }
+                    >
+
+                      <div className="CartDetails-payment-icon">
+                        <Banknote
+                          size={19}
+                        />
+                      </div>
+
+                      <div className="CartDetails-payment-content">
+                        <strong>
+                          Cash
+                        </strong>
+
+                        <span>
+                          On Delivery
+                        </span>
+                      </div>
+
+                      {paymentMethod ===
+                        "cash" && (
+                        <CheckCircle2
+                          size={17}
+                          className="CartDetails-payment-selected"
+                        />
+                      )}
+
+                    </button>
+
+                    {/* CARD */}
+
+                    <button
+                      type="button"
+                      className={`CartDetails-payment-option ${
+                        paymentMethod ===
+                        "card"
+                          ? "active"
+                          : ""
+                      }`}
+                      onClick={() =>
+                        setPaymentMethod(
+                          "card"
+                        )
+                      }
+                    >
+
+                      <div className="CartDetails-payment-icon">
+                        <CreditCard
+                          size={19}
+                        />
+                      </div>
+
+                      <div className="CartDetails-payment-content">
+                        <strong>
+                          Card
+                        </strong>
+
+                        <span>
+                          Debit / Credit
+                        </span>
+                      </div>
+
+                      {paymentMethod ===
+                        "card" && (
+                        <CheckCircle2
+                          size={17}
+                          className="CartDetails-payment-selected"
+                        />
+                      )}
+
+                    </button>
+
+                  </div>
+
+                </div>
+
+                {/* ORDER REVIEW */}
+
+                <div className="CartDetails-checkout-review">
+
+                  <div className="CartDetails-review-main">
+
+                    <div className="CartDetails-review-left">
+
+                      <div className="CartDetails-review-icon">
+                        <ShoppingBag
+                          size={16}
+                        />
+                      </div>
+
+                      <div>
+                        <span>
+                          Total Amount
+                        </span>
+
+                        <small>
+                          {totalItemCount}{" "}
+                          item
+                          {totalItemCount !==
+                          1
+                            ? "s"
+                            : ""}
+                        </small>
+                      </div>
+
+                    </div>
+
+                    <strong>
+                      ₹
+                      {formatINR(
+                        finalTotal
+                      )}
+                    </strong>
+
+                  </div>
+
+                  <div className="CartDetails-review-note">
+                    <ShieldCheck
+                      size={14}
+                    />
+
+                    Secure checkout with
+                    Healthy Heaven
+                  </div>
+
+                </div>
+
+                {/* ACTIONS */}
+
+                <div className="CartDetails-checkout-actions">
+
+                  <button
+                    type="button"
+                    className="CartDetails-checkout-cancel"
+                    onClick={
+                      closeCheckout
+                    }
+                    disabled={orderLoading}
+                  >
+                    Cancel
+                  </button>
+
+                  <button
+                    type="submit"
+                    className="CartDetails-buy-now-btn"
+                    disabled={orderLoading}
+                  >
+
+                    {orderLoading ? (
+                      <>
+                        <Loader2
+                          size={17}
+                          className="CartDetails-spin"
+                        />
+
+                        Placing Order...
+                      </>
+                    ) : (
+                      <>
+                        <CheckCircle2
+                          size={17}
+                        />
+
+                        Buy Now ₹
+                        {formatINR(
+                          finalTotal
+                        )}
+                      </>
+                    )}
+
+                  </button>
+
+                </div>
+
+              </form>
+
+            </div>
 
           </div>
+        )}
 
-        </div>
-
-      )}
-
+      </div>
     </div>
   );
 };
 
 export default CartDetails;
-

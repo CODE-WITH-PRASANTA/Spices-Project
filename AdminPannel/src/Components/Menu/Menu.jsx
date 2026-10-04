@@ -799,7 +799,7 @@ const Menu = () => {
                   name="name"
                   value={formData.name}
                   onChange={handleInputChange}
-                  placeholder="e.g. Foodigo Chana Besan 500g"
+                 
                   autoComplete="off"
                 />
 
