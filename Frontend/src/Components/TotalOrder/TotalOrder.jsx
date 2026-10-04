@@ -30,7 +30,7 @@ import "./TotalOrder.css";
 
 const AUTO_PLAY_TIME = 4500;
 const ORDER_REFRESH_TIME = 30000;
-const TRADE_PHONE = "9007252221";
+const TRADE_PHONE = "6291851838";
 const CART_STORAGE_KEY = "healthy_heaven_cart_id";
 
 const FALLBACK_IMAGE =
