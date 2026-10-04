@@ -30,7 +30,7 @@ import garamMasalaImage from "../../assets/p-5.png";
 // CONSTANTS
 // =====================================================
 
-const TRADE_PHONE = "9007252221";
+const TRADE_PHONE = "8240737381";
 
 // =====================================================
 // ONLY FIVE PRODUCTS
@@ -607,9 +607,8 @@ const HomeOrder = () => {
               <MapPin size={13} />
 
               <span>
-                Patiramjote, Matigara,
-                Siliguri, Dist. Darjiling,
-                West Bengal
+                173/1B Plot No. Baisakhi Math ,
+               Belghoria, Kolkata – 700056
               </span>
 
             </div>

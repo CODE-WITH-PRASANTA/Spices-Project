@@ -1,53 +1,59 @@
-/* =========================================================
-   FOODIGO
+/* ============================================================
+   PALASH ESSENCE
    PREMIUM FLOATING CONTACT FORM
-   REFERENCE: 2ND IMAGE
-========================================================= */
+   BLACK + GOLD GROCERY / SPICE THEME
+============================================================ */
 
 :root {
-  --foodigo-red: #e30613;
-  --foodigo-red-dark: #c9000d;
-  --foodigo-red-light: #ff2633;
+  --palash-black: #090a08;
+  --palash-black-soft: #11120f;
+  --palash-black-light: #181914;
 
-  --foodigo-black: #101010;
-  --foodigo-text: #1a1a1a;
+  --palash-gold: #c59a42;
+  --palash-gold-light: #e5c46b;
+  --palash-gold-dark: #8d6725;
+  --palash-gold-soft: #b99348;
 
-  --foodigo-gray: #6d7478;
-  --foodigo-border: #dce1e4;
+  --palash-cream: #f4ead1;
+  --palash-white: #ffffff;
 
-  --foodigo-white: #ffffff;
+  --palash-muted: #a9a393;
+  --palash-border: rgba(197, 154, 66, 0.28);
+
+  --palash-shadow:
+    0 35px 90px rgba(0, 0, 0, 0.65),
+    0 10px 30px rgba(0, 0, 0, 0.35);
 }
 
 
-/* =========================================================
+/* ============================================================
    OVERLAY
-========================================================= */
+============================================================ */
 
-.foodigo-overlay {
+.palash-overlay {
   position: fixed;
-
   inset: 0;
 
   width: 100%;
   height: 100%;
 
-  padding: 15px;
+  padding: 18px;
 
   box-sizing: border-box;
 
   display: flex;
-
   align-items: center;
   justify-content: center;
 
   background:
-    rgba(9, 12, 13, 0.73);
+    radial-gradient(
+      circle at center,
+      rgba(37, 32, 20, 0.28),
+      rgba(0, 0, 0, 0.88)
+    );
 
-  backdrop-filter:
-    blur(7px);
-
-  -webkit-backdrop-filter:
-    blur(7px);
+  backdrop-filter: blur(9px);
+  -webkit-backdrop-filter: blur(9px);
 
   z-index: 999999;
 
@@ -59,24 +65,23 @@
     opacity 0.3s ease;
 }
 
-.foodigo-overlay-closing {
-  opacity: 0;
 
+.palash-overlay-closing {
+  opacity: 0;
   pointer-events: none;
 }
 
 
-/* =========================================================
+/* ============================================================
    MAIN CARD
-========================================================= */
+============================================================ */
 
-.foodigo-card {
+.palash-card {
   position: relative;
 
   width: min(100%, 455px);
 
-  min-height: 575px;
-
+  min-height: 590px;
   max-height: calc(100vh - 30px);
 
   overflow: hidden;
@@ -84,21 +89,28 @@
   box-sizing: border-box;
 
   background:
+    radial-gradient(
+      circle at 100% 0%,
+      rgba(197, 154, 66, 0.10),
+      transparent 32%
+    ),
+    radial-gradient(
+      circle at 0% 100%,
+      rgba(197, 154, 66, 0.06),
+      transparent 28%
+    ),
     linear-gradient(
       145deg,
-      #ffffff 0%,
-      #ffffff 76%,
-      #fafafa 100%
+      #10110e 0%,
+      #0b0c0a 50%,
+      #13140f 100%
     );
 
-  border-radius: 27px;
+  border: 1px solid rgba(197, 154, 66, 0.42);
 
-  box-shadow:
-    0 32px 75px
-      rgba(0, 0, 0, 0.34),
+  border-radius: 26px;
 
-    0 12px 28px
-      rgba(0, 0, 0, 0.14);
+  box-shadow: var(--palash-shadow);
 
   font-family:
     Inter,
@@ -110,14 +122,9 @@
     sans-serif;
 
   animation:
-    foodigoCardIn
-    0.4s
-    cubic-bezier(
-      0.16,
-      1,
-      0.3,
-      1
-    )
+    palashCardIn
+    0.45s
+    cubic-bezier(0.16, 1, 0.3, 1)
     forwards;
 
   transition:
@@ -125,20 +132,64 @@
     opacity 0.3s ease;
 }
 
-.foodigo-card-closing {
+
+.palash-card::before {
+  content: "";
+
+  position: absolute;
+
+  inset: 8px;
+
+  border: 1px solid rgba(197, 154, 66, 0.16);
+
+  border-radius: 20px;
+
+  pointer-events: none;
+
+  z-index: 2;
+}
+
+
+.palash-card::after {
+  content: "";
+
+  position: absolute;
+
+  left: 20px;
+  right: 20px;
+  bottom: 13px;
+
+  height: 1px;
+
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      rgba(197, 154, 66, 0.5),
+      transparent
+    );
+
+  pointer-events: none;
+
+  z-index: 3;
+}
+
+
+.palash-card-closing {
   opacity: 0;
 
   transform:
-    translateY(14px)
+    translateY(15px)
     scale(0.96);
 }
 
-@keyframes foodigoCardIn {
+
+@keyframes palashCardIn {
   from {
     opacity: 0;
 
     transform:
-      translateY(22px)
+      translateY(25px)
       scale(0.95);
   }
 
@@ -152,371 +203,443 @@
 }
 
 
-/* =========================================================
-   TOP RED SHAPE
-========================================================= */
+/* ============================================================
+   GOLD DECORATIVE ORBS
+============================================================ */
 
-.foodigo-top-red {
+.palash-gold-orb {
   position: absolute;
-
-  top: -122px;
-  right: -88px;
-
-  width: 315px;
-  height: 315px;
-
-  background:
-    linear-gradient(
-      145deg,
-      #ff202b 0%,
-      #f10b17 48%,
-      #d9000c 100%
-    );
-
-  border-radius:
-    48% 52% 48% 52% /
-    48% 45% 55% 52%;
-
-  z-index: 1;
-
-  pointer-events: none;
-}
-
-
-/* =========================================================
-   RED CURVE EXTENSION
-========================================================= */
-
-.foodigo-top-red::after {
-  content: "";
-
-  position: absolute;
-
-  right: -15px;
-  bottom: -92px;
-
-  width: 220px;
-  height: 180px;
-
-  background:
-    #ed0815;
-
-  border-radius:
-    0 0 0 100%;
-
-  transform:
-    rotate(-14deg);
-
-  box-shadow:
-    -8px -8px 25px
-      rgba(255, 255, 255, 0.08);
-}
-
-
-/* =========================================================
-   RED HIGHLIGHT
-========================================================= */
-
-.foodigo-top-red-highlight {
-  position: absolute;
-
-  top: -45px;
-  right: 58px;
-
-  width: 95px;
-  height: 230px;
-
-  border-left:
-    2px solid
-    rgba(255, 255, 255, 0.14);
 
   border-radius: 50%;
 
-  transform:
-    rotate(17deg);
+  pointer-events: none;
 
-  filter:
-    blur(1px);
+  z-index: 1;
+}
+
+
+.palash-gold-orb-one {
+  width: 300px;
+  height: 300px;
+
+  top: -170px;
+  right: -115px;
+
+  background:
+    radial-gradient(
+      circle,
+      rgba(229, 196, 107, 0.15) 0%,
+      rgba(197, 154, 66, 0.07) 42%,
+      transparent 70%
+    );
+}
+
+
+.palash-gold-orb-two {
+  width: 220px;
+  height: 220px;
+
+  left: -150px;
+  bottom: -130px;
+
+  background:
+    radial-gradient(
+      circle,
+      rgba(197, 154, 66, 0.12),
+      transparent 68%
+    );
+}
+
+
+/* ============================================================
+   TOP PATTERN
+============================================================ */
+
+.palash-top-pattern {
+  position: absolute;
+
+  top: -105px;
+  right: -65px;
+
+  width: 270px;
+  height: 270px;
+
+  border: 1px solid rgba(197, 154, 66, 0.22);
+
+  border-radius: 50%;
 
   z-index: 3;
 
   pointer-events: none;
 }
 
-.foodigo-top-red-highlight::after {
+
+.palash-top-pattern::before {
   content: "";
 
   position: absolute;
 
-  top: 0;
-  left: 26px;
+  inset: 18px;
 
-  width: 42px;
-  height: 180px;
-
-  border-left:
-    1px solid
-    rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(197, 154, 66, 0.12);
 
   border-radius: 50%;
 }
 
 
-/* =========================================================
-   FOOD IMAGE AREA
-========================================================= */
+.palash-top-pattern::after {
+  content: "";
 
-.foodigo-food-wrapper {
   position: absolute;
 
-  top: 31px;
-  right: -5px;
+  inset: 38px;
 
-  width: 215px;
-  height: 215px;
+  border: 1px dashed rgba(197, 154, 66, 0.13);
 
-  z-index: 12;
+  border-radius: 50%;
+}
+
+
+/* ============================================================
+   BRAND IMAGE
+============================================================ */
+
+.palash-brand-image {
+  position: absolute;
+
+  top: 25px;
+  right: 27px;
+
+  width: 135px;
+  height: 135px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  z-index: 20;
 
   pointer-events: none;
 }
 
 
-/* =========================================================
-   IMAGE GLOW
-========================================================= */
-
-.foodigo-food-glow {
+.palash-image-ring {
   position: absolute;
 
-  inset: 22px;
+  inset: 2px;
 
   border-radius: 50%;
 
-  background:
-    radial-gradient(
-      circle,
-      rgba(255, 255, 255, 0.28),
-      rgba(255, 255, 255, 0)
-    );
+  border:
+    1px solid
+    rgba(229, 196, 107, 0.45);
 
-  filter:
-    blur(10px);
-
-  z-index: 0;
+  box-shadow:
+    0 0 0 6px rgba(197, 154, 66, 0.035),
+    0 15px 35px rgba(0, 0, 0, 0.4);
 }
 
 
-/* =========================================================
-   FOOD IMAGE
-========================================================= */
+.palash-image-ring::before {
+  content: "";
 
-.foodigo-food-image {
+  position: absolute;
+
+  inset: 7px;
+
+  border-radius: 50%;
+
+  border:
+    1px dashed
+    rgba(197, 154, 66, 0.32);
+}
+
+
+.palash-logo-image {
   position: relative;
 
-  width: 100%;
-  height: 100%;
-
-  display: block;
+  width: 112px;
+  height: 112px;
 
   object-fit: contain;
+
+  display: block;
 
   z-index: 2;
 
   filter:
     drop-shadow(
-      0 15px 15px
-      rgba(0, 0, 0, 0.27)
+      0 12px 18px
+      rgba(0, 0, 0, 0.55)
     );
+
+  transition:
+    transform 0.35s ease;
 }
 
 
-/* =========================================================
-   FOOD DECORATIVE LEAVES
-========================================================= */
-
-.foodigo-food-leaf {
-  position: absolute;
-
-  z-index: 5;
-
-  font-size: 22px;
-
-  filter:
-    drop-shadow(
-      0 4px 5px
-      rgba(0, 0, 0, 0.18)
-    );
-}
-
-.foodigo-food-leaf-1 {
-  left: 7px;
-  bottom: 13px;
-
-  transform:
-    rotate(-24deg);
-}
-
-.foodigo-food-leaf-2 {
-  right: 3px;
-  bottom: -2px;
-
-  transform:
-    rotate(27deg);
+.palash-brand-image:hover .palash-logo-image {
+  transform: scale(1.04);
 }
 
 
-/* =========================================================
+/* ============================================================
    CLOSE BUTTON
-========================================================= */
+============================================================ */
 
-.foodigo-close {
+.palash-close {
   position: absolute;
 
-  top: 12px;
-  right: 13px;
+  top: 17px;
+  right: 17px;
 
-  width: 38px;
-  height: 38px;
+  width: 39px;
+  height: 39px;
 
   display: flex;
-
   align-items: center;
   justify-content: center;
 
-  border: none;
+  border:
+    1px solid
+    rgba(229, 196, 107, 0.5);
 
   border-radius: 50%;
 
   background:
-    rgba(255, 255, 255, 0.97);
+    rgba(12, 13, 11, 0.92);
 
   box-shadow:
-    0 5px 17px
-      rgba(0, 0, 0, 0.18);
+    0 7px 20px rgba(0, 0, 0, 0.4);
 
   cursor: pointer;
 
-  z-index: 40;
+  z-index: 60;
 
   transition:
-    transform 0.2s ease,
-    box-shadow 0.2s ease;
+    transform 0.25s ease,
+    border-color 0.25s ease,
+    background 0.25s ease,
+    box-shadow 0.25s ease;
 }
 
-.foodigo-close span {
+
+.palash-close span {
   position: absolute;
 
   width: 15px;
-  height: 2.4px;
+  height: 1.8px;
 
   background:
-    #555;
+    var(--palash-gold-light);
 
   border-radius: 10px;
 }
 
-.foodigo-close span:first-child {
-  transform:
-    rotate(45deg);
+
+.palash-close span:first-child {
+  transform: rotate(45deg);
 }
 
-.foodigo-close span:last-child {
-  transform:
-    rotate(-45deg);
+
+.palash-close span:last-child {
+  transform: rotate(-45deg);
 }
 
-.foodigo-close:hover:not(:disabled) {
+
+.palash-close:hover:not(:disabled) {
   transform:
     rotate(90deg)
-    scale(1.05);
+    scale(1.06);
+
+  border-color:
+    var(--palash-gold-light);
+
+  background:
+    #1b1b16;
 
   box-shadow:
-    0 8px 22px
-      rgba(0, 0, 0, 0.23);
+    0 9px 25px rgba(0, 0, 0, 0.5);
 }
 
-.foodigo-close:disabled {
-  opacity: 0.5;
 
+.palash-close:disabled {
+  opacity: 0.45;
   cursor: not-allowed;
 }
 
 
-/* =========================================================
+/* ============================================================
    CONTENT
-========================================================= */
+============================================================ */
 
-.foodigo-content {
+.palash-content {
   position: relative;
 
-  z-index: 20;
+  z-index: 25;
 
   padding:
-    31px
-    24px
-    17px;
+    30px
+    28px
+    24px;
 }
 
 
-/* =========================================================
-   FOODIGO LOGO
-========================================================= */
+/* ============================================================
+   BRAND HEADING
+============================================================ */
 
-.foodigo-brand {
+.palash-brand-heading {
   position: relative;
 
-  width: 190px;
+  width: 220px;
 
-  margin-bottom: 9px;
+  margin-bottom: 16px;
 }
 
-.foodigo-brand-oval {
-  position: relative;
 
-  width: 184px;
-  height: 58px;
+.palash-brand-small {
+  display: block;
 
+  color:
+    var(--palash-gold-light);
+
+  font-family:
+    Georgia,
+    "Times New Roman",
+    serif;
+
+  font-size: 25px;
+
+  line-height: 0.85;
+
+  font-weight: 600;
+
+  letter-spacing: 7px;
+
+  text-shadow:
+    0 2px 12px
+    rgba(197, 154, 66, 0.18);
+}
+
+
+.palash-brand-main {
+  display: block;
+
+  margin-top: 5px;
+
+  color:
+    var(--palash-cream);
+
+  font-family:
+    Georgia,
+    "Times New Roman",
+    serif;
+
+  font-size: 13px;
+
+  line-height: 1;
+
+  font-weight: 500;
+
+  letter-spacing: 6px;
+}
+
+
+.palash-brand-line {
   display: flex;
 
   align-items: center;
-  justify-content: center;
+
+  gap: 6px;
+
+  margin-top: 10px;
+}
+
+
+.palash-brand-line span {
+  width: 18px;
+  height: 1px;
+
+  flex-shrink: 0;
 
   background:
-    #ffffff;
-
-  border:
-    2px solid
-    var(--foodigo-red);
-
-  border-radius:
-    50%;
-
-  transform:
-    rotate(-1deg);
-
-  box-sizing: border-box;
+    var(--palash-gold);
 }
 
-.foodigo-brand-oval::before {
-  content: "";
 
-  position: absolute;
+.palash-brand-line small {
+  color:
+    rgba(229, 196, 107, 0.72);
 
-  inset: 5px;
+  font-size: 6.5px;
 
-  border:
-    1px solid
-    rgba(227, 6, 19, 0.42);
+  font-weight: 700;
 
-  border-radius:
-    50%;
+  letter-spacing: 1.15px;
+
+  white-space: nowrap;
 }
 
-.foodigo-brand-text {
+
+/* ============================================================
+   HEADING
+============================================================ */
+
+.palash-heading {
   position: relative;
 
+  width: 265px;
+
+  max-width: 100%;
+}
+
+
+.palash-eyebrow {
+  display: flex;
+
+  align-items: center;
+
+  gap: 9px;
+
+  margin-bottom: 7px;
+}
+
+
+.palash-eyebrow-line {
+  width: 25px;
+  height: 2px;
+
+  flex-shrink: 0;
+
+  background:
+    var(--palash-gold);
+
+  border-radius: 10px;
+}
+
+
+.palash-eyebrow span:last-child {
   color:
-    var(--foodigo-red);
+    rgba(229, 196, 107, 0.65);
+
+  font-size: 7px;
+
+  line-height: 1;
+
+  font-weight: 800;
+
+  letter-spacing: 1.8px;
+
+  white-space: nowrap;
+}
+
+
+.palash-heading h2 {
+  margin: 0;
+
+  color:
+    var(--palash-cream);
 
   font-family:
     Georgia,
@@ -525,229 +648,121 @@
 
   font-size: 38px;
 
-  font-weight: 900;
-
-  font-style: italic;
-
-  line-height: 1;
-
-  letter-spacing:
-    -2.7px;
-
-  text-shadow:
-    1px 1px 0
-    #b8000b;
-
-  z-index: 2;
-}
-
-.foodigo-brand-fresh {
-  position: absolute;
-
-  left: 67px;
-  bottom: -6px;
-
-  padding:
-    2px
-    8px;
-
-  color:
-    #222;
-
-  background:
-    #ffffff;
-
-  border:
-    1px solid
-    #252525;
-
-  border-radius:
-    12px;
-
-  font-size: 8px;
-
-  line-height: 1.1;
-
-  font-weight: 900;
-
-  letter-spacing:
-    0.5px;
-
-  transform:
-    rotate(-3deg);
-
-  z-index: 4;
-}
-
-
-/* =========================================================
-   HEADING
-========================================================= */
-
-.foodigo-heading {
-  position: relative;
-
-  width: 245px;
-
-  max-width: 100%;
-}
-
-.foodigo-eyebrow {
-  display: flex;
-
-  align-items: center;
-
-  gap: 9px;
-
-  margin-bottom: 3px;
-}
-
-.foodigo-eyebrow-line {
-  width: 25px;
-  height: 3px;
-
-  flex-shrink: 0;
-
-  background:
-    var(--foodigo-red);
-
-  border-radius:
-    10px;
-}
-
-.foodigo-eyebrow span:last-child {
-  color:
-    #717171;
-
-  font-size: 7px;
-
-  line-height: 1;
-
-  font-weight: 800;
-
-  letter-spacing:
-    2px;
-
-  white-space:
-    nowrap;
-}
-
-.foodigo-heading h2 {
-  margin: 0;
-
-  color:
-    #111111;
-
-  font-size: 39px;
-
   line-height: 0.98;
 
-  font-weight: 900;
+  font-weight: 700;
 
-  letter-spacing:
-    -1.8px;
+  letter-spacing: -1.3px;
 }
 
-.foodigo-heading h2 span {
+
+.palash-heading h2 span {
   color:
-    var(--foodigo-red);
+    var(--palash-gold-light);
 
-  font-weight:
-    900;
+  font-weight: 700;
+
+  text-shadow:
+    0 3px 15px
+    rgba(197, 154, 66, 0.18);
 }
 
-.foodigo-heading p {
+
+.palash-heading p {
   margin:
-    5px 0 0;
+    7px 0 0;
 
   color:
-    #62676a;
+    #aaa99f;
 
   font-size: 10px;
 
-  line-height: 1.35;
+  line-height: 1.45;
 
-  font-weight:
-    500;
+  font-weight: 400;
 }
 
 
-/* =========================================================
+/* ============================================================
    FORM
-========================================================= */
+============================================================ */
 
-.foodigo-form {
+.palash-form {
   position: relative;
 
-  z-index: 25;
+  z-index: 30;
 
   display: flex;
 
   flex-direction: column;
 
-  gap: 8px;
+  gap: 9px;
 
-  margin-top: 15px;
+  margin-top: 17px;
 }
 
 
-/* =========================================================
+/* ============================================================
    FIELD
-========================================================= */
+============================================================ */
 
-.foodigo-field {
+.palash-field {
   width: 100%;
 }
 
-.foodigo-field label {
+
+.palash-field label {
   display: block;
 
   margin:
     0 0
-    4px
+    5px
     2px;
 
   color:
-    #252525;
+    #ddd4bf;
 
-  font-size: 10px;
+  font-size: 9.5px;
 
   line-height: 1.1;
 
-  font-weight:
-    800;
+  font-weight: 700;
+
+  letter-spacing: 0.1px;
 }
 
-.foodigo-field label em {
+
+.palash-field label em {
   color:
-    var(--foodigo-red);
+    var(--palash-gold-light);
 
   font-style:
     normal;
 }
 
 
-/* =========================================================
+/* ============================================================
    INPUT
-========================================================= */
+============================================================ */
 
-.foodigo-input {
+.palash-input {
   position: relative;
 
   width: 100%;
 }
 
-.foodigo-input svg {
+
+.palash-input svg {
   position: absolute;
 
-  left: 13px;
+  left: 14px;
   top: 50%;
 
   width: 17px;
   height: 17px;
 
   color:
-    #727c82;
+    #9c8654;
 
   transform:
     translateY(-50%);
@@ -761,39 +776,40 @@
     color 0.2s ease;
 }
 
-.foodigo-input input {
+
+.palash-input input {
   width: 100%;
 
-  height: 42px;
+  height: 43px;
 
   padding:
     0
-    13px
+    14px
     0
-    40px;
+    42px;
 
   box-sizing:
     border-box;
 
   border:
     1px solid
-    var(--foodigo-border);
+    rgba(197, 154, 66, 0.22);
 
   border-radius:
-    11px;
+    9px;
 
   outline:
     none;
 
   background:
     linear-gradient(
-      180deg,
-      #ffffff,
-      #f7f8f8
+      145deg,
+      rgba(255, 255, 255, 0.055),
+      rgba(255, 255, 255, 0.025)
     );
 
   color:
-    #222;
+    #f4ead1;
 
   font-family:
     inherit;
@@ -805,55 +821,65 @@
     500;
 
   transition:
-    border-color 0.2s ease,
-    box-shadow 0.2s ease,
-    background 0.2s ease;
+    border-color 0.25s ease,
+    box-shadow 0.25s ease,
+    background 0.25s ease;
 }
 
-.foodigo-input input::placeholder {
+
+.palash-input input::placeholder {
   color:
-    #9ca4a8;
+    #77766f;
 
   font-size:
     10.5px;
 }
 
-.foodigo-input input:hover:not(:disabled) {
-  border-color:
-    #c8cdd0;
-}
 
-.foodigo-input input:focus {
+.palash-input input:hover:not(:disabled) {
   border-color:
-    #ed1a25;
+    rgba(197, 154, 66, 0.42);
 
   background:
-    #ffffff;
+    rgba(255, 255, 255, 0.045);
+}
+
+
+.palash-input input:focus {
+  border-color:
+    var(--palash-gold);
+
+  background:
+    rgba(197, 154, 66, 0.055);
 
   box-shadow:
     0 0 0 3px
-      rgba(227, 6, 19, 0.07);
+    rgba(197, 154, 66, 0.075),
+    0 6px 20px
+    rgba(0, 0, 0, 0.15);
 }
 
-.foodigo-input:focus-within svg {
+
+.palash-input:focus-within svg {
   color:
-    var(--foodigo-red);
+    var(--palash-gold-light);
 }
 
-.foodigo-input input:disabled {
+
+.palash-input input:disabled {
   opacity:
-    0.6;
+    0.55;
 
   cursor:
     not-allowed;
 }
 
 
-/* =========================================================
+/* ============================================================
    SUBMIT BUTTON
-========================================================= */
+============================================================ */
 
-.foodigo-submit {
+.palash-submit {
   position: relative;
 
   width: 100%;
@@ -865,85 +891,128 @@
   display: flex;
 
   align-items: center;
+
   justify-content: center;
 
-  gap: 9px;
+  gap: 10px;
 
   border:
-    none;
+    1px solid
+    rgba(229, 196, 107, 0.72);
 
   border-radius:
-    11px;
+    9px;
 
   background:
     linear-gradient(
       100deg,
-      #d8000d 0%,
-      #ed0715 48%,
-      #ff1721 100%
+      #8b641f 0%,
+      #b98a32 38%,
+      #d6ae59 70%,
+      #b9862b 100%
     );
 
   color:
-    #ffffff;
+    #100f0b;
 
   font-family:
     inherit;
 
   font-size:
-    13px;
+    12.5px;
 
   font-weight:
     900;
+
+  letter-spacing:
+    0.15px;
 
   cursor:
     pointer;
 
   box-shadow:
-    0 12px 24px
-      rgba(227, 6, 19, 0.24);
+    0 12px 28px
+    rgba(197, 154, 66, 0.20),
+    inset 0 1px 0
+    rgba(255, 255, 255, 0.25);
+
+  overflow:
+    hidden;
 
   transition:
     transform 0.22s ease,
     box-shadow 0.22s ease,
-    background 0.22s ease;
+    filter 0.22s ease;
 }
 
-.foodigo-submit:hover:not(:disabled) {
-  transform:
-    translateY(-1.5px);
 
-  box-shadow:
-    0 15px 30px
-      rgba(227, 6, 19, 0.31);
+.palash-submit::before {
+  content: "";
+
+  position: absolute;
+
+  top: 0;
+  left: -80%;
+
+  width: 55%;
+  height: 100%;
 
   background:
     linear-gradient(
-      100deg,
-      #c9000c,
-      #e30613,
-      #ff1822
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.24),
+      transparent
     );
+
+  transform:
+    skewX(-20deg);
+
+  transition:
+    left 0.6s ease;
 }
 
-.foodigo-submit:active:not(:disabled) {
+
+.palash-submit:hover:not(:disabled) {
+  transform:
+    translateY(-2px);
+
+  filter:
+    brightness(1.06);
+
+  box-shadow:
+    0 16px 34px
+    rgba(197, 154, 66, 0.30),
+    inset 0 1px 0
+    rgba(255, 255, 255, 0.28);
+}
+
+
+.palash-submit:hover:not(:disabled)::before {
+  left: 130%;
+}
+
+
+.palash-submit:active:not(:disabled) {
   transform:
     translateY(0);
 }
 
-.foodigo-submit:disabled {
+
+.palash-submit:disabled {
   opacity:
-    0.75;
+    0.7;
 
   cursor:
     wait;
 }
 
 
-/* =========================================================
+/* ============================================================
    BUTTON ARROW
-========================================================= */
+============================================================ */
 
-.foodigo-arrow {
+.palash-arrow {
   width: 28px;
   height: 28px;
 
@@ -956,50 +1025,53 @@
     50%;
 
   background:
-    rgba(255, 255, 255, 0.20);
+    rgba(0, 0, 0, 0.20);
 
   transition:
     transform 0.2s ease;
 }
 
-.foodigo-submit:hover
-.foodigo-arrow {
+
+.palash-submit:hover
+.palash-arrow {
   transform:
     translateX(3px);
 }
 
-.foodigo-arrow svg {
+
+.palash-arrow svg {
   width: 15px;
   height: 15px;
 }
 
 
-/* =========================================================
+/* ============================================================
    SPINNER
-========================================================= */
+============================================================ */
 
-.foodigo-spinner {
+.palash-spinner {
   width: 15px;
   height: 15px;
 
   border:
     2px solid
-    rgba(255, 255, 255, 0.35);
+    rgba(20, 18, 12, 0.25);
 
   border-top-color:
-    #ffffff;
+    #17140d;
 
   border-radius:
     50%;
 
   animation:
-    foodigoSpinner
+    palashSpinner
     0.7s
     linear
     infinite;
 }
 
-@keyframes foodigoSpinner {
+
+@keyframes palashSpinner {
   to {
     transform:
       rotate(360deg);
@@ -1007,11 +1079,11 @@
 }
 
 
-/* =========================================================
+/* ============================================================
    SECURITY
-========================================================= */
+============================================================ */
 
-.foodigo-security {
+.palash-security {
   display: flex;
 
   align-items: center;
@@ -1019,10 +1091,10 @@
 
   gap: 6px;
 
-  margin-top: 1px;
+  margin-top: 2px;
 
   color:
-    #85898b;
+    #77766e;
 
   font-size:
     7.8px;
@@ -1037,113 +1109,148 @@
     center;
 }
 
-.foodigo-security svg {
+
+.palash-security svg {
   width: 14px;
   height: 14px;
 
   color:
-    var(--foodigo-red);
+    var(--palash-gold);
 
   flex-shrink:
     0;
 }
 
 
-/* =========================================================
-   BOTTOM LEAVES
-========================================================= */
+/* ============================================================
+   BOTTOM DECORATION
+============================================================ */
 
-.foodigo-bottom-leaves {
+.palash-bottom-decoration {
   position: absolute;
 
-  left: -9px;
-  bottom: -7px;
+  left: 50%;
 
-  width: 95px;
-  height: 60px;
+  bottom: 14px;
 
-  z-index: 30;
+  transform:
+    translateX(-50%);
 
-  pointer-events:
-    none;
+  display: flex;
+
+  align-items: center;
+
+  gap: 8px;
+
+  z-index: 15;
+
+  pointer-events: none;
 }
 
-.foodigo-bottom-leaves span {
-  position: absolute;
 
-  font-size:
-    32px;
+.palash-bottom-decoration span {
+  width: 45px;
+  height: 1px;
 
-  filter:
-    drop-shadow(
-      0 4px 5px
-      rgba(0, 0, 0, 0.15)
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      rgba(197, 154, 66, 0.65)
     );
 }
 
-.foodigo-bottom-leaves span:nth-child(1) {
-  left: 3px;
-  bottom: 0;
 
-  transform:
-    rotate(15deg);
+.palash-bottom-decoration span:last-child {
+  background:
+    linear-gradient(
+      90deg,
+      rgba(197, 154, 66, 0.65),
+      transparent
+    );
 }
 
-.foodigo-bottom-leaves span:nth-child(2) {
-  left: 32px;
-  bottom: -8px;
+
+.palash-bottom-decoration i {
+  color:
+    var(--palash-gold);
 
   font-size:
-    27px;
+    8px;
 
-  transform:
-    rotate(-12deg);
-}
-
-.foodigo-bottom-leaves span:nth-child(3) {
-  left: 55px;
-  bottom: -12px;
-
-  font-size:
-    23px;
-
-  transform:
-    rotate(24deg);
+  font-style:
+    normal;
 }
 
 
-/* =========================================================
-   RIGHT SIDE LEAF
-========================================================= */
+/* ============================================================
+   SPICE DOTS
+============================================================ */
 
-.foodigo-side-leaf {
+.palash-spice-dots {
   position: absolute;
 
-  right: -7px;
-  top: 348px;
+  left: 20px;
+  bottom: 18px;
 
-  z-index: 30;
+  display: flex;
 
-  font-size:
-    28px;
+  align-items: center;
 
-  transform:
-    rotate(20deg);
+  gap: 5px;
 
-  filter:
-    drop-shadow(
-      0 4px 5px
-      rgba(0, 0, 0, 0.14)
-    );
+  z-index: 12;
 
-  pointer-events:
-    none;
+  opacity: 0.75;
 }
 
 
-/* =========================================================
+.palash-spice-dots span {
+  width: 4px;
+  height: 4px;
+
+  border-radius: 50%;
+
+  background:
+    var(--palash-gold);
+
+  box-shadow:
+    0 0 8px
+    rgba(197, 154, 66, 0.3);
+}
+
+
+.palash-spice-dots span:nth-child(2) {
+  width: 3px;
+  height: 3px;
+  opacity: 0.7;
+}
+
+
+.palash-spice-dots span:nth-child(3) {
+  width: 5px;
+  height: 5px;
+  opacity: 0.85;
+}
+
+
+.palash-spice-dots span:nth-child(4) {
+  width: 3px;
+  height: 3px;
+  opacity: 0.55;
+}
+
+
+.palash-spice-dots span:nth-child(5) {
+  width: 4px;
+  height: 4px;
+  opacity: 0.7;
+}
+
+
+/* ============================================================
    SWEET ALERT
-========================================================= */
+============================================================ */
 
 .swal2-container {
   z-index:
@@ -1151,89 +1258,109 @@
 }
 
 
-/* =========================================================
+/* ============================================================
    TABLET
-========================================================= */
+============================================================ */
 
 @media (max-width: 500px) {
-  .foodigo-overlay {
+
+  .palash-overlay {
     padding:
       10px;
   }
 
-  .foodigo-card {
+
+  .palash-card {
     width:
       min(100%, 425px);
 
     min-height:
-      550px;
+      565px;
 
     border-radius:
-      24px;
+      23px;
   }
 
-  .foodigo-content {
+
+  .palash-content {
     padding:
-      26px
-      20px
-      15px;
+      27px
+      22px
+      22px;
   }
 
-  .foodigo-food-wrapper {
+
+  .palash-brand-image {
     width:
-      190px;
+      120px;
 
     height:
-      190px;
+      120px;
 
     top:
-      34px;
+      25px;
 
     right:
-      -4px;
+      23px;
   }
 
-  .foodigo-heading h2 {
+
+  .palash-logo-image {
+    width:
+      100px;
+
+    height:
+      100px;
+  }
+
+
+  .palash-heading h2 {
     font-size:
-      36px;
+      35px;
   }
 
-  .foodigo-heading p {
+
+  .palash-heading p {
     font-size:
       9.5px;
   }
 
-  .foodigo-form {
+
+  .palash-form {
     margin-top:
-      13px;
+      15px;
 
     gap:
-      7px;
+      8px;
   }
 
-  .foodigo-input input {
+
+  .palash-input input {
     height:
-      40px;
+      41px;
   }
 
-  .foodigo-submit {
+
+  .palash-submit {
     height:
       44px;
   }
 }
 
 
-/* =========================================================
+/* ============================================================
    MOBILE
-========================================================= */
+============================================================ */
 
 @media (max-width: 390px) {
-  .foodigo-overlay {
+
+  .palash-overlay {
     padding:
       7px;
   }
 
-  .foodigo-card {
+
+  .palash-card {
     width:
       100%;
 
@@ -1241,163 +1368,148 @@
       0;
 
     border-radius:
-      21px;
+      20px;
   }
 
-  .foodigo-top-red {
-    top:
-      -100px;
 
-    right:
-      -72px;
-
-    width:
-      250px;
-
-    height:
-      250px;
-  }
-
-  .foodigo-top-red::after {
-    width:
-      180px;
-
-    height:
-      140px;
-
-    bottom:
-      -72px;
-  }
-
-  .foodigo-food-wrapper {
-    width:
-      150px;
-
-    height:
-      150px;
-
-    top:
-      34px;
-
-    right:
-      -2px;
-  }
-
-  .foodigo-close {
-    top:
-      9px;
-
-    right:
-      9px;
-
-    width:
-      34px;
-
-    height:
-      34px;
-  }
-
-  .foodigo-close span {
-    width:
-      13px;
-  }
-
-  .foodigo-content {
+  .palash-content {
     padding:
-      21px
-      16px
-      13px;
+      22px
+      17px
+      18px;
   }
 
-  .foodigo-brand {
+
+  .palash-brand-image {
     width:
-      145px;
+      92px;
+
+    height:
+      92px;
+
+    top:
+      24px;
+
+    right:
+      20px;
+  }
+
+
+  .palash-logo-image {
+    width:
+      76px;
+
+    height:
+      76px;
+  }
+
+
+  .palash-image-ring {
+    inset:
+      1px;
+  }
+
+
+  .palash-brand-heading {
+    width:
+      190px;
 
     margin-bottom:
-      8px;
+      12px;
   }
 
-  .foodigo-brand-oval {
-    width:
-      142px;
 
-    height:
-      47px;
-  }
-
-  .foodigo-brand-text {
+  .palash-brand-small {
     font-size:
-      30px;
+      20px;
 
     letter-spacing:
-      -2px;
+      5px;
   }
 
-  .foodigo-brand-fresh {
-    left:
-      49px;
 
-    bottom:
-      -5px;
-
+  .palash-brand-main {
     font-size:
+      10px;
+
+    letter-spacing:
+      4px;
+  }
+
+
+  .palash-brand-line {
+    margin-top:
       7px;
-
-    padding:
-      2px 6px;
   }
 
-  .foodigo-heading {
+
+  .palash-brand-line small {
+    font-size:
+      5px;
+
+    letter-spacing:
+      0.8px;
+  }
+
+
+  .palash-heading {
     width:
-      205px;
+      210px;
   }
 
-  .foodigo-eyebrow {
+
+  .palash-eyebrow {
     gap:
       6px;
   }
 
-  .foodigo-eyebrow-line {
+
+  .palash-eyebrow-line {
     width:
-      21px;
+      20px;
 
     height:
       2px;
   }
 
-  .foodigo-eyebrow span:last-child {
+
+  .palash-eyebrow span:last-child {
     font-size:
-      5.6px;
+      5.5px;
 
     letter-spacing:
-      1.25px;
+      1.15px;
   }
 
-  .foodigo-heading h2 {
+
+  .palash-heading h2 {
     font-size:
       30px;
 
     letter-spacing:
-      -1.2px;
+      -1px;
   }
 
-  .foodigo-heading p {
+
+  .palash-heading p {
     margin-top:
-      4px;
+      5px;
 
     font-size:
-      8.7px;
+      8.5px;
   }
 
-  .foodigo-form {
+
+  .palash-form {
     margin-top:
-      11px;
+      12px;
 
     gap:
       6px;
   }
 
-  .foodigo-field label {
+
+  .palash-field label {
     font-size:
       8.5px;
 
@@ -1405,7 +1517,8 @@
       3px;
   }
 
-  .foodigo-input input {
+
+  .palash-input input {
     height:
       37px;
 
@@ -1416,15 +1529,17 @@
       10px;
 
     border-radius:
-      9px;
+      8px;
   }
 
-  .foodigo-input input::placeholder {
+
+  .palash-input input::placeholder {
     font-size:
       9px;
   }
 
-  .foodigo-input svg {
+
+  .palash-input svg {
     left:
       11px;
 
@@ -1435,7 +1550,8 @@
       15px;
   }
 
-  .foodigo-submit {
+
+  .palash-submit {
     height:
       40px;
 
@@ -1443,13 +1559,14 @@
       3px;
 
     border-radius:
-      9px;
+      8px;
 
     font-size:
       10.5px;
   }
 
-  .foodigo-arrow {
+
+  .palash-arrow {
     width:
       23px;
 
@@ -1457,7 +1574,8 @@
       23px;
   }
 
-  .foodigo-arrow svg {
+
+  .palash-arrow svg {
     width:
       13px;
 
@@ -1465,12 +1583,14 @@
       13px;
   }
 
-  .foodigo-security {
+
+  .palash-security {
     font-size:
-      7px;
+      6.8px;
   }
 
-  .foodigo-security svg {
+
+  .palash-security svg {
     width:
       12px;
 
@@ -1478,198 +1598,284 @@
       12px;
   }
 
-  .foodigo-side-leaf {
+
+  .palash-close {
+    width:
+      34px;
+
+    height:
+      34px;
+
     top:
-      315px;
+      9px;
 
-    font-size:
-      23px;
+    right:
+      9px;
   }
 
-  .foodigo-bottom-leaves {
-    transform:
-      scale(0.8);
 
-    transform-origin:
-      bottom left;
+  .palash-close span {
+    width:
+      13px;
+  }
+
+
+  .palash-bottom-decoration {
+    bottom:
+      10px;
+  }
+
+
+  .palash-bottom-decoration span {
+    width:
+      30px;
+  }
+
+
+  .palash-spice-dots {
+    left:
+      12px;
+
+    bottom:
+      14px;
   }
 }
 
 
-/* =========================================================
+/* ============================================================
    VERY SMALL DEVICES
-========================================================= */
+============================================================ */
 
 @media (max-width: 350px) {
-  .foodigo-content {
+
+  .palash-content {
     padding:
-      17px
+      18px
       14px
-      10px;
+      15px;
   }
 
-  .foodigo-food-wrapper {
+
+  .palash-brand-image {
     width:
-      125px;
+      78px;
 
     height:
-      125px;
+      78px;
+
+    right:
+      17px;
 
     top:
-      34px;
+      22px;
   }
 
-  .foodigo-brand-oval {
+
+  .palash-logo-image {
     width:
-      132px;
+      64px;
 
     height:
-      43px;
+      64px;
   }
 
-  .foodigo-brand-text {
+
+  .palash-brand-heading {
+    width:
+      175px;
+  }
+
+
+  .palash-brand-small {
+    font-size:
+      18px;
+
+    letter-spacing:
+      4px;
+  }
+
+
+  .palash-brand-main {
+    font-size:
+      9px;
+
+    letter-spacing:
+      3px;
+  }
+
+
+  .palash-heading h2 {
     font-size:
       27px;
   }
 
-  .foodigo-heading h2 {
-    font-size:
-      27px;
-  }
 
-  .foodigo-heading p {
+  .palash-heading p {
     font-size:
       8px;
   }
 
-  .foodigo-form {
+
+  .palash-form {
     margin-top:
-      8px;
+      9px;
 
     gap:
       5px;
   }
 
-  .foodigo-input input {
+
+  .palash-input input {
     height:
       35px;
   }
 
-  .foodigo-submit {
+
+  .palash-submit {
     height:
       38px;
   }
 
-  .foodigo-security {
+
+  .palash-security {
     font-size:
-      6.5px;
+      6.3px;
   }
 
-  .foodigo-bottom-leaves {
+
+  .palash-bottom-decoration {
     display:
       none;
   }
 }
 
 
-/* =========================================================
-   SHORT HEIGHT
-========================================================= */
+/* ============================================================
+   SHORT HEIGHT SCREENS
+============================================================ */
 
 @media (max-height: 650px) {
-  .foodigo-overlay {
+
+  .palash-overlay {
     padding:
       5px;
   }
 
-  .foodigo-card {
+
+  .palash-card {
     min-height:
       0;
 
+    max-height:
+      calc(100vh - 10px);
+
     border-radius:
-      20px;
+      19px;
   }
 
-  .foodigo-content {
+
+  .palash-content {
     padding:
-      15px
+      17px
       19px
+      15px;
+  }
+
+
+  .palash-brand-image {
+    width:
+      105px;
+
+    height:
+      105px;
+
+    top:
+      20px;
+
+    right:
+      22px;
+  }
+
+
+  .palash-logo-image {
+    width:
+      88px;
+
+    height:
+      88px;
+  }
+
+
+  .palash-brand-heading {
+    margin-bottom:
+      9px;
+  }
+
+
+  .palash-heading h2 {
+    font-size:
+      31px;
+  }
+
+
+  .palash-heading p {
+    margin-top:
+      4px;
+
+    font-size:
+      8.5px;
+  }
+
+
+  .palash-form {
+    gap:
+      6px;
+
+    margin-top:
       10px;
   }
 
-  .foodigo-food-wrapper {
-    width:
-      130px;
 
-    height:
-      130px;
-
-    top:
-      27px;
-  }
-
-  .foodigo-brand {
+  .palash-field label {
     margin-bottom:
-      5px;
-  }
-
-  .foodigo-heading h2 {
-    font-size:
-      29px;
-  }
-
-  .foodigo-heading p {
-    margin-top:
       3px;
 
     font-size:
       8px;
   }
 
-  .foodigo-form {
-    gap:
-      5px;
 
-    margin-top:
-      7px;
-  }
-
-  .foodigo-field label {
-    margin-bottom:
-      2px;
-
-    font-size:
-      8px;
-  }
-
-  .foodigo-input input {
+  .palash-input input {
     height:
-      34px;
+      35px;
   }
 
-  .foodigo-submit {
+
+  .palash-submit {
     height:
-      37px;
+      38px;
   }
 
-  .foodigo-security {
+
+  .palash-security {
     font-size:
-      6.7px;
+      6.5px;
   }
 }
 
 
-/* =========================================================
+/* ============================================================
    REDUCED MOTION
-========================================================= */
+============================================================ */
 
 @media (prefers-reduced-motion: reduce) {
-  .foodigo-card,
-  .foodigo-overlay,
-  .foodigo-close,
-  .foodigo-submit,
-  .foodigo-input input,
-  .foodigo-spinner {
+
+  .palash-card,
+  .palash-overlay,
+  .palash-close,
+  .palash-submit,
+  .palash-input input,
+  .palash-spinner {
     animation:
       none !important;
 

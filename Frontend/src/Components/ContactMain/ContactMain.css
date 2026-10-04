@@ -508,8 +508,7 @@
     border-color 0.3s ease;
 }
 
-.ContactMainPerkItem:hover
-.ContactMainPerkIconBox {
+.ContactMainPerkItem:hover .ContactMainPerkIconBox {
   transform: translateY(-3px);
 
   background:
@@ -548,33 +547,27 @@
 }
 
 /* =========================================================
-   DIRECT CALL
+   ACTIONS ROW (CALL & WHATSAPP)
 ========================================================= */
 
-.ContactMainDirectCall {
+.ContactMainActionsRow {
   margin-top: 32px;
-
-  display: inline-flex;
-
+  display: flex;
   align-items: center;
+  flex-wrap: wrap;
+  gap: 14px;
+}
 
+.ContactMainDirectCall {
+  display: inline-flex;
+  align-items: center;
   gap: 10px;
-
   padding: 12px 20px;
-
   border-radius: 12px;
-
-  background:
-    rgba(255, 255, 255, 0.035);
-
-  border:
-    1px solid var(--ContactMainBorder);
-
-  box-shadow:
-    0 10px 25px rgba(0, 0, 0, 0.25);
-
+  background: rgba(255, 255, 255, 0.035);
+  border: 1px solid var(--ContactMainBorder);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
   font-size: 14px;
-
   color: var(--ContactMainMuted);
 }
 
@@ -584,6 +577,75 @@
 
 .ContactMainDirectCall strong {
   color: var(--ContactMainGoldLight);
+}
+
+.ContactMainWhatsAppBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 20px;
+  border-radius: 12px;
+  background: rgba(37, 211, 102, 0.1);
+  border: 1px solid rgba(37, 211, 102, 0.3);
+  color: #25d366;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 600;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+  transition: all 0.3s ease;
+}
+
+.ContactMainWhatsAppBtn:hover {
+  background: #25d366;
+  color: #050505;
+  transform: translateY(-2px);
+  box-shadow: 0 12px 30px rgba(37, 211, 102, 0.25);
+}
+
+/* =========================================================
+   SOCIAL MEDIA SECTION
+========================================================= */
+
+.ContactMainSocialSection {
+  margin-top: 24px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.ContactMainSocialLabel {
+  font-size: 13px;
+  color: var(--ContactMainMuted);
+  font-weight: 500;
+}
+
+.ContactMainSocialLinks {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.ContactMainSocialLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 7px 14px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.035);
+  border: 1px solid var(--ContactMainBorder);
+  color: var(--ContactMainGoldLight);
+  font-size: 12.5px;
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.25s ease;
+}
+
+.ContactMainSocialLink:hover {
+  background: var(--ContactMainGoldSoft);
+  border-color: var(--ContactMainGold);
+  color: var(--ContactMainGoldLight);
+  transform: translateY(-2px);
 }
 
 /* =========================================================
@@ -927,8 +989,7 @@
     transform 0.3s ease;
 }
 
-.ContactMainSubmitButton:hover
-.ContactMainSubmitIcon {
+.ContactMainSubmitButton:hover .ContactMainSubmitIcon {
   transform: rotate(45deg);
 }
 
@@ -1210,7 +1271,9 @@
 .ContactMainInput:focus-visible,
 .ContactMainTextarea:focus-visible,
 .ContactMainSelect:focus-visible,
-.ContactMainResetButton:focus-visible {
+.ContactMainResetButton:focus-visible,
+.ContactMainWhatsAppBtn:focus-visible,
+.ContactMainSocialLink:focus-visible {
   outline:
     2px solid var(--ContactMainGold);
 
@@ -1305,11 +1368,22 @@
     font-size: 13px;
   }
 
-  .ContactMainDirectCall {
-    font-size: 12.5px;
+  .ContactMainActionsRow {
+    flex-direction: column;
+    align-items: stretch;
+  }
 
-    padding:
-      11px 14px;
+  .ContactMainDirectCall,
+  .ContactMainWhatsAppBtn {
+    font-size: 12.5px;
+    justify-content: center;
+    padding: 11px 14px;
+  }
+
+  .ContactMainSocialSection {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
   }
 
   .ContactMainReservationBox {
@@ -1415,7 +1489,9 @@
   .ContactMainIconWrapper,
   .ContactMainIcon,
   .ContactMainSubmitButton,
-  .ContactMainSubmitIcon {
+  .ContactMainSubmitIcon,
+  .ContactMainWhatsAppBtn,
+  .ContactMainSocialLink {
     transition: none !important;
   }
 

@@ -68,9 +68,7 @@ const App = () => {
 
        <FloatingIcons/>
 
-       <FloatingEnquire
-        triggerOnLoad={false}
-       />
+       
 
        <FloatingSupport/>
 

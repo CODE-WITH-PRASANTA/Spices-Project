@@ -3,19 +3,14 @@ import Swal from "sweetalert2";
 import "./FloatingForm.css";
 import API from "../../api/axios";
 
-// =====================================================
-// IMPORTANT:
-// Use your FOOD DISH image here.
-// If floatingform.webp currently contains only the
-// Foodigo logo, don't use it for this import.
-//
-// Example:
-// import foodImage from "../../assets/food-dish.webp";
-//
-// If your actual food image has another filename,
-// change ONLY this import.
-// =====================================================
-import foodImage from "../../assets/floatingform.webp";
+// ============================================================
+// PALASH ESSENCE - FLOATING CONTACT FORM
+// Premium Black + Gold Grocery / Spice Theme
+// ============================================================
+
+// Keep your existing image path.
+// Ideally this should be your Palash Essence logo/product image.
+import brandImage from "../../assets/floatingform.png";
 
 const EMPTY_FORM = {
   name: "",
@@ -39,9 +34,10 @@ const FloatingForm = ({
       ? controlledIsOpen
       : internalOpen;
 
-  // =====================================================
+  // ==========================================================
   // CLOSE FORM
-  // =====================================================
+  // ==========================================================
+
   const handleClose = (force = false) => {
     if (status === "submitting" && !force) {
       return;
@@ -60,9 +56,10 @@ const FloatingForm = ({
     }, 300);
   };
 
-  // =====================================================
+  // ==========================================================
   // INPUT CHANGE
-  // =====================================================
+  // ==========================================================
+
   const handleChange = (e) => {
     const { name, value } = e.target;
 
@@ -72,9 +69,10 @@ const FloatingForm = ({
     }));
   };
 
-  // =====================================================
-  // SUBMIT
-  // =====================================================
+  // ==========================================================
+  // SUBMIT FORM
+  // ==========================================================
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -93,7 +91,7 @@ const FloatingForm = ({
         title: "Please fill all fields",
         text: "All fields are required.",
         confirmButtonText: "Okay",
-        confirmButtonColor: "#e30613",
+        confirmButtonColor: "#b88a2b",
       });
 
       return;
@@ -147,7 +145,7 @@ const FloatingForm = ({
           error?.message ||
           "Something went wrong. Please try again.",
         confirmButtonText: "Try Again",
-        confirmButtonColor: "#e30613",
+        confirmButtonColor: "#b88a2b",
       });
     }
   };
@@ -158,55 +156,50 @@ const FloatingForm = ({
 
   return (
     <div
-      className={`foodigo-overlay ${
-        isClosing ? "foodigo-overlay-closing" : ""
+      className={`palash-overlay ${
+        isClosing ? "palash-overlay-closing" : ""
       }`}
       onClick={() => handleClose()}
     >
       <div
-        className={`foodigo-card ${
-          isClosing ? "foodigo-card-closing" : ""
+        className={`palash-card ${
+          isClosing ? "palash-card-closing" : ""
         }`}
         onClick={(e) => e.stopPropagation()}
         role="dialog"
         aria-modal="true"
-        aria-labelledby="foodigo-form-title"
+        aria-labelledby="palash-form-title"
       >
-        {/* =================================================
-            TOP RED CURVE
-        ================================================= */}
-        <div className="foodigo-top-red"></div>
+        {/* =====================================================
+            PREMIUM DECORATIVE BACKGROUND
+        ===================================================== */}
 
-        <div className="foodigo-top-red-highlight"></div>
+        <div className="palash-gold-orb palash-gold-orb-one"></div>
+        <div className="palash-gold-orb palash-gold-orb-two"></div>
 
-        {/* =================================================
-            FOOD IMAGE
-        ================================================= */}
-        <div className="foodigo-food-wrapper">
-          <div className="foodigo-food-glow"></div>
+        <div className="palash-top-pattern"></div>
+
+        {/* =====================================================
+            TOP BRAND IMAGE
+        ===================================================== */}
+
+        <div className="palash-brand-image">
+          <div className="palash-image-ring"></div>
 
           <img
-            src={foodImage}
-            alt="Delicious Food"
-            className="foodigo-food-image"
+            src={brandImage}
+            alt="Palash Essence"
+            className="palash-logo-image"
           />
-
-          {/* Decorative leaves */}
-          <span className="foodigo-food-leaf foodigo-food-leaf-1">
-            🌿
-          </span>
-
-          <span className="foodigo-food-leaf foodigo-food-leaf-2">
-            🌿
-          </span>
         </div>
 
-        {/* =================================================
+        {/* =====================================================
             CLOSE BUTTON
-        ================================================= */}
+        ===================================================== */}
+
         <button
           type="button"
-          className="foodigo-close"
+          className="palash-close"
           onClick={() => handleClose()}
           disabled={status === "submitting"}
           aria-label="Close contact form"
@@ -215,39 +208,48 @@ const FloatingForm = ({
           <span></span>
         </button>
 
-        {/* =================================================
-            MAIN CONTENT
-        ================================================= */}
-        <div className="foodigo-content">
-          {/* =================================================
-              FOODIGO BRAND
-          ================================================= */}
-          <div className="foodigo-brand">
-            <div className="foodigo-brand-oval">
-              <span className="foodigo-brand-text">
-                Foodigo
-              </span>
+        {/* =====================================================
+            CONTENT
+        ===================================================== */}
 
-              <span className="foodigo-brand-fresh">
-                ★ Fresh
-              </span>
+        <div className="palash-content">
+          {/* ===================================================
+              BRAND TEXT
+          =================================================== */}
+
+          <div className="palash-brand-heading">
+            <span className="palash-brand-small">
+              PALASH
+            </span>
+
+            <span className="palash-brand-main">
+              ESSENCE
+            </span>
+
+            <div className="palash-brand-line">
+              <span></span>
+              <small>
+                PURE SPICES • RICH FLAVOURS • BETTER TOMORROW
+              </small>
+              <span></span>
             </div>
           </div>
 
-          {/* =================================================
+          {/* ===================================================
               HEADING
-          ================================================= */}
-          <div className="foodigo-heading">
-            <div className="foodigo-eyebrow">
-              <span className="foodigo-eyebrow-line"></span>
+          =================================================== */}
+
+          <div className="palash-heading">
+            <div className="palash-eyebrow">
+              <span className="palash-eyebrow-line"></span>
 
               <span>
                 WE'D LOVE TO HEAR FROM YOU
               </span>
             </div>
 
-            <h2 id="foodigo-form-title">
-              Let’s <span>Talk.</span>
+            <h2 id="palash-form-title">
+              Let's <span>Connect.</span>
             </h2>
 
             <p>
@@ -257,21 +259,23 @@ const FloatingForm = ({
             </p>
           </div>
 
-          {/* =================================================
+          {/* ===================================================
               FORM
-          ================================================= */}
+          =================================================== */}
+
           <form
-            className="foodigo-form"
+            className="palash-form"
             onSubmit={handleSubmit}
             noValidate
           >
             {/* NAME */}
-            <div className="foodigo-field">
-              <label htmlFor="foodigo-name">
+
+            <div className="palash-field">
+              <label htmlFor="palash-name">
                 Your Name <em>*</em>
               </label>
 
-              <div className="foodigo-input">
+              <div className="palash-input">
                 <svg
                   viewBox="0 0 24 24"
                   fill="none"
@@ -283,32 +287,30 @@ const FloatingForm = ({
                     cy="8"
                     r="4"
                   />
-
                   <path d="M4 21c0-4 3.2-7 8-7s8 3 8 7" />
                 </svg>
 
                 <input
-                  id="foodigo-name"
+                  id="palash-name"
                   type="text"
                   name="name"
                   value={formData.name}
                   onChange={handleChange}
                   placeholder="Enter your name"
                   autoComplete="name"
-                  disabled={
-                    status === "submitting"
-                  }
+                  disabled={status === "submitting"}
                 />
               </div>
             </div>
 
             {/* EMAIL */}
-            <div className="foodigo-field">
-              <label htmlFor="foodigo-email">
+
+            <div className="palash-field">
+              <label htmlFor="palash-email">
                 Email Address <em>*</em>
               </label>
 
-              <div className="foodigo-input">
+              <div className="palash-input">
                 <svg
                   viewBox="0 0 24 24"
                   fill="none"
@@ -327,27 +329,26 @@ const FloatingForm = ({
                 </svg>
 
                 <input
-                  id="foodigo-email"
+                  id="palash-email"
                   type="email"
                   name="email"
                   value={formData.email}
                   onChange={handleChange}
                   placeholder="Enter your email"
                   autoComplete="email"
-                  disabled={
-                    status === "submitting"
-                  }
+                  disabled={status === "submitting"}
                 />
               </div>
             </div>
 
             {/* PHONE */}
-            <div className="foodigo-field">
-              <label htmlFor="foodigo-phone">
+
+            <div className="palash-field">
+              <label htmlFor="palash-phone">
                 Phone Number <em>*</em>
               </label>
 
-              <div className="foodigo-input">
+              <div className="palash-input">
                 <svg
                   viewBox="0 0 24 24"
                   fill="none"
@@ -358,7 +359,7 @@ const FloatingForm = ({
                 </svg>
 
                 <input
-                  id="foodigo-phone"
+                  id="palash-phone"
                   type="tel"
                   name="phone"
                   value={formData.phone}
@@ -366,20 +367,19 @@ const FloatingForm = ({
                   placeholder="Enter your phone number"
                   autoComplete="tel"
                   inputMode="tel"
-                  disabled={
-                    status === "submitting"
-                  }
+                  disabled={status === "submitting"}
                 />
               </div>
             </div>
 
             {/* ADDRESS */}
-            <div className="foodigo-field">
-              <label htmlFor="foodigo-address">
+
+            <div className="palash-field">
+              <label htmlFor="palash-address">
                 Address <em>*</em>
               </label>
 
-              <div className="foodigo-input">
+              <div className="palash-input">
                 <svg
                   viewBox="0 0 24 24"
                   fill="none"
@@ -396,33 +396,30 @@ const FloatingForm = ({
                 </svg>
 
                 <input
-                  id="foodigo-address"
+                  id="palash-address"
                   type="text"
                   name="address"
                   value={formData.address}
                   onChange={handleChange}
                   placeholder="Enter your address"
                   autoComplete="street-address"
-                  disabled={
-                    status === "submitting"
-                  }
+                  disabled={status === "submitting"}
                 />
               </div>
             </div>
 
             {/* =================================================
-                SUBMIT
+                SUBMIT BUTTON
             ================================================= */}
+
             <button
               type="submit"
-              className={`foodigo-submit ${
+              className={`palash-submit ${
                 status === "submitting"
-                  ? "foodigo-submit-loading"
+                  ? "palash-submit-loading"
                   : ""
               }`}
-              disabled={
-                status === "submitting"
-              }
+              disabled={status === "submitting"}
             >
               {status === "idle" ? (
                 <>
@@ -430,7 +427,7 @@ const FloatingForm = ({
                     Send My Details
                   </span>
 
-                  <span className="foodigo-arrow">
+                  <span className="palash-arrow">
                     <svg
                       viewBox="0 0 24 24"
                       fill="none"
@@ -446,7 +443,7 @@ const FloatingForm = ({
                 </>
               ) : (
                 <>
-                  <span className="foodigo-spinner"></span>
+                  <span className="palash-spinner"></span>
 
                   <span>
                     Submitting...
@@ -458,7 +455,8 @@ const FloatingForm = ({
             {/* =================================================
                 SECURITY
             ================================================= */}
-            <div className="foodigo-security">
+
+            <div className="palash-security">
               <svg
                 viewBox="0 0 24 24"
                 fill="none"
@@ -477,20 +475,22 @@ const FloatingForm = ({
           </form>
         </div>
 
-        {/* =================================================
-            BOTTOM LEFT LEAVES
-        ================================================= */}
-        <div className="foodigo-bottom-leaves">
-          <span>🌿</span>
-          <span>🌿</span>
-          <span>🌿</span>
+        {/* =====================================================
+            PREMIUM BOTTOM DECORATION
+        ===================================================== */}
+
+        <div className="palash-bottom-decoration">
+          <span></span>
+          <i>✦</i>
+          <span></span>
         </div>
 
-        {/* =================================================
-            RIGHT SIDE LEAF
-        ================================================= */}
-        <div className="foodigo-side-leaf">
-          🌿
+        <div className="palash-spice-dots">
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
         </div>
       </div>
     </div>
