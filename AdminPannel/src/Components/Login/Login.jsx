@@ -23,7 +23,7 @@ import "./Login.css";
 // src/assets/palash-login.png
 // =====================================================
 
-import palashLoginImage from "../../assets/main-1.jpeg";
+import palashLoginImage from "../../assets/main-1.png";
 
 const Login = () => {
   // =====================================================

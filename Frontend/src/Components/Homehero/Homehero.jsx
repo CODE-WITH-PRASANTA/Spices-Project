@@ -9,7 +9,7 @@ import {
   FaAward,
 } from "react-icons/fa";
 
-import productImg from "../../assets/main-1.jpeg";
+import productImg from "../../assets/main-1.png";
 import "./Homehero.css";
 
 const Homehero = () => {

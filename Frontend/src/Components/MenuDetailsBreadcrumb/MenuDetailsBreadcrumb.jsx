@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import "./MenuDetailsBreadcrumb.css";
 
 // Background image - update or replace the path if needed
-import MenuDetailsBreadcrumbImage from "../../assets/breadcrumbcontact.webp";
+import MenuDetailsBreadcrumbImage from "../../assets/breadcrumbcontact.png";
 
 const MenuDetailsBreadcrumb = ({ foodName = "Menu Details" }) => {
   return (
